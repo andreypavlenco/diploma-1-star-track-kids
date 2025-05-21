@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  PARENT
+  CHILD
+}
+
+model User {
+  id              String            @id @default(uuid())
+  email           String            @unique
+  password        String
+  role            UserRole
+  stars           Int               @default(0)
+  createdAt       DateTime          @default(now())
+  quests          Quest[]           @relation("UserQuests")
+  completions     QuestCompletion[]
+  rewardsPurchase RewardPurchase[]
+  rewards         Reward[]          @relation("UserRewards")
+  boosts          BoostActivation[]
+  goals           Goal[]            @relation("UserGoals")
+}
+
+model Quest {
+  id          String            @id @default(uuid())
+  title       String
+  description String?
+  deadline    DateTime
+  difficulty  Int // 1..5
+  creator     User              @relation("UserQuests", fields: [creatorId], references: [id])
+  creatorId   String
+  goal        Goal?             @relation(fields: [goalId], references: [id])
+  goalId      String?
+  completions QuestCompletion[]
+}
+
+model QuestCompletion {
+  id           String   @id @default(uuid())
+  completedAt  DateTime @default(now())
+  isLate       Boolean  @default(false)
+  starsAwarded Int
+  quest        Quest    @relation(fields: [questId], references: [id])
+  questId      String
+  user         User     @relation(fields: [userId], references: [id])
+  userId       String
+}
+
+model Reward {
+  id          String           @id @default(uuid())
+  title       String
+  description String?
+  starCost    Int
+  creator     User             @relation("UserRewards", fields: [creatorId], references: [id])
+  creatorId   String
+  purchases   RewardPurchase[]
+}
+
+model RewardPurchase {
+  id          String   @id @default(uuid())
+  purchasedAt DateTime @default(now())
+  reward      Reward   @relation(fields: [rewardId], references: [id])
+  rewardId    String
+  child       User     @relation(fields: [childId], references: [id])
+  childId     String
+}
+
+model Boost {
+  id            String            @id @default(uuid())
+  name          String
+  description   String?
+  cooldownDays  Int
+  durationHours Int
+  activations   BoostActivation[]
+}
+
+model BoostActivation {
+  id          String   @id @default(uuid())
+  activatedAt DateTime @default(now())
+  expiresAt   DateTime
+  boost       Boost    @relation(fields: [boostId], references: [id])
+  boostId     String
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+}
+
+model Goal {
+  id          String    @id @default(uuid())
+  title       String
+  description String?
+  starReward  Int
+  creator     User      @relation("UserGoals", fields: [creatorId], references: [id])
+  creatorId   String
+  completedAt DateTime?
+  quests      Quest[]   @relation()
+}
