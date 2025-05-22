@@ -126,7 +126,19 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   role: 'role',
   stars: 'stars',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.GoalScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  starReward: 'starReward',
+  creatorId: 'creatorId',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.QuestScalarFieldEnum = {
@@ -136,7 +148,10 @@ exports.Prisma.QuestScalarFieldEnum = {
   deadline: 'deadline',
   difficulty: 'difficulty',
   creatorId: 'creatorId',
-  goalId: 'goalId'
+  goalId: 'goalId',
+  roomId: 'roomId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.QuestCompletionScalarFieldEnum = {
@@ -145,7 +160,9 @@ exports.Prisma.QuestCompletionScalarFieldEnum = {
   isLate: 'isLate',
   starsAwarded: 'starsAwarded',
   questId: 'questId',
-  userId: 'userId'
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.RewardScalarFieldEnum = {
@@ -153,14 +170,18 @@ exports.Prisma.RewardScalarFieldEnum = {
   title: 'title',
   description: 'description',
   starCost: 'starCost',
-  creatorId: 'creatorId'
+  creatorId: 'creatorId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.RewardPurchaseScalarFieldEnum = {
   id: 'id',
   purchasedAt: 'purchasedAt',
   rewardId: 'rewardId',
-  childId: 'childId'
+  childId: 'childId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.BoostScalarFieldEnum = {
@@ -168,7 +189,9 @@ exports.Prisma.BoostScalarFieldEnum = {
   name: 'name',
   description: 'description',
   cooldownDays: 'cooldownDays',
-  durationHours: 'durationHours'
+  durationHours: 'durationHours',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.BoostActivationScalarFieldEnum = {
@@ -176,16 +199,40 @@ exports.Prisma.BoostActivationScalarFieldEnum = {
   activatedAt: 'activatedAt',
   expiresAt: 'expiresAt',
   boostId: 'boostId',
-  userId: 'userId'
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
-exports.Prisma.GoalScalarFieldEnum = {
+exports.Prisma.RoomScalarFieldEnum = {
   id: 'id',
-  title: 'title',
-  description: 'description',
-  starReward: 'starReward',
-  creatorId: 'creatorId',
-  completedAt: 'completedAt'
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  createUserId: 'createUserId'
+};
+
+exports.Prisma.RoomMemberScalarFieldEnum = {
+  id: 'id',
+  roomId: 'roomId',
+  userId: 'userId',
+  role: 'role',
+  joinedAt: 'joinedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InvitationScalarFieldEnum = {
+  id: 'id',
+  roomId: 'roomId',
+  email: 'email',
+  role: 'role',
+  token: 'token',
+  expiresAt: 'expiresAt',
+  invitedById: 'invitedById',
+  acceptedAt: 'acceptedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -209,13 +256,16 @@ exports.UserRole = exports.$Enums.UserRole = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Goal: 'Goal',
   Quest: 'Quest',
   QuestCompletion: 'QuestCompletion',
   Reward: 'Reward',
   RewardPurchase: 'RewardPurchase',
   Boost: 'Boost',
   BoostActivation: 'BoostActivation',
-  Goal: 'Goal'
+  Room: 'Room',
+  RoomMember: 'RoomMember',
+  Invitation: 'Invitation'
 };
 
 /**

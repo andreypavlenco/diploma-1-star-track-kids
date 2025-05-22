@@ -1,13 +1,14 @@
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 
-import {
-	BoostActivation,
-	Goal,
-	Quest,
-	QuestCompletion,
-	Reward,
-	RewardPurchase,
-} from '@/prisma/generated';
+import { BoostActivationModel } from '@/src/modules/boost/models/boost-activation.model';
+import { GoalModel } from '@/src/modules/goal/models/goal.model';
+import { QuestCompletionModel } from '@/src/modules/quest/models/quest-completion.model';
+import { QuestModel } from '@/src/modules/quest/models/quest.model';
+import { RewardPurchaseModel } from '@/src/modules/reward/models/reward-purchase.model';
+import { RewardModel } from '@/src/modules/reward/models/reward.model';
+import { InvitationModel } from '@/src/modules/room/models/invitation.model';
+import { RoomModel } from '@/src/modules/room/models/room.model';
+import { RoomMemberModel } from '@/src/modules/room/models/rooms-member.model';
 import { UserRole } from '@/src/shared/type/user-role';
 
 @ObjectType()
@@ -27,27 +28,39 @@ export class UserModel {
 	@Field(() => Date)
 	createdAt: Date;
 
+	@Field(() => Date)
+	updatedAt: Date;
+
 	@Field(() => UserRole)
 	role: UserRole;
 
 	@Field(() => Int)
 	stars: number;
 
-	@Field(() => [QuestCompletion])
-	completions: QuestCompletion[];
+	@Field(() => [QuestCompletionModel])
+	completions: QuestCompletionModel[];
 
-	@Field(() => [RewardPurchase])
-	rewards: RewardPurchase[];
+	@Field(() => [RewardPurchaseModel])
+	reward: RewardPurchaseModel[];
 
-	@Field(() => [Reward])
-	rewardsPurchase: Reward[];
+	@Field(() => [RewardModel])
+	rewardsPurchase: RewardModel[];
 
-	@Field(() => [BoostActivation])
-	boosts: BoostActivation[];
+	@Field(() => [BoostActivationModel])
+	boosts: BoostActivationModel[];
 
-	@Field(() => [Goal])
-	goals: Goal[];
+	@Field(() => [GoalModel])
+	goals: GoalModel[];
 
-	@Field(() => [Quest])
-	quests: Quest[];
+	@Field(() => [QuestModel])
+	quests: QuestModel[];
+
+	@Field(() => [RoomMemberModel])
+	rooms: RoomMemberModel[];
+
+	@Field(() => [RoomModel])
+	createdRooms: RoomModel[];
+
+	@Field(() => [InvitationModel])
+	roomInvitations: InvitationModel[];
 }
