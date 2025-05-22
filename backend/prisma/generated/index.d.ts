@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model Goal
+ * 
+ */
+export type Goal = $Result.DefaultSelection<Prisma.$GoalPayload>
+/**
  * Model Quest
  * 
  */
@@ -49,10 +54,20 @@ export type Boost = $Result.DefaultSelection<Prisma.$BoostPayload>
  */
 export type BoostActivation = $Result.DefaultSelection<Prisma.$BoostActivationPayload>
 /**
- * Model Goal
+ * Model Room
  * 
  */
-export type Goal = $Result.DefaultSelection<Prisma.$GoalPayload>
+export type Room = $Result.DefaultSelection<Prisma.$RoomPayload>
+/**
+ * Model RoomMember
+ * 
+ */
+export type RoomMember = $Result.DefaultSelection<Prisma.$RoomMemberPayload>
+/**
+ * Model Invitation
+ * 
+ */
+export type Invitation = $Result.DefaultSelection<Prisma.$InvitationPayload>
 
 /**
  * Enums
@@ -207,6 +222,16 @@ export class PrismaClient<
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.goal`: Exposes CRUD operations for the **Goal** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Goals
+    * const goals = await prisma.goal.findMany()
+    * ```
+    */
+  get goal(): Prisma.GoalDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.quest`: Exposes CRUD operations for the **Quest** model.
     * Example usage:
     * ```ts
@@ -267,14 +292,34 @@ export class PrismaClient<
   get boostActivation(): Prisma.BoostActivationDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.goal`: Exposes CRUD operations for the **Goal** model.
+   * `prisma.room`: Exposes CRUD operations for the **Room** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Goals
-    * const goals = await prisma.goal.findMany()
+    * // Fetch zero or more Rooms
+    * const rooms = await prisma.room.findMany()
     * ```
     */
-  get goal(): Prisma.GoalDelegate<ExtArgs, ClientOptions>;
+  get room(): Prisma.RoomDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.roomMember`: Exposes CRUD operations for the **RoomMember** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RoomMembers
+    * const roomMembers = await prisma.roomMember.findMany()
+    * ```
+    */
+  get roomMember(): Prisma.RoomMemberDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.invitation`: Exposes CRUD operations for the **Invitation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Invitations
+    * const invitations = await prisma.invitation.findMany()
+    * ```
+    */
+  get invitation(): Prisma.InvitationDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -716,13 +761,16 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
+    Goal: 'Goal',
     Quest: 'Quest',
     QuestCompletion: 'QuestCompletion',
     Reward: 'Reward',
     RewardPurchase: 'RewardPurchase',
     Boost: 'Boost',
     BoostActivation: 'BoostActivation',
-    Goal: 'Goal'
+    Room: 'Room',
+    RoomMember: 'RoomMember',
+    Invitation: 'Invitation'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -741,7 +789,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "quest" | "questCompletion" | "reward" | "rewardPurchase" | "boost" | "boostActivation" | "goal"
+      modelProps: "user" | "goal" | "quest" | "questCompletion" | "reward" | "rewardPurchase" | "boost" | "boostActivation" | "room" | "roomMember" | "invitation"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -816,6 +864,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      Goal: {
+        payload: Prisma.$GoalPayload<ExtArgs>
+        fields: Prisma.GoalFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.GoalFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoalPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.GoalFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoalPayload>
+          }
+          findFirst: {
+            args: Prisma.GoalFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoalPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.GoalFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoalPayload>
+          }
+          findMany: {
+            args: Prisma.GoalFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoalPayload>[]
+          }
+          create: {
+            args: Prisma.GoalCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoalPayload>
+          }
+          createMany: {
+            args: Prisma.GoalCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.GoalCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoalPayload>[]
+          }
+          delete: {
+            args: Prisma.GoalDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoalPayload>
+          }
+          update: {
+            args: Prisma.GoalUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoalPayload>
+          }
+          deleteMany: {
+            args: Prisma.GoalDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.GoalUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.GoalUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoalPayload>[]
+          }
+          upsert: {
+            args: Prisma.GoalUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$GoalPayload>
+          }
+          aggregate: {
+            args: Prisma.GoalAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateGoal>
+          }
+          groupBy: {
+            args: Prisma.GoalGroupByArgs<ExtArgs>
+            result: $Utils.Optional<GoalGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.GoalCountArgs<ExtArgs>
+            result: $Utils.Optional<GoalCountAggregateOutputType> | number
           }
         }
       }
@@ -1263,77 +1385,225 @@ export namespace Prisma {
           }
         }
       }
-      Goal: {
-        payload: Prisma.$GoalPayload<ExtArgs>
-        fields: Prisma.GoalFieldRefs
+      Room: {
+        payload: Prisma.$RoomPayload<ExtArgs>
+        fields: Prisma.RoomFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.GoalFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GoalPayload> | null
+            args: Prisma.RoomFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.GoalFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GoalPayload>
+            args: Prisma.RoomFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>
           }
           findFirst: {
-            args: Prisma.GoalFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GoalPayload> | null
+            args: Prisma.RoomFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.GoalFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GoalPayload>
+            args: Prisma.RoomFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>
           }
           findMany: {
-            args: Prisma.GoalFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GoalPayload>[]
+            args: Prisma.RoomFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>[]
           }
           create: {
-            args: Prisma.GoalCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GoalPayload>
+            args: Prisma.RoomCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>
           }
           createMany: {
-            args: Prisma.GoalCreateManyArgs<ExtArgs>
+            args: Prisma.RoomCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.GoalCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GoalPayload>[]
+            args: Prisma.RoomCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>[]
           }
           delete: {
-            args: Prisma.GoalDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GoalPayload>
+            args: Prisma.RoomDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>
           }
           update: {
-            args: Prisma.GoalUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GoalPayload>
+            args: Prisma.RoomUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>
           }
           deleteMany: {
-            args: Prisma.GoalDeleteManyArgs<ExtArgs>
+            args: Prisma.RoomDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.GoalUpdateManyArgs<ExtArgs>
+            args: Prisma.RoomUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.GoalUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GoalPayload>[]
+            args: Prisma.RoomUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>[]
           }
           upsert: {
-            args: Prisma.GoalUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$GoalPayload>
+            args: Prisma.RoomUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomPayload>
           }
           aggregate: {
-            args: Prisma.GoalAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateGoal>
+            args: Prisma.RoomAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRoom>
           }
           groupBy: {
-            args: Prisma.GoalGroupByArgs<ExtArgs>
-            result: $Utils.Optional<GoalGroupByOutputType>[]
+            args: Prisma.RoomGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RoomGroupByOutputType>[]
           }
           count: {
-            args: Prisma.GoalCountArgs<ExtArgs>
-            result: $Utils.Optional<GoalCountAggregateOutputType> | number
+            args: Prisma.RoomCountArgs<ExtArgs>
+            result: $Utils.Optional<RoomCountAggregateOutputType> | number
+          }
+        }
+      }
+      RoomMember: {
+        payload: Prisma.$RoomMemberPayload<ExtArgs>
+        fields: Prisma.RoomMemberFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RoomMemberFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RoomMemberFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>
+          }
+          findFirst: {
+            args: Prisma.RoomMemberFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RoomMemberFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>
+          }
+          findMany: {
+            args: Prisma.RoomMemberFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>[]
+          }
+          create: {
+            args: Prisma.RoomMemberCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>
+          }
+          createMany: {
+            args: Prisma.RoomMemberCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RoomMemberCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>[]
+          }
+          delete: {
+            args: Prisma.RoomMemberDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>
+          }
+          update: {
+            args: Prisma.RoomMemberUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>
+          }
+          deleteMany: {
+            args: Prisma.RoomMemberDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RoomMemberUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RoomMemberUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>[]
+          }
+          upsert: {
+            args: Prisma.RoomMemberUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoomMemberPayload>
+          }
+          aggregate: {
+            args: Prisma.RoomMemberAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRoomMember>
+          }
+          groupBy: {
+            args: Prisma.RoomMemberGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RoomMemberGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RoomMemberCountArgs<ExtArgs>
+            result: $Utils.Optional<RoomMemberCountAggregateOutputType> | number
+          }
+        }
+      }
+      Invitation: {
+        payload: Prisma.$InvitationPayload<ExtArgs>
+        fields: Prisma.InvitationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InvitationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InvitationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationPayload>
+          }
+          findFirst: {
+            args: Prisma.InvitationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InvitationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationPayload>
+          }
+          findMany: {
+            args: Prisma.InvitationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationPayload>[]
+          }
+          create: {
+            args: Prisma.InvitationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationPayload>
+          }
+          createMany: {
+            args: Prisma.InvitationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InvitationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationPayload>[]
+          }
+          delete: {
+            args: Prisma.InvitationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationPayload>
+          }
+          update: {
+            args: Prisma.InvitationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationPayload>
+          }
+          deleteMany: {
+            args: Prisma.InvitationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InvitationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InvitationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationPayload>[]
+          }
+          upsert: {
+            args: Prisma.InvitationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvitationPayload>
+          }
+          aggregate: {
+            args: Prisma.InvitationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInvitation>
+          }
+          groupBy: {
+            args: Prisma.InvitationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InvitationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InvitationCountArgs<ExtArgs>
+            result: $Utils.Optional<InvitationCountAggregateOutputType> | number
           }
         }
       }
@@ -1422,13 +1692,16 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+    goal?: GoalOmit
     quest?: QuestOmit
     questCompletion?: QuestCompletionOmit
     reward?: RewardOmit
     rewardPurchase?: RewardPurchaseOmit
     boost?: BoostOmit
     boostActivation?: BoostActivationOmit
-    goal?: GoalOmit
+    room?: RoomOmit
+    roomMember?: RoomMemberOmit
+    invitation?: InvitationOmit
   }
 
   /* Types for Logging */
@@ -1529,6 +1802,9 @@ export namespace Prisma {
     rewards: number
     boosts: number
     goals: number
+    rooms: number
+    createdRooms: number
+    roomInvitations: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1538,6 +1814,9 @@ export namespace Prisma {
     rewards?: boolean | UserCountOutputTypeCountRewardsArgs
     boosts?: boolean | UserCountOutputTypeCountBoostsArgs
     goals?: boolean | UserCountOutputTypeCountGoalsArgs
+    rooms?: boolean | UserCountOutputTypeCountRoomsArgs
+    createdRooms?: boolean | UserCountOutputTypeCountCreatedRoomsArgs
+    roomInvitations?: boolean | UserCountOutputTypeCountRoomInvitationsArgs
   }
 
   // Custom InputTypes
@@ -1591,6 +1870,58 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountGoalsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: GoalWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRoomsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomMemberWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountCreatedRoomsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRoomInvitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvitationWhereInput
+  }
+
+
+  /**
+   * Count Type GoalCountOutputType
+   */
+
+  export type GoalCountOutputType = {
+    quests: number
+  }
+
+  export type GoalCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    quests?: boolean | GoalCountOutputTypeCountQuestsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * GoalCountOutputType without action
+   */
+  export type GoalCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the GoalCountOutputType
+     */
+    select?: GoalCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * GoalCountOutputType without action
+   */
+  export type GoalCountOutputTypeCountQuestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: QuestWhereInput
   }
 
 
@@ -1688,32 +2019,50 @@ export namespace Prisma {
 
 
   /**
-   * Count Type GoalCountOutputType
+   * Count Type RoomCountOutputType
    */
 
-  export type GoalCountOutputType = {
+  export type RoomCountOutputType = {
+    members: number
+    invitations: number
     quests: number
   }
 
-  export type GoalCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    quests?: boolean | GoalCountOutputTypeCountQuestsArgs
+  export type RoomCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    members?: boolean | RoomCountOutputTypeCountMembersArgs
+    invitations?: boolean | RoomCountOutputTypeCountInvitationsArgs
+    quests?: boolean | RoomCountOutputTypeCountQuestsArgs
   }
 
   // Custom InputTypes
   /**
-   * GoalCountOutputType without action
+   * RoomCountOutputType without action
    */
-  export type GoalCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the GoalCountOutputType
+     * Select specific fields to fetch from the RoomCountOutputType
      */
-    select?: GoalCountOutputTypeSelect<ExtArgs> | null
+    select?: RoomCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * GoalCountOutputType without action
+   * RoomCountOutputType without action
    */
-  export type GoalCountOutputTypeCountQuestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomCountOutputTypeCountMembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomMemberWhereInput
+  }
+
+  /**
+   * RoomCountOutputType without action
+   */
+  export type RoomCountOutputTypeCountInvitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvitationWhereInput
+  }
+
+  /**
+   * RoomCountOutputType without action
+   */
+  export type RoomCountOutputTypeCountQuestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: QuestWhereInput
   }
 
@@ -1749,6 +2098,7 @@ export namespace Prisma {
     role: $Enums.UserRole | null
     stars: number | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1758,6 +2108,7 @@ export namespace Prisma {
     role: $Enums.UserRole | null
     stars: number | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1767,6 +2118,7 @@ export namespace Prisma {
     role: number
     stars: number
     createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -1786,6 +2138,7 @@ export namespace Prisma {
     role?: true
     stars?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1795,6 +2148,7 @@ export namespace Prisma {
     role?: true
     stars?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1804,6 +2158,7 @@ export namespace Prisma {
     role?: true
     stars?: true
     createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -1898,8 +2253,9 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.UserRole
-    stars: number
+    stars: number | null
     createdAt: Date
+    updatedAt: Date
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1928,12 +2284,16 @@ export namespace Prisma {
     role?: boolean
     stars?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     quests?: boolean | User$questsArgs<ExtArgs>
     completions?: boolean | User$completionsArgs<ExtArgs>
     rewardsPurchase?: boolean | User$rewardsPurchaseArgs<ExtArgs>
     rewards?: boolean | User$rewardsArgs<ExtArgs>
     boosts?: boolean | User$boostsArgs<ExtArgs>
     goals?: boolean | User$goalsArgs<ExtArgs>
+    rooms?: boolean | User$roomsArgs<ExtArgs>
+    createdRooms?: boolean | User$createdRoomsArgs<ExtArgs>
+    roomInvitations?: boolean | User$roomInvitationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1944,6 +2304,7 @@ export namespace Prisma {
     role?: boolean
     stars?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1953,6 +2314,7 @@ export namespace Prisma {
     role?: boolean
     stars?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1962,9 +2324,10 @@ export namespace Prisma {
     role?: boolean
     stars?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "role" | "stars" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "role" | "stars" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     quests?: boolean | User$questsArgs<ExtArgs>
     completions?: boolean | User$completionsArgs<ExtArgs>
@@ -1972,6 +2335,9 @@ export namespace Prisma {
     rewards?: boolean | User$rewardsArgs<ExtArgs>
     boosts?: boolean | User$boostsArgs<ExtArgs>
     goals?: boolean | User$goalsArgs<ExtArgs>
+    rooms?: boolean | User$roomsArgs<ExtArgs>
+    createdRooms?: boolean | User$createdRoomsArgs<ExtArgs>
+    roomInvitations?: boolean | User$roomInvitationsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1986,14 +2352,18 @@ export namespace Prisma {
       rewards: Prisma.$RewardPayload<ExtArgs>[]
       boosts: Prisma.$BoostActivationPayload<ExtArgs>[]
       goals: Prisma.$GoalPayload<ExtArgs>[]
+      rooms: Prisma.$RoomMemberPayload<ExtArgs>[]
+      createdRooms: Prisma.$RoomPayload<ExtArgs>[]
+      roomInvitations: Prisma.$InvitationPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       email: string
       password: string
       role: $Enums.UserRole
-      stars: number
+      stars: number | null
       createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2394,6 +2764,9 @@ export namespace Prisma {
     rewards<T extends User$rewardsArgs<ExtArgs> = {}>(args?: Subset<T, User$rewardsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RewardPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     boosts<T extends User$boostsArgs<ExtArgs> = {}>(args?: Subset<T, User$boostsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BoostActivationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     goals<T extends User$goalsArgs<ExtArgs> = {}>(args?: Subset<T, User$goalsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    rooms<T extends User$roomsArgs<ExtArgs> = {}>(args?: Subset<T, User$roomsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    createdRooms<T extends User$createdRoomsArgs<ExtArgs> = {}>(args?: Subset<T, User$createdRoomsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    roomInvitations<T extends User$roomInvitationsArgs<ExtArgs> = {}>(args?: Subset<T, User$roomInvitationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2429,6 +2802,7 @@ export namespace Prisma {
     readonly role: FieldRef<"User", 'UserRole'>
     readonly stars: FieldRef<"User", 'Int'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
+    readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -2961,6 +3335,78 @@ export namespace Prisma {
   }
 
   /**
+   * User.rooms
+   */
+  export type User$roomsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    where?: RoomMemberWhereInput
+    orderBy?: RoomMemberOrderByWithRelationInput | RoomMemberOrderByWithRelationInput[]
+    cursor?: RoomMemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoomMemberScalarFieldEnum | RoomMemberScalarFieldEnum[]
+  }
+
+  /**
+   * User.createdRooms
+   */
+  export type User$createdRoomsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Room
+     */
+    select?: RoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Room
+     */
+    omit?: RoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomInclude<ExtArgs> | null
+    where?: RoomWhereInput
+    orderBy?: RoomOrderByWithRelationInput | RoomOrderByWithRelationInput[]
+    cursor?: RoomWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoomScalarFieldEnum | RoomScalarFieldEnum[]
+  }
+
+  /**
+   * User.roomInvitations
+   */
+  export type User$roomInvitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invitation
+     */
+    select?: InvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invitation
+     */
+    omit?: InvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationInclude<ExtArgs> | null
+    where?: InvitationWhereInput
+    orderBy?: InvitationOrderByWithRelationInput | InvitationOrderByWithRelationInput[]
+    cursor?: InvitationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvitationScalarFieldEnum | InvitationScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2976,6 +3422,1167 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Goal
+   */
+
+  export type AggregateGoal = {
+    _count: GoalCountAggregateOutputType | null
+    _avg: GoalAvgAggregateOutputType | null
+    _sum: GoalSumAggregateOutputType | null
+    _min: GoalMinAggregateOutputType | null
+    _max: GoalMaxAggregateOutputType | null
+  }
+
+  export type GoalAvgAggregateOutputType = {
+    starReward: number | null
+  }
+
+  export type GoalSumAggregateOutputType = {
+    starReward: number | null
+  }
+
+  export type GoalMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    description: string | null
+    starReward: number | null
+    creatorId: string | null
+    completedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GoalMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    description: string | null
+    starReward: number | null
+    creatorId: string | null
+    completedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type GoalCountAggregateOutputType = {
+    id: number
+    title: number
+    description: number
+    starReward: number
+    creatorId: number
+    completedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type GoalAvgAggregateInputType = {
+    starReward?: true
+  }
+
+  export type GoalSumAggregateInputType = {
+    starReward?: true
+  }
+
+  export type GoalMinAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    starReward?: true
+    creatorId?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GoalMaxAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    starReward?: true
+    creatorId?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type GoalCountAggregateInputType = {
+    id?: true
+    title?: true
+    description?: true
+    starReward?: true
+    creatorId?: true
+    completedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type GoalAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Goal to aggregate.
+     */
+    where?: GoalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Goals to fetch.
+     */
+    orderBy?: GoalOrderByWithRelationInput | GoalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: GoalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Goals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Goals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Goals
+    **/
+    _count?: true | GoalCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: GoalAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GoalSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: GoalMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: GoalMaxAggregateInputType
+  }
+
+  export type GetGoalAggregateType<T extends GoalAggregateArgs> = {
+        [P in keyof T & keyof AggregateGoal]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateGoal[P]>
+      : GetScalarType<T[P], AggregateGoal[P]>
+  }
+
+
+
+
+  export type GoalGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: GoalWhereInput
+    orderBy?: GoalOrderByWithAggregationInput | GoalOrderByWithAggregationInput[]
+    by: GoalScalarFieldEnum[] | GoalScalarFieldEnum
+    having?: GoalScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: GoalCountAggregateInputType | true
+    _avg?: GoalAvgAggregateInputType
+    _sum?: GoalSumAggregateInputType
+    _min?: GoalMinAggregateInputType
+    _max?: GoalMaxAggregateInputType
+  }
+
+  export type GoalGroupByOutputType = {
+    id: string
+    title: string
+    description: string | null
+    starReward: number
+    creatorId: string
+    completedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: GoalCountAggregateOutputType | null
+    _avg: GoalAvgAggregateOutputType | null
+    _sum: GoalSumAggregateOutputType | null
+    _min: GoalMinAggregateOutputType | null
+    _max: GoalMaxAggregateOutputType | null
+  }
+
+  type GetGoalGroupByPayload<T extends GoalGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<GoalGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof GoalGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], GoalGroupByOutputType[P]>
+            : GetScalarType<T[P], GoalGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type GoalSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    starReward?: boolean
+    creatorId?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+    quests?: boolean | Goal$questsArgs<ExtArgs>
+    _count?: boolean | GoalCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["goal"]>
+
+  export type GoalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    starReward?: boolean
+    creatorId?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["goal"]>
+
+  export type GoalSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    starReward?: boolean
+    creatorId?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["goal"]>
+
+  export type GoalSelectScalar = {
+    id?: boolean
+    title?: boolean
+    description?: boolean
+    starReward?: boolean
+    creatorId?: boolean
+    completedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type GoalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "starReward" | "creatorId" | "completedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["goal"]>
+  export type GoalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+    quests?: boolean | Goal$questsArgs<ExtArgs>
+    _count?: boolean | GoalCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type GoalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type GoalIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $GoalPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Goal"
+    objects: {
+      creator: Prisma.$UserPayload<ExtArgs>
+      quests: Prisma.$QuestPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      description: string | null
+      starReward: number
+      creatorId: string
+      completedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["goal"]>
+    composites: {}
+  }
+
+  type GoalGetPayload<S extends boolean | null | undefined | GoalDefaultArgs> = $Result.GetResult<Prisma.$GoalPayload, S>
+
+  type GoalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<GoalFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: GoalCountAggregateInputType | true
+    }
+
+  export interface GoalDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Goal'], meta: { name: 'Goal' } }
+    /**
+     * Find zero or one Goal that matches the filter.
+     * @param {GoalFindUniqueArgs} args - Arguments to find a Goal
+     * @example
+     * // Get one Goal
+     * const goal = await prisma.goal.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends GoalFindUniqueArgs>(args: SelectSubset<T, GoalFindUniqueArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Goal that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {GoalFindUniqueOrThrowArgs} args - Arguments to find a Goal
+     * @example
+     * // Get one Goal
+     * const goal = await prisma.goal.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends GoalFindUniqueOrThrowArgs>(args: SelectSubset<T, GoalFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Goal that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoalFindFirstArgs} args - Arguments to find a Goal
+     * @example
+     * // Get one Goal
+     * const goal = await prisma.goal.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends GoalFindFirstArgs>(args?: SelectSubset<T, GoalFindFirstArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Goal that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoalFindFirstOrThrowArgs} args - Arguments to find a Goal
+     * @example
+     * // Get one Goal
+     * const goal = await prisma.goal.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends GoalFindFirstOrThrowArgs>(args?: SelectSubset<T, GoalFindFirstOrThrowArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Goals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoalFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Goals
+     * const goals = await prisma.goal.findMany()
+     * 
+     * // Get first 10 Goals
+     * const goals = await prisma.goal.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const goalWithIdOnly = await prisma.goal.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends GoalFindManyArgs>(args?: SelectSubset<T, GoalFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Goal.
+     * @param {GoalCreateArgs} args - Arguments to create a Goal.
+     * @example
+     * // Create one Goal
+     * const Goal = await prisma.goal.create({
+     *   data: {
+     *     // ... data to create a Goal
+     *   }
+     * })
+     * 
+     */
+    create<T extends GoalCreateArgs>(args: SelectSubset<T, GoalCreateArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Goals.
+     * @param {GoalCreateManyArgs} args - Arguments to create many Goals.
+     * @example
+     * // Create many Goals
+     * const goal = await prisma.goal.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends GoalCreateManyArgs>(args?: SelectSubset<T, GoalCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Goals and returns the data saved in the database.
+     * @param {GoalCreateManyAndReturnArgs} args - Arguments to create many Goals.
+     * @example
+     * // Create many Goals
+     * const goal = await prisma.goal.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Goals and only return the `id`
+     * const goalWithIdOnly = await prisma.goal.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends GoalCreateManyAndReturnArgs>(args?: SelectSubset<T, GoalCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Goal.
+     * @param {GoalDeleteArgs} args - Arguments to delete one Goal.
+     * @example
+     * // Delete one Goal
+     * const Goal = await prisma.goal.delete({
+     *   where: {
+     *     // ... filter to delete one Goal
+     *   }
+     * })
+     * 
+     */
+    delete<T extends GoalDeleteArgs>(args: SelectSubset<T, GoalDeleteArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Goal.
+     * @param {GoalUpdateArgs} args - Arguments to update one Goal.
+     * @example
+     * // Update one Goal
+     * const goal = await prisma.goal.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends GoalUpdateArgs>(args: SelectSubset<T, GoalUpdateArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Goals.
+     * @param {GoalDeleteManyArgs} args - Arguments to filter Goals to delete.
+     * @example
+     * // Delete a few Goals
+     * const { count } = await prisma.goal.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends GoalDeleteManyArgs>(args?: SelectSubset<T, GoalDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Goals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoalUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Goals
+     * const goal = await prisma.goal.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends GoalUpdateManyArgs>(args: SelectSubset<T, GoalUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Goals and returns the data updated in the database.
+     * @param {GoalUpdateManyAndReturnArgs} args - Arguments to update many Goals.
+     * @example
+     * // Update many Goals
+     * const goal = await prisma.goal.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Goals and only return the `id`
+     * const goalWithIdOnly = await prisma.goal.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends GoalUpdateManyAndReturnArgs>(args: SelectSubset<T, GoalUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Goal.
+     * @param {GoalUpsertArgs} args - Arguments to update or create a Goal.
+     * @example
+     * // Update or create a Goal
+     * const goal = await prisma.goal.upsert({
+     *   create: {
+     *     // ... data to create a Goal
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Goal we want to update
+     *   }
+     * })
+     */
+    upsert<T extends GoalUpsertArgs>(args: SelectSubset<T, GoalUpsertArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Goals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoalCountArgs} args - Arguments to filter Goals to count.
+     * @example
+     * // Count the number of Goals
+     * const count = await prisma.goal.count({
+     *   where: {
+     *     // ... the filter for the Goals we want to count
+     *   }
+     * })
+    **/
+    count<T extends GoalCountArgs>(
+      args?: Subset<T, GoalCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], GoalCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Goal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoalAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends GoalAggregateArgs>(args: Subset<T, GoalAggregateArgs>): Prisma.PrismaPromise<GetGoalAggregateType<T>>
+
+    /**
+     * Group by Goal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {GoalGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends GoalGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: GoalGroupByArgs['orderBy'] }
+        : { orderBy?: GoalGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, GoalGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGoalGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Goal model
+   */
+  readonly fields: GoalFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Goal.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__GoalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    creator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    quests<T extends Goal$questsArgs<ExtArgs> = {}>(args?: Subset<T, Goal$questsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Goal model
+   */
+  interface GoalFieldRefs {
+    readonly id: FieldRef<"Goal", 'String'>
+    readonly title: FieldRef<"Goal", 'String'>
+    readonly description: FieldRef<"Goal", 'String'>
+    readonly starReward: FieldRef<"Goal", 'Int'>
+    readonly creatorId: FieldRef<"Goal", 'String'>
+    readonly completedAt: FieldRef<"Goal", 'DateTime'>
+    readonly createdAt: FieldRef<"Goal", 'DateTime'>
+    readonly updatedAt: FieldRef<"Goal", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Goal findUnique
+   */
+  export type GoalFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Goal
+     */
+    select?: GoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Goal
+     */
+    omit?: GoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoalInclude<ExtArgs> | null
+    /**
+     * Filter, which Goal to fetch.
+     */
+    where: GoalWhereUniqueInput
+  }
+
+  /**
+   * Goal findUniqueOrThrow
+   */
+  export type GoalFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Goal
+     */
+    select?: GoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Goal
+     */
+    omit?: GoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoalInclude<ExtArgs> | null
+    /**
+     * Filter, which Goal to fetch.
+     */
+    where: GoalWhereUniqueInput
+  }
+
+  /**
+   * Goal findFirst
+   */
+  export type GoalFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Goal
+     */
+    select?: GoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Goal
+     */
+    omit?: GoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoalInclude<ExtArgs> | null
+    /**
+     * Filter, which Goal to fetch.
+     */
+    where?: GoalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Goals to fetch.
+     */
+    orderBy?: GoalOrderByWithRelationInput | GoalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Goals.
+     */
+    cursor?: GoalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Goals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Goals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Goals.
+     */
+    distinct?: GoalScalarFieldEnum | GoalScalarFieldEnum[]
+  }
+
+  /**
+   * Goal findFirstOrThrow
+   */
+  export type GoalFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Goal
+     */
+    select?: GoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Goal
+     */
+    omit?: GoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoalInclude<ExtArgs> | null
+    /**
+     * Filter, which Goal to fetch.
+     */
+    where?: GoalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Goals to fetch.
+     */
+    orderBy?: GoalOrderByWithRelationInput | GoalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Goals.
+     */
+    cursor?: GoalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Goals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Goals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Goals.
+     */
+    distinct?: GoalScalarFieldEnum | GoalScalarFieldEnum[]
+  }
+
+  /**
+   * Goal findMany
+   */
+  export type GoalFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Goal
+     */
+    select?: GoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Goal
+     */
+    omit?: GoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoalInclude<ExtArgs> | null
+    /**
+     * Filter, which Goals to fetch.
+     */
+    where?: GoalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Goals to fetch.
+     */
+    orderBy?: GoalOrderByWithRelationInput | GoalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Goals.
+     */
+    cursor?: GoalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Goals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Goals.
+     */
+    skip?: number
+    distinct?: GoalScalarFieldEnum | GoalScalarFieldEnum[]
+  }
+
+  /**
+   * Goal create
+   */
+  export type GoalCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Goal
+     */
+    select?: GoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Goal
+     */
+    omit?: GoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoalInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Goal.
+     */
+    data: XOR<GoalCreateInput, GoalUncheckedCreateInput>
+  }
+
+  /**
+   * Goal createMany
+   */
+  export type GoalCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Goals.
+     */
+    data: GoalCreateManyInput | GoalCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Goal createManyAndReturn
+   */
+  export type GoalCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Goal
+     */
+    select?: GoalSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Goal
+     */
+    omit?: GoalOmit<ExtArgs> | null
+    /**
+     * The data used to create many Goals.
+     */
+    data: GoalCreateManyInput | GoalCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoalIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Goal update
+   */
+  export type GoalUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Goal
+     */
+    select?: GoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Goal
+     */
+    omit?: GoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoalInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Goal.
+     */
+    data: XOR<GoalUpdateInput, GoalUncheckedUpdateInput>
+    /**
+     * Choose, which Goal to update.
+     */
+    where: GoalWhereUniqueInput
+  }
+
+  /**
+   * Goal updateMany
+   */
+  export type GoalUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Goals.
+     */
+    data: XOR<GoalUpdateManyMutationInput, GoalUncheckedUpdateManyInput>
+    /**
+     * Filter which Goals to update
+     */
+    where?: GoalWhereInput
+    /**
+     * Limit how many Goals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Goal updateManyAndReturn
+   */
+  export type GoalUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Goal
+     */
+    select?: GoalSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Goal
+     */
+    omit?: GoalOmit<ExtArgs> | null
+    /**
+     * The data used to update Goals.
+     */
+    data: XOR<GoalUpdateManyMutationInput, GoalUncheckedUpdateManyInput>
+    /**
+     * Filter which Goals to update
+     */
+    where?: GoalWhereInput
+    /**
+     * Limit how many Goals to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoalIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Goal upsert
+   */
+  export type GoalUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Goal
+     */
+    select?: GoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Goal
+     */
+    omit?: GoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoalInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Goal to update in case it exists.
+     */
+    where: GoalWhereUniqueInput
+    /**
+     * In case the Goal found by the `where` argument doesn't exist, create a new Goal with this data.
+     */
+    create: XOR<GoalCreateInput, GoalUncheckedCreateInput>
+    /**
+     * In case the Goal was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<GoalUpdateInput, GoalUncheckedUpdateInput>
+  }
+
+  /**
+   * Goal delete
+   */
+  export type GoalDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Goal
+     */
+    select?: GoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Goal
+     */
+    omit?: GoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoalInclude<ExtArgs> | null
+    /**
+     * Filter which Goal to delete.
+     */
+    where: GoalWhereUniqueInput
+  }
+
+  /**
+   * Goal deleteMany
+   */
+  export type GoalDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Goals to delete
+     */
+    where?: GoalWhereInput
+    /**
+     * Limit how many Goals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Goal.quests
+   */
+  export type Goal$questsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Quest
+     */
+    select?: QuestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Quest
+     */
+    omit?: QuestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: QuestInclude<ExtArgs> | null
+    where?: QuestWhereInput
+    orderBy?: QuestOrderByWithRelationInput | QuestOrderByWithRelationInput[]
+    cursor?: QuestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: QuestScalarFieldEnum | QuestScalarFieldEnum[]
+  }
+
+  /**
+   * Goal without action
+   */
+  export type GoalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Goal
+     */
+    select?: GoalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Goal
+     */
+    omit?: GoalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: GoalInclude<ExtArgs> | null
   }
 
 
@@ -3007,6 +4614,9 @@ export namespace Prisma {
     difficulty: number | null
     creatorId: string | null
     goalId: string | null
+    roomId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type QuestMaxAggregateOutputType = {
@@ -3017,6 +4627,9 @@ export namespace Prisma {
     difficulty: number | null
     creatorId: string | null
     goalId: string | null
+    roomId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type QuestCountAggregateOutputType = {
@@ -3027,6 +4640,9 @@ export namespace Prisma {
     difficulty: number
     creatorId: number
     goalId: number
+    roomId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -3047,6 +4663,9 @@ export namespace Prisma {
     difficulty?: true
     creatorId?: true
     goalId?: true
+    roomId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type QuestMaxAggregateInputType = {
@@ -3057,6 +4676,9 @@ export namespace Prisma {
     difficulty?: true
     creatorId?: true
     goalId?: true
+    roomId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type QuestCountAggregateInputType = {
@@ -3067,6 +4689,9 @@ export namespace Prisma {
     difficulty?: true
     creatorId?: true
     goalId?: true
+    roomId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -3164,6 +4789,9 @@ export namespace Prisma {
     difficulty: number
     creatorId: string
     goalId: string | null
+    roomId: string | null
+    createdAt: Date
+    updatedAt: Date
     _count: QuestCountAggregateOutputType | null
     _avg: QuestAvgAggregateOutputType | null
     _sum: QuestSumAggregateOutputType | null
@@ -3193,8 +4821,12 @@ export namespace Prisma {
     difficulty?: boolean
     creatorId?: boolean
     goalId?: boolean
+    roomId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
     goal?: boolean | Quest$goalArgs<ExtArgs>
+    room?: boolean | Quest$roomArgs<ExtArgs>
     completions?: boolean | Quest$completionsArgs<ExtArgs>
     _count?: boolean | QuestCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["quest"]>
@@ -3207,8 +4839,12 @@ export namespace Prisma {
     difficulty?: boolean
     creatorId?: boolean
     goalId?: boolean
+    roomId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
     goal?: boolean | Quest$goalArgs<ExtArgs>
+    room?: boolean | Quest$roomArgs<ExtArgs>
   }, ExtArgs["result"]["quest"]>
 
   export type QuestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3219,8 +4855,12 @@ export namespace Prisma {
     difficulty?: boolean
     creatorId?: boolean
     goalId?: boolean
+    roomId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
     goal?: boolean | Quest$goalArgs<ExtArgs>
+    room?: boolean | Quest$roomArgs<ExtArgs>
   }, ExtArgs["result"]["quest"]>
 
   export type QuestSelectScalar = {
@@ -3231,22 +4871,28 @@ export namespace Prisma {
     difficulty?: boolean
     creatorId?: boolean
     goalId?: boolean
+    roomId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type QuestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "deadline" | "difficulty" | "creatorId" | "goalId", ExtArgs["result"]["quest"]>
+  export type QuestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "deadline" | "difficulty" | "creatorId" | "goalId" | "roomId" | "createdAt" | "updatedAt", ExtArgs["result"]["quest"]>
   export type QuestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     creator?: boolean | UserDefaultArgs<ExtArgs>
     goal?: boolean | Quest$goalArgs<ExtArgs>
+    room?: boolean | Quest$roomArgs<ExtArgs>
     completions?: boolean | Quest$completionsArgs<ExtArgs>
     _count?: boolean | QuestCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type QuestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     creator?: boolean | UserDefaultArgs<ExtArgs>
     goal?: boolean | Quest$goalArgs<ExtArgs>
+    room?: boolean | Quest$roomArgs<ExtArgs>
   }
   export type QuestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     creator?: boolean | UserDefaultArgs<ExtArgs>
     goal?: boolean | Quest$goalArgs<ExtArgs>
+    room?: boolean | Quest$roomArgs<ExtArgs>
   }
 
   export type $QuestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3254,6 +4900,7 @@ export namespace Prisma {
     objects: {
       creator: Prisma.$UserPayload<ExtArgs>
       goal: Prisma.$GoalPayload<ExtArgs> | null
+      room: Prisma.$RoomPayload<ExtArgs> | null
       completions: Prisma.$QuestCompletionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -3264,6 +4911,9 @@ export namespace Prisma {
       difficulty: number
       creatorId: string
       goalId: string | null
+      roomId: string | null
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["quest"]>
     composites: {}
   }
@@ -3660,6 +5310,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     creator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     goal<T extends Quest$goalArgs<ExtArgs> = {}>(args?: Subset<T, Quest$goalArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    room<T extends Quest$roomArgs<ExtArgs> = {}>(args?: Subset<T, Quest$roomArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     completions<T extends Quest$completionsArgs<ExtArgs> = {}>(args?: Subset<T, Quest$completionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuestCompletionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3697,6 +5348,9 @@ export namespace Prisma {
     readonly difficulty: FieldRef<"Quest", 'Int'>
     readonly creatorId: FieldRef<"Quest", 'String'>
     readonly goalId: FieldRef<"Quest", 'String'>
+    readonly roomId: FieldRef<"Quest", 'String'>
+    readonly createdAt: FieldRef<"Quest", 'DateTime'>
+    readonly updatedAt: FieldRef<"Quest", 'DateTime'>
   }
     
 
@@ -4112,6 +5766,25 @@ export namespace Prisma {
   }
 
   /**
+   * Quest.room
+   */
+  export type Quest$roomArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Room
+     */
+    select?: RoomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Room
+     */
+    omit?: RoomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomInclude<ExtArgs> | null
+    where?: RoomWhereInput
+  }
+
+  /**
    * Quest.completions
    */
   export type Quest$completionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4181,6 +5854,8 @@ export namespace Prisma {
     starsAwarded: number | null
     questId: string | null
     userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type QuestCompletionMaxAggregateOutputType = {
@@ -4190,6 +5865,8 @@ export namespace Prisma {
     starsAwarded: number | null
     questId: string | null
     userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type QuestCompletionCountAggregateOutputType = {
@@ -4199,6 +5876,8 @@ export namespace Prisma {
     starsAwarded: number
     questId: number
     userId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -4218,6 +5897,8 @@ export namespace Prisma {
     starsAwarded?: true
     questId?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type QuestCompletionMaxAggregateInputType = {
@@ -4227,6 +5908,8 @@ export namespace Prisma {
     starsAwarded?: true
     questId?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type QuestCompletionCountAggregateInputType = {
@@ -4236,6 +5919,8 @@ export namespace Prisma {
     starsAwarded?: true
     questId?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -4332,6 +6017,8 @@ export namespace Prisma {
     starsAwarded: number
     questId: string
     userId: string
+    createdAt: Date
+    updatedAt: Date
     _count: QuestCompletionCountAggregateOutputType | null
     _avg: QuestCompletionAvgAggregateOutputType | null
     _sum: QuestCompletionSumAggregateOutputType | null
@@ -4360,6 +6047,8 @@ export namespace Prisma {
     starsAwarded?: boolean
     questId?: boolean
     userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     quest?: boolean | QuestDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["questCompletion"]>
@@ -4371,6 +6060,8 @@ export namespace Prisma {
     starsAwarded?: boolean
     questId?: boolean
     userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     quest?: boolean | QuestDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["questCompletion"]>
@@ -4382,6 +6073,8 @@ export namespace Prisma {
     starsAwarded?: boolean
     questId?: boolean
     userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     quest?: boolean | QuestDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["questCompletion"]>
@@ -4393,9 +6086,11 @@ export namespace Prisma {
     starsAwarded?: boolean
     questId?: boolean
     userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type QuestCompletionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "completedAt" | "isLate" | "starsAwarded" | "questId" | "userId", ExtArgs["result"]["questCompletion"]>
+  export type QuestCompletionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "completedAt" | "isLate" | "starsAwarded" | "questId" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["questCompletion"]>
   export type QuestCompletionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     quest?: boolean | QuestDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -4422,6 +6117,8 @@ export namespace Prisma {
       starsAwarded: number
       questId: string
       userId: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["questCompletion"]>
     composites: {}
   }
@@ -4853,6 +6550,8 @@ export namespace Prisma {
     readonly starsAwarded: FieldRef<"QuestCompletion", 'Int'>
     readonly questId: FieldRef<"QuestCompletion", 'String'>
     readonly userId: FieldRef<"QuestCompletion", 'String'>
+    readonly createdAt: FieldRef<"QuestCompletion", 'DateTime'>
+    readonly updatedAt: FieldRef<"QuestCompletion", 'DateTime'>
   }
     
 
@@ -5293,6 +6992,8 @@ export namespace Prisma {
     description: string | null
     starCost: number | null
     creatorId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type RewardMaxAggregateOutputType = {
@@ -5301,6 +7002,8 @@ export namespace Prisma {
     description: string | null
     starCost: number | null
     creatorId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type RewardCountAggregateOutputType = {
@@ -5309,6 +7012,8 @@ export namespace Prisma {
     description: number
     starCost: number
     creatorId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -5327,6 +7032,8 @@ export namespace Prisma {
     description?: true
     starCost?: true
     creatorId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type RewardMaxAggregateInputType = {
@@ -5335,6 +7042,8 @@ export namespace Prisma {
     description?: true
     starCost?: true
     creatorId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type RewardCountAggregateInputType = {
@@ -5343,6 +7052,8 @@ export namespace Prisma {
     description?: true
     starCost?: true
     creatorId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -5438,6 +7149,8 @@ export namespace Prisma {
     description: string | null
     starCost: number
     creatorId: string
+    createdAt: Date
+    updatedAt: Date
     _count: RewardCountAggregateOutputType | null
     _avg: RewardAvgAggregateOutputType | null
     _sum: RewardSumAggregateOutputType | null
@@ -5465,6 +7178,8 @@ export namespace Prisma {
     description?: boolean
     starCost?: boolean
     creatorId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
     purchases?: boolean | Reward$purchasesArgs<ExtArgs>
     _count?: boolean | RewardCountOutputTypeDefaultArgs<ExtArgs>
@@ -5476,6 +7191,8 @@ export namespace Prisma {
     description?: boolean
     starCost?: boolean
     creatorId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["reward"]>
 
@@ -5485,6 +7202,8 @@ export namespace Prisma {
     description?: boolean
     starCost?: boolean
     creatorId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     creator?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["reward"]>
 
@@ -5494,9 +7213,11 @@ export namespace Prisma {
     description?: boolean
     starCost?: boolean
     creatorId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type RewardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "starCost" | "creatorId", ExtArgs["result"]["reward"]>
+  export type RewardOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "starCost" | "creatorId" | "createdAt" | "updatedAt", ExtArgs["result"]["reward"]>
   export type RewardInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     creator?: boolean | UserDefaultArgs<ExtArgs>
     purchases?: boolean | Reward$purchasesArgs<ExtArgs>
@@ -5521,6 +7242,8 @@ export namespace Prisma {
       description: string | null
       starCost: number
       creatorId: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["reward"]>
     composites: {}
   }
@@ -5951,6 +7674,8 @@ export namespace Prisma {
     readonly description: FieldRef<"Reward", 'String'>
     readonly starCost: FieldRef<"Reward", 'Int'>
     readonly creatorId: FieldRef<"Reward", 'String'>
+    readonly createdAt: FieldRef<"Reward", 'DateTime'>
+    readonly updatedAt: FieldRef<"Reward", 'DateTime'>
   }
     
 
@@ -6404,6 +8129,8 @@ export namespace Prisma {
     purchasedAt: Date | null
     rewardId: string | null
     childId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type RewardPurchaseMaxAggregateOutputType = {
@@ -6411,6 +8138,8 @@ export namespace Prisma {
     purchasedAt: Date | null
     rewardId: string | null
     childId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type RewardPurchaseCountAggregateOutputType = {
@@ -6418,6 +8147,8 @@ export namespace Prisma {
     purchasedAt: number
     rewardId: number
     childId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -6427,6 +8158,8 @@ export namespace Prisma {
     purchasedAt?: true
     rewardId?: true
     childId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type RewardPurchaseMaxAggregateInputType = {
@@ -6434,6 +8167,8 @@ export namespace Prisma {
     purchasedAt?: true
     rewardId?: true
     childId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type RewardPurchaseCountAggregateInputType = {
@@ -6441,6 +8176,8 @@ export namespace Prisma {
     purchasedAt?: true
     rewardId?: true
     childId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -6521,6 +8258,8 @@ export namespace Prisma {
     purchasedAt: Date
     rewardId: string
     childId: string
+    createdAt: Date
+    updatedAt: Date
     _count: RewardPurchaseCountAggregateOutputType | null
     _min: RewardPurchaseMinAggregateOutputType | null
     _max: RewardPurchaseMaxAggregateOutputType | null
@@ -6545,6 +8284,8 @@ export namespace Prisma {
     purchasedAt?: boolean
     rewardId?: boolean
     childId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     reward?: boolean | RewardDefaultArgs<ExtArgs>
     child?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["rewardPurchase"]>
@@ -6554,6 +8295,8 @@ export namespace Prisma {
     purchasedAt?: boolean
     rewardId?: boolean
     childId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     reward?: boolean | RewardDefaultArgs<ExtArgs>
     child?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["rewardPurchase"]>
@@ -6563,6 +8306,8 @@ export namespace Prisma {
     purchasedAt?: boolean
     rewardId?: boolean
     childId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     reward?: boolean | RewardDefaultArgs<ExtArgs>
     child?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["rewardPurchase"]>
@@ -6572,9 +8317,11 @@ export namespace Prisma {
     purchasedAt?: boolean
     rewardId?: boolean
     childId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type RewardPurchaseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purchasedAt" | "rewardId" | "childId", ExtArgs["result"]["rewardPurchase"]>
+  export type RewardPurchaseOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "purchasedAt" | "rewardId" | "childId" | "createdAt" | "updatedAt", ExtArgs["result"]["rewardPurchase"]>
   export type RewardPurchaseInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reward?: boolean | RewardDefaultArgs<ExtArgs>
     child?: boolean | UserDefaultArgs<ExtArgs>
@@ -6599,6 +8346,8 @@ export namespace Prisma {
       purchasedAt: Date
       rewardId: string
       childId: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["rewardPurchase"]>
     composites: {}
   }
@@ -7028,6 +8777,8 @@ export namespace Prisma {
     readonly purchasedAt: FieldRef<"RewardPurchase", 'DateTime'>
     readonly rewardId: FieldRef<"RewardPurchase", 'String'>
     readonly childId: FieldRef<"RewardPurchase", 'String'>
+    readonly createdAt: FieldRef<"RewardPurchase", 'DateTime'>
+    readonly updatedAt: FieldRef<"RewardPurchase", 'DateTime'>
   }
     
 
@@ -7470,6 +9221,8 @@ export namespace Prisma {
     description: string | null
     cooldownDays: number | null
     durationHours: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type BoostMaxAggregateOutputType = {
@@ -7478,6 +9231,8 @@ export namespace Prisma {
     description: string | null
     cooldownDays: number | null
     durationHours: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type BoostCountAggregateOutputType = {
@@ -7486,6 +9241,8 @@ export namespace Prisma {
     description: number
     cooldownDays: number
     durationHours: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -7506,6 +9263,8 @@ export namespace Prisma {
     description?: true
     cooldownDays?: true
     durationHours?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type BoostMaxAggregateInputType = {
@@ -7514,6 +9273,8 @@ export namespace Prisma {
     description?: true
     cooldownDays?: true
     durationHours?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type BoostCountAggregateInputType = {
@@ -7522,6 +9283,8 @@ export namespace Prisma {
     description?: true
     cooldownDays?: true
     durationHours?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -7617,6 +9380,8 @@ export namespace Prisma {
     description: string | null
     cooldownDays: number
     durationHours: number
+    createdAt: Date
+    updatedAt: Date
     _count: BoostCountAggregateOutputType | null
     _avg: BoostAvgAggregateOutputType | null
     _sum: BoostSumAggregateOutputType | null
@@ -7644,6 +9409,8 @@ export namespace Prisma {
     description?: boolean
     cooldownDays?: boolean
     durationHours?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     activations?: boolean | Boost$activationsArgs<ExtArgs>
     _count?: boolean | BoostCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["boost"]>
@@ -7654,6 +9421,8 @@ export namespace Prisma {
     description?: boolean
     cooldownDays?: boolean
     durationHours?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["boost"]>
 
   export type BoostSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7662,6 +9431,8 @@ export namespace Prisma {
     description?: boolean
     cooldownDays?: boolean
     durationHours?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["boost"]>
 
   export type BoostSelectScalar = {
@@ -7670,9 +9441,11 @@ export namespace Prisma {
     description?: boolean
     cooldownDays?: boolean
     durationHours?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type BoostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "cooldownDays" | "durationHours", ExtArgs["result"]["boost"]>
+  export type BoostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "cooldownDays" | "durationHours" | "createdAt" | "updatedAt", ExtArgs["result"]["boost"]>
   export type BoostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     activations?: boolean | Boost$activationsArgs<ExtArgs>
     _count?: boolean | BoostCountOutputTypeDefaultArgs<ExtArgs>
@@ -7691,6 +9464,8 @@ export namespace Prisma {
       description: string | null
       cooldownDays: number
       durationHours: number
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["boost"]>
     composites: {}
   }
@@ -8120,6 +9895,8 @@ export namespace Prisma {
     readonly description: FieldRef<"Boost", 'String'>
     readonly cooldownDays: FieldRef<"Boost", 'Int'>
     readonly durationHours: FieldRef<"Boost", 'Int'>
+    readonly createdAt: FieldRef<"Boost", 'DateTime'>
+    readonly updatedAt: FieldRef<"Boost", 'DateTime'>
   }
     
 
@@ -8566,6 +10343,8 @@ export namespace Prisma {
     expiresAt: Date | null
     boostId: string | null
     userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type BoostActivationMaxAggregateOutputType = {
@@ -8574,6 +10353,8 @@ export namespace Prisma {
     expiresAt: Date | null
     boostId: string | null
     userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type BoostActivationCountAggregateOutputType = {
@@ -8582,6 +10363,8 @@ export namespace Prisma {
     expiresAt: number
     boostId: number
     userId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -8592,6 +10375,8 @@ export namespace Prisma {
     expiresAt?: true
     boostId?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type BoostActivationMaxAggregateInputType = {
@@ -8600,6 +10385,8 @@ export namespace Prisma {
     expiresAt?: true
     boostId?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type BoostActivationCountAggregateInputType = {
@@ -8608,6 +10395,8 @@ export namespace Prisma {
     expiresAt?: true
     boostId?: true
     userId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -8689,6 +10478,8 @@ export namespace Prisma {
     expiresAt: Date
     boostId: string
     userId: string
+    createdAt: Date
+    updatedAt: Date
     _count: BoostActivationCountAggregateOutputType | null
     _min: BoostActivationMinAggregateOutputType | null
     _max: BoostActivationMaxAggregateOutputType | null
@@ -8714,6 +10505,8 @@ export namespace Prisma {
     expiresAt?: boolean
     boostId?: boolean
     userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     boost?: boolean | BoostDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["boostActivation"]>
@@ -8724,6 +10517,8 @@ export namespace Prisma {
     expiresAt?: boolean
     boostId?: boolean
     userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     boost?: boolean | BoostDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["boostActivation"]>
@@ -8734,6 +10529,8 @@ export namespace Prisma {
     expiresAt?: boolean
     boostId?: boolean
     userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     boost?: boolean | BoostDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["boostActivation"]>
@@ -8744,9 +10541,11 @@ export namespace Prisma {
     expiresAt?: boolean
     boostId?: boolean
     userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type BoostActivationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "activatedAt" | "expiresAt" | "boostId" | "userId", ExtArgs["result"]["boostActivation"]>
+  export type BoostActivationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "activatedAt" | "expiresAt" | "boostId" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["boostActivation"]>
   export type BoostActivationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     boost?: boolean | BoostDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -8772,6 +10571,8 @@ export namespace Prisma {
       expiresAt: Date
       boostId: string
       userId: string
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["boostActivation"]>
     composites: {}
   }
@@ -9202,6 +11003,8 @@ export namespace Prisma {
     readonly expiresAt: FieldRef<"BoostActivation", 'DateTime'>
     readonly boostId: FieldRef<"BoostActivation", 'String'>
     readonly userId: FieldRef<"BoostActivation", 'String'>
+    readonly createdAt: FieldRef<"BoostActivation", 'DateTime'>
+    readonly updatedAt: FieldRef<"BoostActivation", 'DateTime'>
   }
     
 
@@ -9617,401 +11420,361 @@ export namespace Prisma {
 
 
   /**
-   * Model Goal
+   * Model Room
    */
 
-  export type AggregateGoal = {
-    _count: GoalCountAggregateOutputType | null
-    _avg: GoalAvgAggregateOutputType | null
-    _sum: GoalSumAggregateOutputType | null
-    _min: GoalMinAggregateOutputType | null
-    _max: GoalMaxAggregateOutputType | null
+  export type AggregateRoom = {
+    _count: RoomCountAggregateOutputType | null
+    _min: RoomMinAggregateOutputType | null
+    _max: RoomMaxAggregateOutputType | null
   }
 
-  export type GoalAvgAggregateOutputType = {
-    starReward: number | null
-  }
-
-  export type GoalSumAggregateOutputType = {
-    starReward: number | null
-  }
-
-  export type GoalMinAggregateOutputType = {
+  export type RoomMinAggregateOutputType = {
     id: string | null
-    title: string | null
-    description: string | null
-    starReward: number | null
-    creatorId: string | null
-    completedAt: Date | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createUserId: string | null
   }
 
-  export type GoalMaxAggregateOutputType = {
+  export type RoomMaxAggregateOutputType = {
     id: string | null
-    title: string | null
-    description: string | null
-    starReward: number | null
-    creatorId: string | null
-    completedAt: Date | null
+    name: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    createUserId: string | null
   }
 
-  export type GoalCountAggregateOutputType = {
+  export type RoomCountAggregateOutputType = {
     id: number
-    title: number
-    description: number
-    starReward: number
-    creatorId: number
-    completedAt: number
+    name: number
+    createdAt: number
+    updatedAt: number
+    createUserId: number
     _all: number
   }
 
 
-  export type GoalAvgAggregateInputType = {
-    starReward?: true
-  }
-
-  export type GoalSumAggregateInputType = {
-    starReward?: true
-  }
-
-  export type GoalMinAggregateInputType = {
+  export type RoomMinAggregateInputType = {
     id?: true
-    title?: true
-    description?: true
-    starReward?: true
-    creatorId?: true
-    completedAt?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    createUserId?: true
   }
 
-  export type GoalMaxAggregateInputType = {
+  export type RoomMaxAggregateInputType = {
     id?: true
-    title?: true
-    description?: true
-    starReward?: true
-    creatorId?: true
-    completedAt?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    createUserId?: true
   }
 
-  export type GoalCountAggregateInputType = {
+  export type RoomCountAggregateInputType = {
     id?: true
-    title?: true
-    description?: true
-    starReward?: true
-    creatorId?: true
-    completedAt?: true
+    name?: true
+    createdAt?: true
+    updatedAt?: true
+    createUserId?: true
     _all?: true
   }
 
-  export type GoalAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Goal to aggregate.
+     * Filter which Room to aggregate.
      */
-    where?: GoalWhereInput
+    where?: RoomWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Goals to fetch.
+     * Determine the order of Rooms to fetch.
      */
-    orderBy?: GoalOrderByWithRelationInput | GoalOrderByWithRelationInput[]
+    orderBy?: RoomOrderByWithRelationInput | RoomOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: GoalWhereUniqueInput
+    cursor?: RoomWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Goals from the position of the cursor.
+     * Take `±n` Rooms from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Goals.
+     * Skip the first `n` Rooms.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Goals
+     * Count returned Rooms
     **/
-    _count?: true | GoalCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: GoalAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: GoalSumAggregateInputType
+    _count?: true | RoomCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: GoalMinAggregateInputType
+    _min?: RoomMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: GoalMaxAggregateInputType
+    _max?: RoomMaxAggregateInputType
   }
 
-  export type GetGoalAggregateType<T extends GoalAggregateArgs> = {
-        [P in keyof T & keyof AggregateGoal]: P extends '_count' | 'count'
+  export type GetRoomAggregateType<T extends RoomAggregateArgs> = {
+        [P in keyof T & keyof AggregateRoom]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateGoal[P]>
-      : GetScalarType<T[P], AggregateGoal[P]>
+        : GetScalarType<T[P], AggregateRoom[P]>
+      : GetScalarType<T[P], AggregateRoom[P]>
   }
 
 
 
 
-  export type GoalGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: GoalWhereInput
-    orderBy?: GoalOrderByWithAggregationInput | GoalOrderByWithAggregationInput[]
-    by: GoalScalarFieldEnum[] | GoalScalarFieldEnum
-    having?: GoalScalarWhereWithAggregatesInput
+  export type RoomGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomWhereInput
+    orderBy?: RoomOrderByWithAggregationInput | RoomOrderByWithAggregationInput[]
+    by: RoomScalarFieldEnum[] | RoomScalarFieldEnum
+    having?: RoomScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: GoalCountAggregateInputType | true
-    _avg?: GoalAvgAggregateInputType
-    _sum?: GoalSumAggregateInputType
-    _min?: GoalMinAggregateInputType
-    _max?: GoalMaxAggregateInputType
+    _count?: RoomCountAggregateInputType | true
+    _min?: RoomMinAggregateInputType
+    _max?: RoomMaxAggregateInputType
   }
 
-  export type GoalGroupByOutputType = {
+  export type RoomGroupByOutputType = {
     id: string
-    title: string
-    description: string | null
-    starReward: number
-    creatorId: string
-    completedAt: Date | null
-    _count: GoalCountAggregateOutputType | null
-    _avg: GoalAvgAggregateOutputType | null
-    _sum: GoalSumAggregateOutputType | null
-    _min: GoalMinAggregateOutputType | null
-    _max: GoalMaxAggregateOutputType | null
+    name: string
+    createdAt: Date
+    updatedAt: Date
+    createUserId: string
+    _count: RoomCountAggregateOutputType | null
+    _min: RoomMinAggregateOutputType | null
+    _max: RoomMaxAggregateOutputType | null
   }
 
-  type GetGoalGroupByPayload<T extends GoalGroupByArgs> = Prisma.PrismaPromise<
+  type GetRoomGroupByPayload<T extends RoomGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<GoalGroupByOutputType, T['by']> &
+      PickEnumerable<RoomGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof GoalGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof RoomGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], GoalGroupByOutputType[P]>
-            : GetScalarType<T[P], GoalGroupByOutputType[P]>
+              : GetScalarType<T[P], RoomGroupByOutputType[P]>
+            : GetScalarType<T[P], RoomGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type GoalSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type RoomSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    title?: boolean
-    description?: boolean
-    starReward?: boolean
-    creatorId?: boolean
-    completedAt?: boolean
-    creator?: boolean | UserDefaultArgs<ExtArgs>
-    quests?: boolean | Goal$questsArgs<ExtArgs>
-    _count?: boolean | GoalCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["goal"]>
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createUserId?: boolean
+    createUser?: boolean | UserDefaultArgs<ExtArgs>
+    members?: boolean | Room$membersArgs<ExtArgs>
+    invitations?: boolean | Room$invitationsArgs<ExtArgs>
+    quests?: boolean | Room$questsArgs<ExtArgs>
+    _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["room"]>
 
-  export type GoalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type RoomSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    title?: boolean
-    description?: boolean
-    starReward?: boolean
-    creatorId?: boolean
-    completedAt?: boolean
-    creator?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["goal"]>
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createUserId?: boolean
+    createUser?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["room"]>
 
-  export type GoalSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type RoomSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    title?: boolean
-    description?: boolean
-    starReward?: boolean
-    creatorId?: boolean
-    completedAt?: boolean
-    creator?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["goal"]>
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createUserId?: boolean
+    createUser?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["room"]>
 
-  export type GoalSelectScalar = {
+  export type RoomSelectScalar = {
     id?: boolean
-    title?: boolean
-    description?: boolean
-    starReward?: boolean
-    creatorId?: boolean
-    completedAt?: boolean
+    name?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    createUserId?: boolean
   }
 
-  export type GoalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "starReward" | "creatorId" | "completedAt", ExtArgs["result"]["goal"]>
-  export type GoalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    creator?: boolean | UserDefaultArgs<ExtArgs>
-    quests?: boolean | Goal$questsArgs<ExtArgs>
-    _count?: boolean | GoalCountOutputTypeDefaultArgs<ExtArgs>
+  export type RoomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt" | "createUserId", ExtArgs["result"]["room"]>
+  export type RoomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    createUser?: boolean | UserDefaultArgs<ExtArgs>
+    members?: boolean | Room$membersArgs<ExtArgs>
+    invitations?: boolean | Room$invitationsArgs<ExtArgs>
+    quests?: boolean | Room$questsArgs<ExtArgs>
+    _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type GoalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    creator?: boolean | UserDefaultArgs<ExtArgs>
+  export type RoomIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    createUser?: boolean | UserDefaultArgs<ExtArgs>
   }
-  export type GoalIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    creator?: boolean | UserDefaultArgs<ExtArgs>
+  export type RoomIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    createUser?: boolean | UserDefaultArgs<ExtArgs>
   }
 
-  export type $GoalPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Goal"
+  export type $RoomPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Room"
     objects: {
-      creator: Prisma.$UserPayload<ExtArgs>
+      createUser: Prisma.$UserPayload<ExtArgs>
+      members: Prisma.$RoomMemberPayload<ExtArgs>[]
+      invitations: Prisma.$InvitationPayload<ExtArgs>[]
       quests: Prisma.$QuestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      title: string
-      description: string | null
-      starReward: number
-      creatorId: string
-      completedAt: Date | null
-    }, ExtArgs["result"]["goal"]>
+      name: string
+      createdAt: Date
+      updatedAt: Date
+      createUserId: string
+    }, ExtArgs["result"]["room"]>
     composites: {}
   }
 
-  type GoalGetPayload<S extends boolean | null | undefined | GoalDefaultArgs> = $Result.GetResult<Prisma.$GoalPayload, S>
+  type RoomGetPayload<S extends boolean | null | undefined | RoomDefaultArgs> = $Result.GetResult<Prisma.$RoomPayload, S>
 
-  type GoalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<GoalFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: GoalCountAggregateInputType | true
+  type RoomCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RoomFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RoomCountAggregateInputType | true
     }
 
-  export interface GoalDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Goal'], meta: { name: 'Goal' } }
+  export interface RoomDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Room'], meta: { name: 'Room' } }
     /**
-     * Find zero or one Goal that matches the filter.
-     * @param {GoalFindUniqueArgs} args - Arguments to find a Goal
+     * Find zero or one Room that matches the filter.
+     * @param {RoomFindUniqueArgs} args - Arguments to find a Room
      * @example
-     * // Get one Goal
-     * const goal = await prisma.goal.findUnique({
+     * // Get one Room
+     * const room = await prisma.room.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends GoalFindUniqueArgs>(args: SelectSubset<T, GoalFindUniqueArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends RoomFindUniqueArgs>(args: SelectSubset<T, RoomFindUniqueArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Goal that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Room that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {GoalFindUniqueOrThrowArgs} args - Arguments to find a Goal
+     * @param {RoomFindUniqueOrThrowArgs} args - Arguments to find a Room
      * @example
-     * // Get one Goal
-     * const goal = await prisma.goal.findUniqueOrThrow({
+     * // Get one Room
+     * const room = await prisma.room.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends GoalFindUniqueOrThrowArgs>(args: SelectSubset<T, GoalFindUniqueOrThrowArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends RoomFindUniqueOrThrowArgs>(args: SelectSubset<T, RoomFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Goal that matches the filter.
+     * Find the first Room that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GoalFindFirstArgs} args - Arguments to find a Goal
+     * @param {RoomFindFirstArgs} args - Arguments to find a Room
      * @example
-     * // Get one Goal
-     * const goal = await prisma.goal.findFirst({
+     * // Get one Room
+     * const room = await prisma.room.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends GoalFindFirstArgs>(args?: SelectSubset<T, GoalFindFirstArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends RoomFindFirstArgs>(args?: SelectSubset<T, RoomFindFirstArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Goal that matches the filter or
+     * Find the first Room that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GoalFindFirstOrThrowArgs} args - Arguments to find a Goal
+     * @param {RoomFindFirstOrThrowArgs} args - Arguments to find a Room
      * @example
-     * // Get one Goal
-     * const goal = await prisma.goal.findFirstOrThrow({
+     * // Get one Room
+     * const room = await prisma.room.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends GoalFindFirstOrThrowArgs>(args?: SelectSubset<T, GoalFindFirstOrThrowArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends RoomFindFirstOrThrowArgs>(args?: SelectSubset<T, RoomFindFirstOrThrowArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Goals that matches the filter.
+     * Find zero or more Rooms that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GoalFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {RoomFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Goals
-     * const goals = await prisma.goal.findMany()
+     * // Get all Rooms
+     * const rooms = await prisma.room.findMany()
      * 
-     * // Get first 10 Goals
-     * const goals = await prisma.goal.findMany({ take: 10 })
+     * // Get first 10 Rooms
+     * const rooms = await prisma.room.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const goalWithIdOnly = await prisma.goal.findMany({ select: { id: true } })
+     * const roomWithIdOnly = await prisma.room.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends GoalFindManyArgs>(args?: SelectSubset<T, GoalFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends RoomFindManyArgs>(args?: SelectSubset<T, RoomFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Goal.
-     * @param {GoalCreateArgs} args - Arguments to create a Goal.
+     * Create a Room.
+     * @param {RoomCreateArgs} args - Arguments to create a Room.
      * @example
-     * // Create one Goal
-     * const Goal = await prisma.goal.create({
+     * // Create one Room
+     * const Room = await prisma.room.create({
      *   data: {
-     *     // ... data to create a Goal
+     *     // ... data to create a Room
      *   }
      * })
      * 
      */
-    create<T extends GoalCreateArgs>(args: SelectSubset<T, GoalCreateArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends RoomCreateArgs>(args: SelectSubset<T, RoomCreateArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Goals.
-     * @param {GoalCreateManyArgs} args - Arguments to create many Goals.
+     * Create many Rooms.
+     * @param {RoomCreateManyArgs} args - Arguments to create many Rooms.
      * @example
-     * // Create many Goals
-     * const goal = await prisma.goal.createMany({
+     * // Create many Rooms
+     * const room = await prisma.room.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends GoalCreateManyArgs>(args?: SelectSubset<T, GoalCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends RoomCreateManyArgs>(args?: SelectSubset<T, RoomCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Goals and returns the data saved in the database.
-     * @param {GoalCreateManyAndReturnArgs} args - Arguments to create many Goals.
+     * Create many Rooms and returns the data saved in the database.
+     * @param {RoomCreateManyAndReturnArgs} args - Arguments to create many Rooms.
      * @example
-     * // Create many Goals
-     * const goal = await prisma.goal.createManyAndReturn({
+     * // Create many Rooms
+     * const room = await prisma.room.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many Goals and only return the `id`
-     * const goalWithIdOnly = await prisma.goal.createManyAndReturn({
+     * // Create many Rooms and only return the `id`
+     * const roomWithIdOnly = await prisma.room.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -10021,28 +11784,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends GoalCreateManyAndReturnArgs>(args?: SelectSubset<T, GoalCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends RoomCreateManyAndReturnArgs>(args?: SelectSubset<T, RoomCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a Goal.
-     * @param {GoalDeleteArgs} args - Arguments to delete one Goal.
+     * Delete a Room.
+     * @param {RoomDeleteArgs} args - Arguments to delete one Room.
      * @example
-     * // Delete one Goal
-     * const Goal = await prisma.goal.delete({
+     * // Delete one Room
+     * const Room = await prisma.room.delete({
      *   where: {
-     *     // ... filter to delete one Goal
+     *     // ... filter to delete one Room
      *   }
      * })
      * 
      */
-    delete<T extends GoalDeleteArgs>(args: SelectSubset<T, GoalDeleteArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends RoomDeleteArgs>(args: SelectSubset<T, RoomDeleteArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Goal.
-     * @param {GoalUpdateArgs} args - Arguments to update one Goal.
+     * Update one Room.
+     * @param {RoomUpdateArgs} args - Arguments to update one Room.
      * @example
-     * // Update one Goal
-     * const goal = await prisma.goal.update({
+     * // Update one Room
+     * const room = await prisma.room.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -10052,30 +11815,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends GoalUpdateArgs>(args: SelectSubset<T, GoalUpdateArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends RoomUpdateArgs>(args: SelectSubset<T, RoomUpdateArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Goals.
-     * @param {GoalDeleteManyArgs} args - Arguments to filter Goals to delete.
+     * Delete zero or more Rooms.
+     * @param {RoomDeleteManyArgs} args - Arguments to filter Rooms to delete.
      * @example
-     * // Delete a few Goals
-     * const { count } = await prisma.goal.deleteMany({
+     * // Delete a few Rooms
+     * const { count } = await prisma.room.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends GoalDeleteManyArgs>(args?: SelectSubset<T, GoalDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends RoomDeleteManyArgs>(args?: SelectSubset<T, RoomDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Goals.
+     * Update zero or more Rooms.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GoalUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {RoomUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Goals
-     * const goal = await prisma.goal.updateMany({
+     * // Update many Rooms
+     * const room = await prisma.room.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -10085,14 +11848,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends GoalUpdateManyArgs>(args: SelectSubset<T, GoalUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends RoomUpdateManyArgs>(args: SelectSubset<T, RoomUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Goals and returns the data updated in the database.
-     * @param {GoalUpdateManyAndReturnArgs} args - Arguments to update many Goals.
+     * Update zero or more Rooms and returns the data updated in the database.
+     * @param {RoomUpdateManyAndReturnArgs} args - Arguments to update many Rooms.
      * @example
-     * // Update many Goals
-     * const goal = await prisma.goal.updateManyAndReturn({
+     * // Update many Rooms
+     * const room = await prisma.room.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -10101,8 +11864,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Goals and only return the `id`
-     * const goalWithIdOnly = await prisma.goal.updateManyAndReturn({
+     * // Update zero or more Rooms and only return the `id`
+     * const roomWithIdOnly = await prisma.room.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -10115,56 +11878,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends GoalUpdateManyAndReturnArgs>(args: SelectSubset<T, GoalUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends RoomUpdateManyAndReturnArgs>(args: SelectSubset<T, RoomUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one Goal.
-     * @param {GoalUpsertArgs} args - Arguments to update or create a Goal.
+     * Create or update one Room.
+     * @param {RoomUpsertArgs} args - Arguments to update or create a Room.
      * @example
-     * // Update or create a Goal
-     * const goal = await prisma.goal.upsert({
+     * // Update or create a Room
+     * const room = await prisma.room.upsert({
      *   create: {
-     *     // ... data to create a Goal
+     *     // ... data to create a Room
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Goal we want to update
+     *     // ... the filter for the Room we want to update
      *   }
      * })
      */
-    upsert<T extends GoalUpsertArgs>(args: SelectSubset<T, GoalUpsertArgs<ExtArgs>>): Prisma__GoalClient<$Result.GetResult<Prisma.$GoalPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends RoomUpsertArgs>(args: SelectSubset<T, RoomUpsertArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Goals.
+     * Count the number of Rooms.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GoalCountArgs} args - Arguments to filter Goals to count.
+     * @param {RoomCountArgs} args - Arguments to filter Rooms to count.
      * @example
-     * // Count the number of Goals
-     * const count = await prisma.goal.count({
+     * // Count the number of Rooms
+     * const count = await prisma.room.count({
      *   where: {
-     *     // ... the filter for the Goals we want to count
+     *     // ... the filter for the Rooms we want to count
      *   }
      * })
     **/
-    count<T extends GoalCountArgs>(
-      args?: Subset<T, GoalCountArgs>,
+    count<T extends RoomCountArgs>(
+      args?: Subset<T, RoomCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], GoalCountAggregateOutputType>
+          : GetScalarType<T['select'], RoomCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Goal.
+     * Allows you to perform aggregations operations on a Room.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GoalAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {RoomAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -10184,13 +11947,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends GoalAggregateArgs>(args: Subset<T, GoalAggregateArgs>): Prisma.PrismaPromise<GetGoalAggregateType<T>>
+    aggregate<T extends RoomAggregateArgs>(args: Subset<T, RoomAggregateArgs>): Prisma.PrismaPromise<GetRoomAggregateType<T>>
 
     /**
-     * Group by Goal.
+     * Group by Room.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {GoalGroupByArgs} args - Group by arguments.
+     * @param {RoomGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -10205,14 +11968,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends GoalGroupByArgs,
+      T extends RoomGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: GoalGroupByArgs['orderBy'] }
-        : { orderBy?: GoalGroupByArgs['orderBy'] },
+        ? { orderBy: RoomGroupByArgs['orderBy'] }
+        : { orderBy?: RoomGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -10261,23 +12024,25 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, GoalGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetGoalGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, RoomGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRoomGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Goal model
+   * Fields of the Room model
    */
-  readonly fields: GoalFieldRefs;
+  readonly fields: RoomFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Goal.
+   * The delegate class that acts as a "Promise-like" for Room.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__GoalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__RoomClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    creator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    quests<T extends Goal$questsArgs<ExtArgs> = {}>(args?: Subset<T, Goal$questsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    createUser<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    members<T extends Room$membersArgs<ExtArgs> = {}>(args?: Subset<T, Room$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    invitations<T extends Room$invitationsArgs<ExtArgs> = {}>(args?: Subset<T, Room$invitationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    quests<T extends Room$questsArgs<ExtArgs> = {}>(args?: Subset<T, Room$questsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$QuestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10304,414 +12069,461 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Goal model
+   * Fields of the Room model
    */
-  interface GoalFieldRefs {
-    readonly id: FieldRef<"Goal", 'String'>
-    readonly title: FieldRef<"Goal", 'String'>
-    readonly description: FieldRef<"Goal", 'String'>
-    readonly starReward: FieldRef<"Goal", 'Int'>
-    readonly creatorId: FieldRef<"Goal", 'String'>
-    readonly completedAt: FieldRef<"Goal", 'DateTime'>
+  interface RoomFieldRefs {
+    readonly id: FieldRef<"Room", 'String'>
+    readonly name: FieldRef<"Room", 'String'>
+    readonly createdAt: FieldRef<"Room", 'DateTime'>
+    readonly updatedAt: FieldRef<"Room", 'DateTime'>
+    readonly createUserId: FieldRef<"Room", 'String'>
   }
     
 
   // Custom InputTypes
   /**
-   * Goal findUnique
+   * Room findUnique
    */
-  export type GoalFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Goal
+     * Select specific fields to fetch from the Room
      */
-    select?: GoalSelect<ExtArgs> | null
+    select?: RoomSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Goal
+     * Omit specific fields from the Room
      */
-    omit?: GoalOmit<ExtArgs> | null
+    omit?: RoomOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: GoalInclude<ExtArgs> | null
+    include?: RoomInclude<ExtArgs> | null
     /**
-     * Filter, which Goal to fetch.
+     * Filter, which Room to fetch.
      */
-    where: GoalWhereUniqueInput
+    where: RoomWhereUniqueInput
   }
 
   /**
-   * Goal findUniqueOrThrow
+   * Room findUniqueOrThrow
    */
-  export type GoalFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Goal
+     * Select specific fields to fetch from the Room
      */
-    select?: GoalSelect<ExtArgs> | null
+    select?: RoomSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Goal
+     * Omit specific fields from the Room
      */
-    omit?: GoalOmit<ExtArgs> | null
+    omit?: RoomOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: GoalInclude<ExtArgs> | null
+    include?: RoomInclude<ExtArgs> | null
     /**
-     * Filter, which Goal to fetch.
+     * Filter, which Room to fetch.
      */
-    where: GoalWhereUniqueInput
+    where: RoomWhereUniqueInput
   }
 
   /**
-   * Goal findFirst
+   * Room findFirst
    */
-  export type GoalFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Goal
+     * Select specific fields to fetch from the Room
      */
-    select?: GoalSelect<ExtArgs> | null
+    select?: RoomSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Goal
+     * Omit specific fields from the Room
      */
-    omit?: GoalOmit<ExtArgs> | null
+    omit?: RoomOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: GoalInclude<ExtArgs> | null
+    include?: RoomInclude<ExtArgs> | null
     /**
-     * Filter, which Goal to fetch.
+     * Filter, which Room to fetch.
      */
-    where?: GoalWhereInput
+    where?: RoomWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Goals to fetch.
+     * Determine the order of Rooms to fetch.
      */
-    orderBy?: GoalOrderByWithRelationInput | GoalOrderByWithRelationInput[]
+    orderBy?: RoomOrderByWithRelationInput | RoomOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Goals.
+     * Sets the position for searching for Rooms.
      */
-    cursor?: GoalWhereUniqueInput
+    cursor?: RoomWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Goals from the position of the cursor.
+     * Take `±n` Rooms from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Goals.
+     * Skip the first `n` Rooms.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Goals.
+     * Filter by unique combinations of Rooms.
      */
-    distinct?: GoalScalarFieldEnum | GoalScalarFieldEnum[]
+    distinct?: RoomScalarFieldEnum | RoomScalarFieldEnum[]
   }
 
   /**
-   * Goal findFirstOrThrow
+   * Room findFirstOrThrow
    */
-  export type GoalFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Goal
+     * Select specific fields to fetch from the Room
      */
-    select?: GoalSelect<ExtArgs> | null
+    select?: RoomSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Goal
+     * Omit specific fields from the Room
      */
-    omit?: GoalOmit<ExtArgs> | null
+    omit?: RoomOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: GoalInclude<ExtArgs> | null
+    include?: RoomInclude<ExtArgs> | null
     /**
-     * Filter, which Goal to fetch.
+     * Filter, which Room to fetch.
      */
-    where?: GoalWhereInput
+    where?: RoomWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Goals to fetch.
+     * Determine the order of Rooms to fetch.
      */
-    orderBy?: GoalOrderByWithRelationInput | GoalOrderByWithRelationInput[]
+    orderBy?: RoomOrderByWithRelationInput | RoomOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Goals.
+     * Sets the position for searching for Rooms.
      */
-    cursor?: GoalWhereUniqueInput
+    cursor?: RoomWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Goals from the position of the cursor.
+     * Take `±n` Rooms from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Goals.
+     * Skip the first `n` Rooms.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Goals.
+     * Filter by unique combinations of Rooms.
      */
-    distinct?: GoalScalarFieldEnum | GoalScalarFieldEnum[]
+    distinct?: RoomScalarFieldEnum | RoomScalarFieldEnum[]
   }
 
   /**
-   * Goal findMany
+   * Room findMany
    */
-  export type GoalFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Goal
+     * Select specific fields to fetch from the Room
      */
-    select?: GoalSelect<ExtArgs> | null
+    select?: RoomSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Goal
+     * Omit specific fields from the Room
      */
-    omit?: GoalOmit<ExtArgs> | null
+    omit?: RoomOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: GoalInclude<ExtArgs> | null
+    include?: RoomInclude<ExtArgs> | null
     /**
-     * Filter, which Goals to fetch.
+     * Filter, which Rooms to fetch.
      */
-    where?: GoalWhereInput
+    where?: RoomWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Goals to fetch.
+     * Determine the order of Rooms to fetch.
      */
-    orderBy?: GoalOrderByWithRelationInput | GoalOrderByWithRelationInput[]
+    orderBy?: RoomOrderByWithRelationInput | RoomOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Goals.
+     * Sets the position for listing Rooms.
      */
-    cursor?: GoalWhereUniqueInput
+    cursor?: RoomWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Goals from the position of the cursor.
+     * Take `±n` Rooms from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Goals.
+     * Skip the first `n` Rooms.
      */
     skip?: number
-    distinct?: GoalScalarFieldEnum | GoalScalarFieldEnum[]
+    distinct?: RoomScalarFieldEnum | RoomScalarFieldEnum[]
   }
 
   /**
-   * Goal create
+   * Room create
    */
-  export type GoalCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Goal
+     * Select specific fields to fetch from the Room
      */
-    select?: GoalSelect<ExtArgs> | null
+    select?: RoomSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Goal
+     * Omit specific fields from the Room
      */
-    omit?: GoalOmit<ExtArgs> | null
+    omit?: RoomOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: GoalInclude<ExtArgs> | null
+    include?: RoomInclude<ExtArgs> | null
     /**
-     * The data needed to create a Goal.
+     * The data needed to create a Room.
      */
-    data: XOR<GoalCreateInput, GoalUncheckedCreateInput>
+    data: XOR<RoomCreateInput, RoomUncheckedCreateInput>
   }
 
   /**
-   * Goal createMany
+   * Room createMany
    */
-  export type GoalCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Goals.
+     * The data used to create many Rooms.
      */
-    data: GoalCreateManyInput | GoalCreateManyInput[]
+    data: RoomCreateManyInput | RoomCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Goal createManyAndReturn
+   * Room createManyAndReturn
    */
-  export type GoalCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Goal
+     * Select specific fields to fetch from the Room
      */
-    select?: GoalSelectCreateManyAndReturn<ExtArgs> | null
+    select?: RoomSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Goal
+     * Omit specific fields from the Room
      */
-    omit?: GoalOmit<ExtArgs> | null
+    omit?: RoomOmit<ExtArgs> | null
     /**
-     * The data used to create many Goals.
+     * The data used to create many Rooms.
      */
-    data: GoalCreateManyInput | GoalCreateManyInput[]
+    data: RoomCreateManyInput | RoomCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: GoalIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: RoomIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Goal update
+   * Room update
    */
-  export type GoalUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Goal
+     * Select specific fields to fetch from the Room
      */
-    select?: GoalSelect<ExtArgs> | null
+    select?: RoomSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Goal
+     * Omit specific fields from the Room
      */
-    omit?: GoalOmit<ExtArgs> | null
+    omit?: RoomOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: GoalInclude<ExtArgs> | null
+    include?: RoomInclude<ExtArgs> | null
     /**
-     * The data needed to update a Goal.
+     * The data needed to update a Room.
      */
-    data: XOR<GoalUpdateInput, GoalUncheckedUpdateInput>
+    data: XOR<RoomUpdateInput, RoomUncheckedUpdateInput>
     /**
-     * Choose, which Goal to update.
+     * Choose, which Room to update.
      */
-    where: GoalWhereUniqueInput
+    where: RoomWhereUniqueInput
   }
 
   /**
-   * Goal updateMany
+   * Room updateMany
    */
-  export type GoalUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Goals.
+     * The data used to update Rooms.
      */
-    data: XOR<GoalUpdateManyMutationInput, GoalUncheckedUpdateManyInput>
+    data: XOR<RoomUpdateManyMutationInput, RoomUncheckedUpdateManyInput>
     /**
-     * Filter which Goals to update
+     * Filter which Rooms to update
      */
-    where?: GoalWhereInput
+    where?: RoomWhereInput
     /**
-     * Limit how many Goals to update.
+     * Limit how many Rooms to update.
      */
     limit?: number
   }
 
   /**
-   * Goal updateManyAndReturn
+   * Room updateManyAndReturn
    */
-  export type GoalUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Goal
+     * Select specific fields to fetch from the Room
      */
-    select?: GoalSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: RoomSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Goal
+     * Omit specific fields from the Room
      */
-    omit?: GoalOmit<ExtArgs> | null
+    omit?: RoomOmit<ExtArgs> | null
     /**
-     * The data used to update Goals.
+     * The data used to update Rooms.
      */
-    data: XOR<GoalUpdateManyMutationInput, GoalUncheckedUpdateManyInput>
+    data: XOR<RoomUpdateManyMutationInput, RoomUncheckedUpdateManyInput>
     /**
-     * Filter which Goals to update
+     * Filter which Rooms to update
      */
-    where?: GoalWhereInput
+    where?: RoomWhereInput
     /**
-     * Limit how many Goals to update.
+     * Limit how many Rooms to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: GoalIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: RoomIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Goal upsert
+   * Room upsert
    */
-  export type GoalUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Goal
+     * Select specific fields to fetch from the Room
      */
-    select?: GoalSelect<ExtArgs> | null
+    select?: RoomSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Goal
+     * Omit specific fields from the Room
      */
-    omit?: GoalOmit<ExtArgs> | null
+    omit?: RoomOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: GoalInclude<ExtArgs> | null
+    include?: RoomInclude<ExtArgs> | null
     /**
-     * The filter to search for the Goal to update in case it exists.
+     * The filter to search for the Room to update in case it exists.
      */
-    where: GoalWhereUniqueInput
+    where: RoomWhereUniqueInput
     /**
-     * In case the Goal found by the `where` argument doesn't exist, create a new Goal with this data.
+     * In case the Room found by the `where` argument doesn't exist, create a new Room with this data.
      */
-    create: XOR<GoalCreateInput, GoalUncheckedCreateInput>
+    create: XOR<RoomCreateInput, RoomUncheckedCreateInput>
     /**
-     * In case the Goal was found with the provided `where` argument, update it with this data.
+     * In case the Room was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<GoalUpdateInput, GoalUncheckedUpdateInput>
+    update: XOR<RoomUpdateInput, RoomUncheckedUpdateInput>
   }
 
   /**
-   * Goal delete
+   * Room delete
    */
-  export type GoalDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Goal
+     * Select specific fields to fetch from the Room
      */
-    select?: GoalSelect<ExtArgs> | null
+    select?: RoomSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Goal
+     * Omit specific fields from the Room
      */
-    omit?: GoalOmit<ExtArgs> | null
+    omit?: RoomOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: GoalInclude<ExtArgs> | null
+    include?: RoomInclude<ExtArgs> | null
     /**
-     * Filter which Goal to delete.
+     * Filter which Room to delete.
      */
-    where: GoalWhereUniqueInput
+    where: RoomWhereUniqueInput
   }
 
   /**
-   * Goal deleteMany
+   * Room deleteMany
    */
-  export type GoalDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Goals to delete
+     * Filter which Rooms to delete
      */
-    where?: GoalWhereInput
+    where?: RoomWhereInput
     /**
-     * Limit how many Goals to delete.
+     * Limit how many Rooms to delete.
      */
     limit?: number
   }
 
   /**
-   * Goal.quests
+   * Room.members
    */
-  export type Goal$questsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Room$membersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    where?: RoomMemberWhereInput
+    orderBy?: RoomMemberOrderByWithRelationInput | RoomMemberOrderByWithRelationInput[]
+    cursor?: RoomMemberWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoomMemberScalarFieldEnum | RoomMemberScalarFieldEnum[]
+  }
+
+  /**
+   * Room.invitations
+   */
+  export type Room$invitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invitation
+     */
+    select?: InvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invitation
+     */
+    omit?: InvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationInclude<ExtArgs> | null
+    where?: InvitationWhereInput
+    orderBy?: InvitationOrderByWithRelationInput | InvitationOrderByWithRelationInput[]
+    cursor?: InvitationWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvitationScalarFieldEnum | InvitationScalarFieldEnum[]
+  }
+
+  /**
+   * Room.quests
+   */
+  export type Room$questsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Quest
      */
@@ -10733,21 +12545,2263 @@ export namespace Prisma {
   }
 
   /**
-   * Goal without action
+   * Room without action
    */
-  export type GoalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type RoomDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Goal
+     * Select specific fields to fetch from the Room
      */
-    select?: GoalSelect<ExtArgs> | null
+    select?: RoomSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Goal
+     * Omit specific fields from the Room
      */
-    omit?: GoalOmit<ExtArgs> | null
+    omit?: RoomOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: GoalInclude<ExtArgs> | null
+    include?: RoomInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model RoomMember
+   */
+
+  export type AggregateRoomMember = {
+    _count: RoomMemberCountAggregateOutputType | null
+    _min: RoomMemberMinAggregateOutputType | null
+    _max: RoomMemberMaxAggregateOutputType | null
+  }
+
+  export type RoomMemberMinAggregateOutputType = {
+    id: string | null
+    roomId: string | null
+    userId: string | null
+    role: $Enums.UserRole | null
+    joinedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RoomMemberMaxAggregateOutputType = {
+    id: string | null
+    roomId: string | null
+    userId: string | null
+    role: $Enums.UserRole | null
+    joinedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RoomMemberCountAggregateOutputType = {
+    id: number
+    roomId: number
+    userId: number
+    role: number
+    joinedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type RoomMemberMinAggregateInputType = {
+    id?: true
+    roomId?: true
+    userId?: true
+    role?: true
+    joinedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RoomMemberMaxAggregateInputType = {
+    id?: true
+    roomId?: true
+    userId?: true
+    role?: true
+    joinedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RoomMemberCountAggregateInputType = {
+    id?: true
+    roomId?: true
+    userId?: true
+    role?: true
+    joinedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type RoomMemberAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RoomMember to aggregate.
+     */
+    where?: RoomMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoomMembers to fetch.
+     */
+    orderBy?: RoomMemberOrderByWithRelationInput | RoomMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RoomMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoomMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoomMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RoomMembers
+    **/
+    _count?: true | RoomMemberCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RoomMemberMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RoomMemberMaxAggregateInputType
+  }
+
+  export type GetRoomMemberAggregateType<T extends RoomMemberAggregateArgs> = {
+        [P in keyof T & keyof AggregateRoomMember]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRoomMember[P]>
+      : GetScalarType<T[P], AggregateRoomMember[P]>
+  }
+
+
+
+
+  export type RoomMemberGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RoomMemberWhereInput
+    orderBy?: RoomMemberOrderByWithAggregationInput | RoomMemberOrderByWithAggregationInput[]
+    by: RoomMemberScalarFieldEnum[] | RoomMemberScalarFieldEnum
+    having?: RoomMemberScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RoomMemberCountAggregateInputType | true
+    _min?: RoomMemberMinAggregateInputType
+    _max?: RoomMemberMaxAggregateInputType
+  }
+
+  export type RoomMemberGroupByOutputType = {
+    id: string
+    roomId: string
+    userId: string
+    role: $Enums.UserRole
+    joinedAt: Date
+    createdAt: Date
+    updatedAt: Date
+    _count: RoomMemberCountAggregateOutputType | null
+    _min: RoomMemberMinAggregateOutputType | null
+    _max: RoomMemberMaxAggregateOutputType | null
+  }
+
+  type GetRoomMemberGroupByPayload<T extends RoomMemberGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RoomMemberGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RoomMemberGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RoomMemberGroupByOutputType[P]>
+            : GetScalarType<T[P], RoomMemberGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RoomMemberSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roomId?: boolean
+    userId?: boolean
+    role?: boolean
+    joinedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["roomMember"]>
+
+  export type RoomMemberSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roomId?: boolean
+    userId?: boolean
+    role?: boolean
+    joinedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["roomMember"]>
+
+  export type RoomMemberSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roomId?: boolean
+    userId?: boolean
+    role?: boolean
+    joinedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["roomMember"]>
+
+  export type RoomMemberSelectScalar = {
+    id?: boolean
+    roomId?: boolean
+    userId?: boolean
+    role?: boolean
+    joinedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type RoomMemberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "userId" | "role" | "joinedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["roomMember"]>
+  export type RoomMemberInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type RoomMemberIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type RoomMemberIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $RoomMemberPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RoomMember"
+    objects: {
+      room: Prisma.$RoomPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      roomId: string
+      userId: string
+      role: $Enums.UserRole
+      joinedAt: Date
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["roomMember"]>
+    composites: {}
+  }
+
+  type RoomMemberGetPayload<S extends boolean | null | undefined | RoomMemberDefaultArgs> = $Result.GetResult<Prisma.$RoomMemberPayload, S>
+
+  type RoomMemberCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RoomMemberFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RoomMemberCountAggregateInputType | true
+    }
+
+  export interface RoomMemberDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RoomMember'], meta: { name: 'RoomMember' } }
+    /**
+     * Find zero or one RoomMember that matches the filter.
+     * @param {RoomMemberFindUniqueArgs} args - Arguments to find a RoomMember
+     * @example
+     * // Get one RoomMember
+     * const roomMember = await prisma.roomMember.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RoomMemberFindUniqueArgs>(args: SelectSubset<T, RoomMemberFindUniqueArgs<ExtArgs>>): Prisma__RoomMemberClient<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RoomMember that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RoomMemberFindUniqueOrThrowArgs} args - Arguments to find a RoomMember
+     * @example
+     * // Get one RoomMember
+     * const roomMember = await prisma.roomMember.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RoomMemberFindUniqueOrThrowArgs>(args: SelectSubset<T, RoomMemberFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RoomMemberClient<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RoomMember that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomMemberFindFirstArgs} args - Arguments to find a RoomMember
+     * @example
+     * // Get one RoomMember
+     * const roomMember = await prisma.roomMember.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RoomMemberFindFirstArgs>(args?: SelectSubset<T, RoomMemberFindFirstArgs<ExtArgs>>): Prisma__RoomMemberClient<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RoomMember that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomMemberFindFirstOrThrowArgs} args - Arguments to find a RoomMember
+     * @example
+     * // Get one RoomMember
+     * const roomMember = await prisma.roomMember.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RoomMemberFindFirstOrThrowArgs>(args?: SelectSubset<T, RoomMemberFindFirstOrThrowArgs<ExtArgs>>): Prisma__RoomMemberClient<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RoomMembers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomMemberFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RoomMembers
+     * const roomMembers = await prisma.roomMember.findMany()
+     * 
+     * // Get first 10 RoomMembers
+     * const roomMembers = await prisma.roomMember.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const roomMemberWithIdOnly = await prisma.roomMember.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RoomMemberFindManyArgs>(args?: SelectSubset<T, RoomMemberFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RoomMember.
+     * @param {RoomMemberCreateArgs} args - Arguments to create a RoomMember.
+     * @example
+     * // Create one RoomMember
+     * const RoomMember = await prisma.roomMember.create({
+     *   data: {
+     *     // ... data to create a RoomMember
+     *   }
+     * })
+     * 
+     */
+    create<T extends RoomMemberCreateArgs>(args: SelectSubset<T, RoomMemberCreateArgs<ExtArgs>>): Prisma__RoomMemberClient<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RoomMembers.
+     * @param {RoomMemberCreateManyArgs} args - Arguments to create many RoomMembers.
+     * @example
+     * // Create many RoomMembers
+     * const roomMember = await prisma.roomMember.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RoomMemberCreateManyArgs>(args?: SelectSubset<T, RoomMemberCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RoomMembers and returns the data saved in the database.
+     * @param {RoomMemberCreateManyAndReturnArgs} args - Arguments to create many RoomMembers.
+     * @example
+     * // Create many RoomMembers
+     * const roomMember = await prisma.roomMember.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RoomMembers and only return the `id`
+     * const roomMemberWithIdOnly = await prisma.roomMember.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RoomMemberCreateManyAndReturnArgs>(args?: SelectSubset<T, RoomMemberCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a RoomMember.
+     * @param {RoomMemberDeleteArgs} args - Arguments to delete one RoomMember.
+     * @example
+     * // Delete one RoomMember
+     * const RoomMember = await prisma.roomMember.delete({
+     *   where: {
+     *     // ... filter to delete one RoomMember
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RoomMemberDeleteArgs>(args: SelectSubset<T, RoomMemberDeleteArgs<ExtArgs>>): Prisma__RoomMemberClient<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RoomMember.
+     * @param {RoomMemberUpdateArgs} args - Arguments to update one RoomMember.
+     * @example
+     * // Update one RoomMember
+     * const roomMember = await prisma.roomMember.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RoomMemberUpdateArgs>(args: SelectSubset<T, RoomMemberUpdateArgs<ExtArgs>>): Prisma__RoomMemberClient<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RoomMembers.
+     * @param {RoomMemberDeleteManyArgs} args - Arguments to filter RoomMembers to delete.
+     * @example
+     * // Delete a few RoomMembers
+     * const { count } = await prisma.roomMember.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RoomMemberDeleteManyArgs>(args?: SelectSubset<T, RoomMemberDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RoomMembers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomMemberUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RoomMembers
+     * const roomMember = await prisma.roomMember.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RoomMemberUpdateManyArgs>(args: SelectSubset<T, RoomMemberUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RoomMembers and returns the data updated in the database.
+     * @param {RoomMemberUpdateManyAndReturnArgs} args - Arguments to update many RoomMembers.
+     * @example
+     * // Update many RoomMembers
+     * const roomMember = await prisma.roomMember.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more RoomMembers and only return the `id`
+     * const roomMemberWithIdOnly = await prisma.roomMember.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RoomMemberUpdateManyAndReturnArgs>(args: SelectSubset<T, RoomMemberUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one RoomMember.
+     * @param {RoomMemberUpsertArgs} args - Arguments to update or create a RoomMember.
+     * @example
+     * // Update or create a RoomMember
+     * const roomMember = await prisma.roomMember.upsert({
+     *   create: {
+     *     // ... data to create a RoomMember
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RoomMember we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RoomMemberUpsertArgs>(args: SelectSubset<T, RoomMemberUpsertArgs<ExtArgs>>): Prisma__RoomMemberClient<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RoomMembers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomMemberCountArgs} args - Arguments to filter RoomMembers to count.
+     * @example
+     * // Count the number of RoomMembers
+     * const count = await prisma.roomMember.count({
+     *   where: {
+     *     // ... the filter for the RoomMembers we want to count
+     *   }
+     * })
+    **/
+    count<T extends RoomMemberCountArgs>(
+      args?: Subset<T, RoomMemberCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RoomMemberCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RoomMember.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomMemberAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RoomMemberAggregateArgs>(args: Subset<T, RoomMemberAggregateArgs>): Prisma.PrismaPromise<GetRoomMemberAggregateType<T>>
+
+    /**
+     * Group by RoomMember.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoomMemberGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RoomMemberGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RoomMemberGroupByArgs['orderBy'] }
+        : { orderBy?: RoomMemberGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RoomMemberGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRoomMemberGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RoomMember model
+   */
+  readonly fields: RoomMemberFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RoomMember.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RoomMemberClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    room<T extends RoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoomDefaultArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RoomMember model
+   */
+  interface RoomMemberFieldRefs {
+    readonly id: FieldRef<"RoomMember", 'String'>
+    readonly roomId: FieldRef<"RoomMember", 'String'>
+    readonly userId: FieldRef<"RoomMember", 'String'>
+    readonly role: FieldRef<"RoomMember", 'UserRole'>
+    readonly joinedAt: FieldRef<"RoomMember", 'DateTime'>
+    readonly createdAt: FieldRef<"RoomMember", 'DateTime'>
+    readonly updatedAt: FieldRef<"RoomMember", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RoomMember findUnique
+   */
+  export type RoomMemberFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which RoomMember to fetch.
+     */
+    where: RoomMemberWhereUniqueInput
+  }
+
+  /**
+   * RoomMember findUniqueOrThrow
+   */
+  export type RoomMemberFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which RoomMember to fetch.
+     */
+    where: RoomMemberWhereUniqueInput
+  }
+
+  /**
+   * RoomMember findFirst
+   */
+  export type RoomMemberFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which RoomMember to fetch.
+     */
+    where?: RoomMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoomMembers to fetch.
+     */
+    orderBy?: RoomMemberOrderByWithRelationInput | RoomMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RoomMembers.
+     */
+    cursor?: RoomMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoomMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoomMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RoomMembers.
+     */
+    distinct?: RoomMemberScalarFieldEnum | RoomMemberScalarFieldEnum[]
+  }
+
+  /**
+   * RoomMember findFirstOrThrow
+   */
+  export type RoomMemberFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which RoomMember to fetch.
+     */
+    where?: RoomMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoomMembers to fetch.
+     */
+    orderBy?: RoomMemberOrderByWithRelationInput | RoomMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RoomMembers.
+     */
+    cursor?: RoomMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoomMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoomMembers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RoomMembers.
+     */
+    distinct?: RoomMemberScalarFieldEnum | RoomMemberScalarFieldEnum[]
+  }
+
+  /**
+   * RoomMember findMany
+   */
+  export type RoomMemberFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * Filter, which RoomMembers to fetch.
+     */
+    where?: RoomMemberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoomMembers to fetch.
+     */
+    orderBy?: RoomMemberOrderByWithRelationInput | RoomMemberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RoomMembers.
+     */
+    cursor?: RoomMemberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoomMembers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoomMembers.
+     */
+    skip?: number
+    distinct?: RoomMemberScalarFieldEnum | RoomMemberScalarFieldEnum[]
+  }
+
+  /**
+   * RoomMember create
+   */
+  export type RoomMemberCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RoomMember.
+     */
+    data: XOR<RoomMemberCreateInput, RoomMemberUncheckedCreateInput>
+  }
+
+  /**
+   * RoomMember createMany
+   */
+  export type RoomMemberCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RoomMembers.
+     */
+    data: RoomMemberCreateManyInput | RoomMemberCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RoomMember createManyAndReturn
+   */
+  export type RoomMemberCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * The data used to create many RoomMembers.
+     */
+    data: RoomMemberCreateManyInput | RoomMemberCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RoomMember update
+   */
+  export type RoomMemberUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RoomMember.
+     */
+    data: XOR<RoomMemberUpdateInput, RoomMemberUncheckedUpdateInput>
+    /**
+     * Choose, which RoomMember to update.
+     */
+    where: RoomMemberWhereUniqueInput
+  }
+
+  /**
+   * RoomMember updateMany
+   */
+  export type RoomMemberUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RoomMembers.
+     */
+    data: XOR<RoomMemberUpdateManyMutationInput, RoomMemberUncheckedUpdateManyInput>
+    /**
+     * Filter which RoomMembers to update
+     */
+    where?: RoomMemberWhereInput
+    /**
+     * Limit how many RoomMembers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RoomMember updateManyAndReturn
+   */
+  export type RoomMemberUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * The data used to update RoomMembers.
+     */
+    data: XOR<RoomMemberUpdateManyMutationInput, RoomMemberUncheckedUpdateManyInput>
+    /**
+     * Filter which RoomMembers to update
+     */
+    where?: RoomMemberWhereInput
+    /**
+     * Limit how many RoomMembers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * RoomMember upsert
+   */
+  export type RoomMemberUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RoomMember to update in case it exists.
+     */
+    where: RoomMemberWhereUniqueInput
+    /**
+     * In case the RoomMember found by the `where` argument doesn't exist, create a new RoomMember with this data.
+     */
+    create: XOR<RoomMemberCreateInput, RoomMemberUncheckedCreateInput>
+    /**
+     * In case the RoomMember was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RoomMemberUpdateInput, RoomMemberUncheckedUpdateInput>
+  }
+
+  /**
+   * RoomMember delete
+   */
+  export type RoomMemberDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+    /**
+     * Filter which RoomMember to delete.
+     */
+    where: RoomMemberWhereUniqueInput
+  }
+
+  /**
+   * RoomMember deleteMany
+   */
+  export type RoomMemberDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RoomMembers to delete
+     */
+    where?: RoomMemberWhereInput
+    /**
+     * Limit how many RoomMembers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RoomMember without action
+   */
+  export type RoomMemberDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoomMember
+     */
+    select?: RoomMemberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RoomMember
+     */
+    omit?: RoomMemberOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RoomMemberInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Invitation
+   */
+
+  export type AggregateInvitation = {
+    _count: InvitationCountAggregateOutputType | null
+    _min: InvitationMinAggregateOutputType | null
+    _max: InvitationMaxAggregateOutputType | null
+  }
+
+  export type InvitationMinAggregateOutputType = {
+    id: string | null
+    roomId: string | null
+    email: string | null
+    role: $Enums.UserRole | null
+    token: string | null
+    expiresAt: Date | null
+    invitedById: string | null
+    acceptedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InvitationMaxAggregateOutputType = {
+    id: string | null
+    roomId: string | null
+    email: string | null
+    role: $Enums.UserRole | null
+    token: string | null
+    expiresAt: Date | null
+    invitedById: string | null
+    acceptedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InvitationCountAggregateOutputType = {
+    id: number
+    roomId: number
+    email: number
+    role: number
+    token: number
+    expiresAt: number
+    invitedById: number
+    acceptedAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type InvitationMinAggregateInputType = {
+    id?: true
+    roomId?: true
+    email?: true
+    role?: true
+    token?: true
+    expiresAt?: true
+    invitedById?: true
+    acceptedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InvitationMaxAggregateInputType = {
+    id?: true
+    roomId?: true
+    email?: true
+    role?: true
+    token?: true
+    expiresAt?: true
+    invitedById?: true
+    acceptedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InvitationCountAggregateInputType = {
+    id?: true
+    roomId?: true
+    email?: true
+    role?: true
+    token?: true
+    expiresAt?: true
+    invitedById?: true
+    acceptedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type InvitationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Invitation to aggregate.
+     */
+    where?: InvitationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invitations to fetch.
+     */
+    orderBy?: InvitationOrderByWithRelationInput | InvitationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InvitationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invitations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invitations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Invitations
+    **/
+    _count?: true | InvitationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InvitationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InvitationMaxAggregateInputType
+  }
+
+  export type GetInvitationAggregateType<T extends InvitationAggregateArgs> = {
+        [P in keyof T & keyof AggregateInvitation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInvitation[P]>
+      : GetScalarType<T[P], AggregateInvitation[P]>
+  }
+
+
+
+
+  export type InvitationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvitationWhereInput
+    orderBy?: InvitationOrderByWithAggregationInput | InvitationOrderByWithAggregationInput[]
+    by: InvitationScalarFieldEnum[] | InvitationScalarFieldEnum
+    having?: InvitationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InvitationCountAggregateInputType | true
+    _min?: InvitationMinAggregateInputType
+    _max?: InvitationMaxAggregateInputType
+  }
+
+  export type InvitationGroupByOutputType = {
+    id: string
+    roomId: string
+    email: string
+    role: $Enums.UserRole
+    token: string
+    expiresAt: Date
+    invitedById: string | null
+    acceptedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: InvitationCountAggregateOutputType | null
+    _min: InvitationMinAggregateOutputType | null
+    _max: InvitationMaxAggregateOutputType | null
+  }
+
+  type GetInvitationGroupByPayload<T extends InvitationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InvitationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InvitationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InvitationGroupByOutputType[P]>
+            : GetScalarType<T[P], InvitationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InvitationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roomId?: boolean
+    email?: boolean
+    role?: boolean
+    token?: boolean
+    expiresAt?: boolean
+    invitedById?: boolean
+    acceptedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    invitedBy?: boolean | Invitation$invitedByArgs<ExtArgs>
+  }, ExtArgs["result"]["invitation"]>
+
+  export type InvitationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roomId?: boolean
+    email?: boolean
+    role?: boolean
+    token?: boolean
+    expiresAt?: boolean
+    invitedById?: boolean
+    acceptedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    invitedBy?: boolean | Invitation$invitedByArgs<ExtArgs>
+  }, ExtArgs["result"]["invitation"]>
+
+  export type InvitationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roomId?: boolean
+    email?: boolean
+    role?: boolean
+    token?: boolean
+    expiresAt?: boolean
+    invitedById?: boolean
+    acceptedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    invitedBy?: boolean | Invitation$invitedByArgs<ExtArgs>
+  }, ExtArgs["result"]["invitation"]>
+
+  export type InvitationSelectScalar = {
+    id?: boolean
+    roomId?: boolean
+    email?: boolean
+    role?: boolean
+    token?: boolean
+    expiresAt?: boolean
+    invitedById?: boolean
+    acceptedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type InvitationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "roomId" | "email" | "role" | "token" | "expiresAt" | "invitedById" | "acceptedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["invitation"]>
+  export type InvitationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    invitedBy?: boolean | Invitation$invitedByArgs<ExtArgs>
+  }
+  export type InvitationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    invitedBy?: boolean | Invitation$invitedByArgs<ExtArgs>
+  }
+  export type InvitationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    room?: boolean | RoomDefaultArgs<ExtArgs>
+    invitedBy?: boolean | Invitation$invitedByArgs<ExtArgs>
+  }
+
+  export type $InvitationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Invitation"
+    objects: {
+      room: Prisma.$RoomPayload<ExtArgs>
+      invitedBy: Prisma.$UserPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      roomId: string
+      email: string
+      role: $Enums.UserRole
+      token: string
+      expiresAt: Date
+      invitedById: string | null
+      acceptedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["invitation"]>
+    composites: {}
+  }
+
+  type InvitationGetPayload<S extends boolean | null | undefined | InvitationDefaultArgs> = $Result.GetResult<Prisma.$InvitationPayload, S>
+
+  type InvitationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InvitationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InvitationCountAggregateInputType | true
+    }
+
+  export interface InvitationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Invitation'], meta: { name: 'Invitation' } }
+    /**
+     * Find zero or one Invitation that matches the filter.
+     * @param {InvitationFindUniqueArgs} args - Arguments to find a Invitation
+     * @example
+     * // Get one Invitation
+     * const invitation = await prisma.invitation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InvitationFindUniqueArgs>(args: SelectSubset<T, InvitationFindUniqueArgs<ExtArgs>>): Prisma__InvitationClient<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Invitation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InvitationFindUniqueOrThrowArgs} args - Arguments to find a Invitation
+     * @example
+     * // Get one Invitation
+     * const invitation = await prisma.invitation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InvitationFindUniqueOrThrowArgs>(args: SelectSubset<T, InvitationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InvitationClient<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Invitation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvitationFindFirstArgs} args - Arguments to find a Invitation
+     * @example
+     * // Get one Invitation
+     * const invitation = await prisma.invitation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InvitationFindFirstArgs>(args?: SelectSubset<T, InvitationFindFirstArgs<ExtArgs>>): Prisma__InvitationClient<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Invitation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvitationFindFirstOrThrowArgs} args - Arguments to find a Invitation
+     * @example
+     * // Get one Invitation
+     * const invitation = await prisma.invitation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InvitationFindFirstOrThrowArgs>(args?: SelectSubset<T, InvitationFindFirstOrThrowArgs<ExtArgs>>): Prisma__InvitationClient<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Invitations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvitationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Invitations
+     * const invitations = await prisma.invitation.findMany()
+     * 
+     * // Get first 10 Invitations
+     * const invitations = await prisma.invitation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const invitationWithIdOnly = await prisma.invitation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InvitationFindManyArgs>(args?: SelectSubset<T, InvitationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Invitation.
+     * @param {InvitationCreateArgs} args - Arguments to create a Invitation.
+     * @example
+     * // Create one Invitation
+     * const Invitation = await prisma.invitation.create({
+     *   data: {
+     *     // ... data to create a Invitation
+     *   }
+     * })
+     * 
+     */
+    create<T extends InvitationCreateArgs>(args: SelectSubset<T, InvitationCreateArgs<ExtArgs>>): Prisma__InvitationClient<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Invitations.
+     * @param {InvitationCreateManyArgs} args - Arguments to create many Invitations.
+     * @example
+     * // Create many Invitations
+     * const invitation = await prisma.invitation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InvitationCreateManyArgs>(args?: SelectSubset<T, InvitationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Invitations and returns the data saved in the database.
+     * @param {InvitationCreateManyAndReturnArgs} args - Arguments to create many Invitations.
+     * @example
+     * // Create many Invitations
+     * const invitation = await prisma.invitation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Invitations and only return the `id`
+     * const invitationWithIdOnly = await prisma.invitation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InvitationCreateManyAndReturnArgs>(args?: SelectSubset<T, InvitationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Invitation.
+     * @param {InvitationDeleteArgs} args - Arguments to delete one Invitation.
+     * @example
+     * // Delete one Invitation
+     * const Invitation = await prisma.invitation.delete({
+     *   where: {
+     *     // ... filter to delete one Invitation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InvitationDeleteArgs>(args: SelectSubset<T, InvitationDeleteArgs<ExtArgs>>): Prisma__InvitationClient<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Invitation.
+     * @param {InvitationUpdateArgs} args - Arguments to update one Invitation.
+     * @example
+     * // Update one Invitation
+     * const invitation = await prisma.invitation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InvitationUpdateArgs>(args: SelectSubset<T, InvitationUpdateArgs<ExtArgs>>): Prisma__InvitationClient<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Invitations.
+     * @param {InvitationDeleteManyArgs} args - Arguments to filter Invitations to delete.
+     * @example
+     * // Delete a few Invitations
+     * const { count } = await prisma.invitation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InvitationDeleteManyArgs>(args?: SelectSubset<T, InvitationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Invitations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvitationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Invitations
+     * const invitation = await prisma.invitation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InvitationUpdateManyArgs>(args: SelectSubset<T, InvitationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Invitations and returns the data updated in the database.
+     * @param {InvitationUpdateManyAndReturnArgs} args - Arguments to update many Invitations.
+     * @example
+     * // Update many Invitations
+     * const invitation = await prisma.invitation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Invitations and only return the `id`
+     * const invitationWithIdOnly = await prisma.invitation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InvitationUpdateManyAndReturnArgs>(args: SelectSubset<T, InvitationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Invitation.
+     * @param {InvitationUpsertArgs} args - Arguments to update or create a Invitation.
+     * @example
+     * // Update or create a Invitation
+     * const invitation = await prisma.invitation.upsert({
+     *   create: {
+     *     // ... data to create a Invitation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Invitation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InvitationUpsertArgs>(args: SelectSubset<T, InvitationUpsertArgs<ExtArgs>>): Prisma__InvitationClient<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Invitations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvitationCountArgs} args - Arguments to filter Invitations to count.
+     * @example
+     * // Count the number of Invitations
+     * const count = await prisma.invitation.count({
+     *   where: {
+     *     // ... the filter for the Invitations we want to count
+     *   }
+     * })
+    **/
+    count<T extends InvitationCountArgs>(
+      args?: Subset<T, InvitationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InvitationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Invitation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvitationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InvitationAggregateArgs>(args: Subset<T, InvitationAggregateArgs>): Prisma.PrismaPromise<GetInvitationAggregateType<T>>
+
+    /**
+     * Group by Invitation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvitationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InvitationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InvitationGroupByArgs['orderBy'] }
+        : { orderBy?: InvitationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InvitationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInvitationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Invitation model
+   */
+  readonly fields: InvitationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Invitation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InvitationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    room<T extends RoomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoomDefaultArgs<ExtArgs>>): Prisma__RoomClient<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    invitedBy<T extends Invitation$invitedByArgs<ExtArgs> = {}>(args?: Subset<T, Invitation$invitedByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Invitation model
+   */
+  interface InvitationFieldRefs {
+    readonly id: FieldRef<"Invitation", 'String'>
+    readonly roomId: FieldRef<"Invitation", 'String'>
+    readonly email: FieldRef<"Invitation", 'String'>
+    readonly role: FieldRef<"Invitation", 'UserRole'>
+    readonly token: FieldRef<"Invitation", 'String'>
+    readonly expiresAt: FieldRef<"Invitation", 'DateTime'>
+    readonly invitedById: FieldRef<"Invitation", 'String'>
+    readonly acceptedAt: FieldRef<"Invitation", 'DateTime'>
+    readonly createdAt: FieldRef<"Invitation", 'DateTime'>
+    readonly updatedAt: FieldRef<"Invitation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Invitation findUnique
+   */
+  export type InvitationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invitation
+     */
+    select?: InvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invitation
+     */
+    omit?: InvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationInclude<ExtArgs> | null
+    /**
+     * Filter, which Invitation to fetch.
+     */
+    where: InvitationWhereUniqueInput
+  }
+
+  /**
+   * Invitation findUniqueOrThrow
+   */
+  export type InvitationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invitation
+     */
+    select?: InvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invitation
+     */
+    omit?: InvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationInclude<ExtArgs> | null
+    /**
+     * Filter, which Invitation to fetch.
+     */
+    where: InvitationWhereUniqueInput
+  }
+
+  /**
+   * Invitation findFirst
+   */
+  export type InvitationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invitation
+     */
+    select?: InvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invitation
+     */
+    omit?: InvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationInclude<ExtArgs> | null
+    /**
+     * Filter, which Invitation to fetch.
+     */
+    where?: InvitationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invitations to fetch.
+     */
+    orderBy?: InvitationOrderByWithRelationInput | InvitationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Invitations.
+     */
+    cursor?: InvitationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invitations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invitations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Invitations.
+     */
+    distinct?: InvitationScalarFieldEnum | InvitationScalarFieldEnum[]
+  }
+
+  /**
+   * Invitation findFirstOrThrow
+   */
+  export type InvitationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invitation
+     */
+    select?: InvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invitation
+     */
+    omit?: InvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationInclude<ExtArgs> | null
+    /**
+     * Filter, which Invitation to fetch.
+     */
+    where?: InvitationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invitations to fetch.
+     */
+    orderBy?: InvitationOrderByWithRelationInput | InvitationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Invitations.
+     */
+    cursor?: InvitationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invitations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invitations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Invitations.
+     */
+    distinct?: InvitationScalarFieldEnum | InvitationScalarFieldEnum[]
+  }
+
+  /**
+   * Invitation findMany
+   */
+  export type InvitationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invitation
+     */
+    select?: InvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invitation
+     */
+    omit?: InvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationInclude<ExtArgs> | null
+    /**
+     * Filter, which Invitations to fetch.
+     */
+    where?: InvitationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invitations to fetch.
+     */
+    orderBy?: InvitationOrderByWithRelationInput | InvitationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Invitations.
+     */
+    cursor?: InvitationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invitations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invitations.
+     */
+    skip?: number
+    distinct?: InvitationScalarFieldEnum | InvitationScalarFieldEnum[]
+  }
+
+  /**
+   * Invitation create
+   */
+  export type InvitationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invitation
+     */
+    select?: InvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invitation
+     */
+    omit?: InvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Invitation.
+     */
+    data: XOR<InvitationCreateInput, InvitationUncheckedCreateInput>
+  }
+
+  /**
+   * Invitation createMany
+   */
+  export type InvitationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Invitations.
+     */
+    data: InvitationCreateManyInput | InvitationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Invitation createManyAndReturn
+   */
+  export type InvitationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invitation
+     */
+    select?: InvitationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invitation
+     */
+    omit?: InvitationOmit<ExtArgs> | null
+    /**
+     * The data used to create many Invitations.
+     */
+    data: InvitationCreateManyInput | InvitationCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Invitation update
+   */
+  export type InvitationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invitation
+     */
+    select?: InvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invitation
+     */
+    omit?: InvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Invitation.
+     */
+    data: XOR<InvitationUpdateInput, InvitationUncheckedUpdateInput>
+    /**
+     * Choose, which Invitation to update.
+     */
+    where: InvitationWhereUniqueInput
+  }
+
+  /**
+   * Invitation updateMany
+   */
+  export type InvitationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Invitations.
+     */
+    data: XOR<InvitationUpdateManyMutationInput, InvitationUncheckedUpdateManyInput>
+    /**
+     * Filter which Invitations to update
+     */
+    where?: InvitationWhereInput
+    /**
+     * Limit how many Invitations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Invitation updateManyAndReturn
+   */
+  export type InvitationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invitation
+     */
+    select?: InvitationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invitation
+     */
+    omit?: InvitationOmit<ExtArgs> | null
+    /**
+     * The data used to update Invitations.
+     */
+    data: XOR<InvitationUpdateManyMutationInput, InvitationUncheckedUpdateManyInput>
+    /**
+     * Filter which Invitations to update
+     */
+    where?: InvitationWhereInput
+    /**
+     * Limit how many Invitations to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Invitation upsert
+   */
+  export type InvitationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invitation
+     */
+    select?: InvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invitation
+     */
+    omit?: InvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Invitation to update in case it exists.
+     */
+    where: InvitationWhereUniqueInput
+    /**
+     * In case the Invitation found by the `where` argument doesn't exist, create a new Invitation with this data.
+     */
+    create: XOR<InvitationCreateInput, InvitationUncheckedCreateInput>
+    /**
+     * In case the Invitation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InvitationUpdateInput, InvitationUncheckedUpdateInput>
+  }
+
+  /**
+   * Invitation delete
+   */
+  export type InvitationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invitation
+     */
+    select?: InvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invitation
+     */
+    omit?: InvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationInclude<ExtArgs> | null
+    /**
+     * Filter which Invitation to delete.
+     */
+    where: InvitationWhereUniqueInput
+  }
+
+  /**
+   * Invitation deleteMany
+   */
+  export type InvitationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Invitations to delete
+     */
+    where?: InvitationWhereInput
+    /**
+     * Limit how many Invitations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Invitation.invitedBy
+   */
+  export type Invitation$invitedByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Invitation without action
+   */
+  export type InvitationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invitation
+     */
+    select?: InvitationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invitation
+     */
+    omit?: InvitationOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvitationInclude<ExtArgs> | null
   }
 
 
@@ -10771,10 +14825,25 @@ export namespace Prisma {
     password: 'password',
     role: 'role',
     stars: 'stars',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const GoalScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    description: 'description',
+    starReward: 'starReward',
+    creatorId: 'creatorId',
+    completedAt: 'completedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type GoalScalarFieldEnum = (typeof GoalScalarFieldEnum)[keyof typeof GoalScalarFieldEnum]
 
 
   export const QuestScalarFieldEnum: {
@@ -10784,7 +14853,10 @@ export namespace Prisma {
     deadline: 'deadline',
     difficulty: 'difficulty',
     creatorId: 'creatorId',
-    goalId: 'goalId'
+    goalId: 'goalId',
+    roomId: 'roomId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type QuestScalarFieldEnum = (typeof QuestScalarFieldEnum)[keyof typeof QuestScalarFieldEnum]
@@ -10796,7 +14868,9 @@ export namespace Prisma {
     isLate: 'isLate',
     starsAwarded: 'starsAwarded',
     questId: 'questId',
-    userId: 'userId'
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type QuestCompletionScalarFieldEnum = (typeof QuestCompletionScalarFieldEnum)[keyof typeof QuestCompletionScalarFieldEnum]
@@ -10807,7 +14881,9 @@ export namespace Prisma {
     title: 'title',
     description: 'description',
     starCost: 'starCost',
-    creatorId: 'creatorId'
+    creatorId: 'creatorId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type RewardScalarFieldEnum = (typeof RewardScalarFieldEnum)[keyof typeof RewardScalarFieldEnum]
@@ -10817,7 +14893,9 @@ export namespace Prisma {
     id: 'id',
     purchasedAt: 'purchasedAt',
     rewardId: 'rewardId',
-    childId: 'childId'
+    childId: 'childId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type RewardPurchaseScalarFieldEnum = (typeof RewardPurchaseScalarFieldEnum)[keyof typeof RewardPurchaseScalarFieldEnum]
@@ -10828,7 +14906,9 @@ export namespace Prisma {
     name: 'name',
     description: 'description',
     cooldownDays: 'cooldownDays',
-    durationHours: 'durationHours'
+    durationHours: 'durationHours',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type BoostScalarFieldEnum = (typeof BoostScalarFieldEnum)[keyof typeof BoostScalarFieldEnum]
@@ -10839,22 +14919,52 @@ export namespace Prisma {
     activatedAt: 'activatedAt',
     expiresAt: 'expiresAt',
     boostId: 'boostId',
-    userId: 'userId'
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type BoostActivationScalarFieldEnum = (typeof BoostActivationScalarFieldEnum)[keyof typeof BoostActivationScalarFieldEnum]
 
 
-  export const GoalScalarFieldEnum: {
+  export const RoomScalarFieldEnum: {
     id: 'id',
-    title: 'title',
-    description: 'description',
-    starReward: 'starReward',
-    creatorId: 'creatorId',
-    completedAt: 'completedAt'
+    name: 'name',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    createUserId: 'createUserId'
   };
 
-  export type GoalScalarFieldEnum = (typeof GoalScalarFieldEnum)[keyof typeof GoalScalarFieldEnum]
+  export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
+
+
+  export const RoomMemberScalarFieldEnum: {
+    id: 'id',
+    roomId: 'roomId',
+    userId: 'userId',
+    role: 'role',
+    joinedAt: 'joinedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type RoomMemberScalarFieldEnum = (typeof RoomMemberScalarFieldEnum)[keyof typeof RoomMemberScalarFieldEnum]
+
+
+  export const InvitationScalarFieldEnum: {
+    id: 'id',
+    roomId: 'roomId',
+    email: 'email',
+    role: 'role',
+    token: 'token',
+    expiresAt: 'expiresAt',
+    invitedById: 'invitedById',
+    acceptedAt: 'acceptedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type InvitationScalarFieldEnum = (typeof InvitationScalarFieldEnum)[keyof typeof InvitationScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -10974,14 +15084,18 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
-    stars?: IntFilter<"User"> | number
+    stars?: IntNullableFilter<"User"> | number | null
     createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
     quests?: QuestListRelationFilter
     completions?: QuestCompletionListRelationFilter
     rewardsPurchase?: RewardPurchaseListRelationFilter
     rewards?: RewardListRelationFilter
     boosts?: BoostActivationListRelationFilter
     goals?: GoalListRelationFilter
+    rooms?: RoomMemberListRelationFilter
+    createdRooms?: RoomListRelationFilter
+    roomInvitations?: InvitationListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -10989,14 +15103,18 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    stars?: SortOrder
+    stars?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     quests?: QuestOrderByRelationAggregateInput
     completions?: QuestCompletionOrderByRelationAggregateInput
     rewardsPurchase?: RewardPurchaseOrderByRelationAggregateInput
     rewards?: RewardOrderByRelationAggregateInput
     boosts?: BoostActivationOrderByRelationAggregateInput
     goals?: GoalOrderByRelationAggregateInput
+    rooms?: RoomMemberOrderByRelationAggregateInput
+    createdRooms?: RoomOrderByRelationAggregateInput
+    roomInvitations?: InvitationOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -11007,14 +15125,18 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     password?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
-    stars?: IntFilter<"User"> | number
+    stars?: IntNullableFilter<"User"> | number | null
     createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
     quests?: QuestListRelationFilter
     completions?: QuestCompletionListRelationFilter
     rewardsPurchase?: RewardPurchaseListRelationFilter
     rewards?: RewardListRelationFilter
     boosts?: BoostActivationListRelationFilter
     goals?: GoalListRelationFilter
+    rooms?: RoomMemberListRelationFilter
+    createdRooms?: RoomListRelationFilter
+    roomInvitations?: InvitationListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -11022,8 +15144,9 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    stars?: SortOrder
+    stars?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -11039,8 +15162,84 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
-    stars?: IntWithAggregatesFilter<"User"> | number
+    stars?: IntNullableWithAggregatesFilter<"User"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+  }
+
+  export type GoalWhereInput = {
+    AND?: GoalWhereInput | GoalWhereInput[]
+    OR?: GoalWhereInput[]
+    NOT?: GoalWhereInput | GoalWhereInput[]
+    id?: StringFilter<"Goal"> | string
+    title?: StringFilter<"Goal"> | string
+    description?: StringNullableFilter<"Goal"> | string | null
+    starReward?: IntFilter<"Goal"> | number
+    creatorId?: StringFilter<"Goal"> | string
+    completedAt?: DateTimeNullableFilter<"Goal"> | Date | string | null
+    createdAt?: DateTimeFilter<"Goal"> | Date | string
+    updatedAt?: DateTimeFilter<"Goal"> | Date | string
+    creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    quests?: QuestListRelationFilter
+  }
+
+  export type GoalOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    starReward?: SortOrder
+    creatorId?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    creator?: UserOrderByWithRelationInput
+    quests?: QuestOrderByRelationAggregateInput
+  }
+
+  export type GoalWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: GoalWhereInput | GoalWhereInput[]
+    OR?: GoalWhereInput[]
+    NOT?: GoalWhereInput | GoalWhereInput[]
+    title?: StringFilter<"Goal"> | string
+    description?: StringNullableFilter<"Goal"> | string | null
+    starReward?: IntFilter<"Goal"> | number
+    creatorId?: StringFilter<"Goal"> | string
+    completedAt?: DateTimeNullableFilter<"Goal"> | Date | string | null
+    createdAt?: DateTimeFilter<"Goal"> | Date | string
+    updatedAt?: DateTimeFilter<"Goal"> | Date | string
+    creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    quests?: QuestListRelationFilter
+  }, "id">
+
+  export type GoalOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrderInput | SortOrder
+    starReward?: SortOrder
+    creatorId?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: GoalCountOrderByAggregateInput
+    _avg?: GoalAvgOrderByAggregateInput
+    _max?: GoalMaxOrderByAggregateInput
+    _min?: GoalMinOrderByAggregateInput
+    _sum?: GoalSumOrderByAggregateInput
+  }
+
+  export type GoalScalarWhereWithAggregatesInput = {
+    AND?: GoalScalarWhereWithAggregatesInput | GoalScalarWhereWithAggregatesInput[]
+    OR?: GoalScalarWhereWithAggregatesInput[]
+    NOT?: GoalScalarWhereWithAggregatesInput | GoalScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Goal"> | string
+    title?: StringWithAggregatesFilter<"Goal"> | string
+    description?: StringNullableWithAggregatesFilter<"Goal"> | string | null
+    starReward?: IntWithAggregatesFilter<"Goal"> | number
+    creatorId?: StringWithAggregatesFilter<"Goal"> | string
+    completedAt?: DateTimeNullableWithAggregatesFilter<"Goal"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Goal"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Goal"> | Date | string
   }
 
   export type QuestWhereInput = {
@@ -11054,8 +15253,12 @@ export namespace Prisma {
     difficulty?: IntFilter<"Quest"> | number
     creatorId?: StringFilter<"Quest"> | string
     goalId?: StringNullableFilter<"Quest"> | string | null
+    roomId?: StringNullableFilter<"Quest"> | string | null
+    createdAt?: DateTimeFilter<"Quest"> | Date | string
+    updatedAt?: DateTimeFilter<"Quest"> | Date | string
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
     goal?: XOR<GoalNullableScalarRelationFilter, GoalWhereInput> | null
+    room?: XOR<RoomNullableScalarRelationFilter, RoomWhereInput> | null
     completions?: QuestCompletionListRelationFilter
   }
 
@@ -11067,8 +15270,12 @@ export namespace Prisma {
     difficulty?: SortOrder
     creatorId?: SortOrder
     goalId?: SortOrderInput | SortOrder
+    roomId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     creator?: UserOrderByWithRelationInput
     goal?: GoalOrderByWithRelationInput
+    room?: RoomOrderByWithRelationInput
     completions?: QuestCompletionOrderByRelationAggregateInput
   }
 
@@ -11083,8 +15290,12 @@ export namespace Prisma {
     difficulty?: IntFilter<"Quest"> | number
     creatorId?: StringFilter<"Quest"> | string
     goalId?: StringNullableFilter<"Quest"> | string | null
+    roomId?: StringNullableFilter<"Quest"> | string | null
+    createdAt?: DateTimeFilter<"Quest"> | Date | string
+    updatedAt?: DateTimeFilter<"Quest"> | Date | string
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
     goal?: XOR<GoalNullableScalarRelationFilter, GoalWhereInput> | null
+    room?: XOR<RoomNullableScalarRelationFilter, RoomWhereInput> | null
     completions?: QuestCompletionListRelationFilter
   }, "id">
 
@@ -11096,6 +15307,9 @@ export namespace Prisma {
     difficulty?: SortOrder
     creatorId?: SortOrder
     goalId?: SortOrderInput | SortOrder
+    roomId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: QuestCountOrderByAggregateInput
     _avg?: QuestAvgOrderByAggregateInput
     _max?: QuestMaxOrderByAggregateInput
@@ -11114,6 +15328,9 @@ export namespace Prisma {
     difficulty?: IntWithAggregatesFilter<"Quest"> | number
     creatorId?: StringWithAggregatesFilter<"Quest"> | string
     goalId?: StringNullableWithAggregatesFilter<"Quest"> | string | null
+    roomId?: StringNullableWithAggregatesFilter<"Quest"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Quest"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Quest"> | Date | string
   }
 
   export type QuestCompletionWhereInput = {
@@ -11126,6 +15343,8 @@ export namespace Prisma {
     starsAwarded?: IntFilter<"QuestCompletion"> | number
     questId?: StringFilter<"QuestCompletion"> | string
     userId?: StringFilter<"QuestCompletion"> | string
+    createdAt?: DateTimeFilter<"QuestCompletion"> | Date | string
+    updatedAt?: DateTimeFilter<"QuestCompletion"> | Date | string
     quest?: XOR<QuestScalarRelationFilter, QuestWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -11137,6 +15356,8 @@ export namespace Prisma {
     starsAwarded?: SortOrder
     questId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     quest?: QuestOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
@@ -11151,6 +15372,8 @@ export namespace Prisma {
     starsAwarded?: IntFilter<"QuestCompletion"> | number
     questId?: StringFilter<"QuestCompletion"> | string
     userId?: StringFilter<"QuestCompletion"> | string
+    createdAt?: DateTimeFilter<"QuestCompletion"> | Date | string
+    updatedAt?: DateTimeFilter<"QuestCompletion"> | Date | string
     quest?: XOR<QuestScalarRelationFilter, QuestWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
@@ -11162,6 +15385,8 @@ export namespace Prisma {
     starsAwarded?: SortOrder
     questId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: QuestCompletionCountOrderByAggregateInput
     _avg?: QuestCompletionAvgOrderByAggregateInput
     _max?: QuestCompletionMaxOrderByAggregateInput
@@ -11179,6 +15404,8 @@ export namespace Prisma {
     starsAwarded?: IntWithAggregatesFilter<"QuestCompletion"> | number
     questId?: StringWithAggregatesFilter<"QuestCompletion"> | string
     userId?: StringWithAggregatesFilter<"QuestCompletion"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"QuestCompletion"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"QuestCompletion"> | Date | string
   }
 
   export type RewardWhereInput = {
@@ -11190,6 +15417,8 @@ export namespace Prisma {
     description?: StringNullableFilter<"Reward"> | string | null
     starCost?: IntFilter<"Reward"> | number
     creatorId?: StringFilter<"Reward"> | string
+    createdAt?: DateTimeFilter<"Reward"> | Date | string
+    updatedAt?: DateTimeFilter<"Reward"> | Date | string
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
     purchases?: RewardPurchaseListRelationFilter
   }
@@ -11200,6 +15429,8 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     starCost?: SortOrder
     creatorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     creator?: UserOrderByWithRelationInput
     purchases?: RewardPurchaseOrderByRelationAggregateInput
   }
@@ -11213,6 +15444,8 @@ export namespace Prisma {
     description?: StringNullableFilter<"Reward"> | string | null
     starCost?: IntFilter<"Reward"> | number
     creatorId?: StringFilter<"Reward"> | string
+    createdAt?: DateTimeFilter<"Reward"> | Date | string
+    updatedAt?: DateTimeFilter<"Reward"> | Date | string
     creator?: XOR<UserScalarRelationFilter, UserWhereInput>
     purchases?: RewardPurchaseListRelationFilter
   }, "id">
@@ -11223,6 +15456,8 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     starCost?: SortOrder
     creatorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: RewardCountOrderByAggregateInput
     _avg?: RewardAvgOrderByAggregateInput
     _max?: RewardMaxOrderByAggregateInput
@@ -11239,6 +15474,8 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Reward"> | string | null
     starCost?: IntWithAggregatesFilter<"Reward"> | number
     creatorId?: StringWithAggregatesFilter<"Reward"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Reward"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Reward"> | Date | string
   }
 
   export type RewardPurchaseWhereInput = {
@@ -11249,6 +15486,8 @@ export namespace Prisma {
     purchasedAt?: DateTimeFilter<"RewardPurchase"> | Date | string
     rewardId?: StringFilter<"RewardPurchase"> | string
     childId?: StringFilter<"RewardPurchase"> | string
+    createdAt?: DateTimeFilter<"RewardPurchase"> | Date | string
+    updatedAt?: DateTimeFilter<"RewardPurchase"> | Date | string
     reward?: XOR<RewardScalarRelationFilter, RewardWhereInput>
     child?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -11258,6 +15497,8 @@ export namespace Prisma {
     purchasedAt?: SortOrder
     rewardId?: SortOrder
     childId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     reward?: RewardOrderByWithRelationInput
     child?: UserOrderByWithRelationInput
   }
@@ -11270,6 +15511,8 @@ export namespace Prisma {
     purchasedAt?: DateTimeFilter<"RewardPurchase"> | Date | string
     rewardId?: StringFilter<"RewardPurchase"> | string
     childId?: StringFilter<"RewardPurchase"> | string
+    createdAt?: DateTimeFilter<"RewardPurchase"> | Date | string
+    updatedAt?: DateTimeFilter<"RewardPurchase"> | Date | string
     reward?: XOR<RewardScalarRelationFilter, RewardWhereInput>
     child?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
@@ -11279,6 +15522,8 @@ export namespace Prisma {
     purchasedAt?: SortOrder
     rewardId?: SortOrder
     childId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: RewardPurchaseCountOrderByAggregateInput
     _max?: RewardPurchaseMaxOrderByAggregateInput
     _min?: RewardPurchaseMinOrderByAggregateInput
@@ -11292,6 +15537,8 @@ export namespace Prisma {
     purchasedAt?: DateTimeWithAggregatesFilter<"RewardPurchase"> | Date | string
     rewardId?: StringWithAggregatesFilter<"RewardPurchase"> | string
     childId?: StringWithAggregatesFilter<"RewardPurchase"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"RewardPurchase"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"RewardPurchase"> | Date | string
   }
 
   export type BoostWhereInput = {
@@ -11303,6 +15550,8 @@ export namespace Prisma {
     description?: StringNullableFilter<"Boost"> | string | null
     cooldownDays?: IntFilter<"Boost"> | number
     durationHours?: IntFilter<"Boost"> | number
+    createdAt?: DateTimeFilter<"Boost"> | Date | string
+    updatedAt?: DateTimeFilter<"Boost"> | Date | string
     activations?: BoostActivationListRelationFilter
   }
 
@@ -11312,6 +15561,8 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     cooldownDays?: SortOrder
     durationHours?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     activations?: BoostActivationOrderByRelationAggregateInput
   }
 
@@ -11324,6 +15575,8 @@ export namespace Prisma {
     description?: StringNullableFilter<"Boost"> | string | null
     cooldownDays?: IntFilter<"Boost"> | number
     durationHours?: IntFilter<"Boost"> | number
+    createdAt?: DateTimeFilter<"Boost"> | Date | string
+    updatedAt?: DateTimeFilter<"Boost"> | Date | string
     activations?: BoostActivationListRelationFilter
   }, "id">
 
@@ -11333,6 +15586,8 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     cooldownDays?: SortOrder
     durationHours?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: BoostCountOrderByAggregateInput
     _avg?: BoostAvgOrderByAggregateInput
     _max?: BoostMaxOrderByAggregateInput
@@ -11349,6 +15604,8 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Boost"> | string | null
     cooldownDays?: IntWithAggregatesFilter<"Boost"> | number
     durationHours?: IntWithAggregatesFilter<"Boost"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"Boost"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Boost"> | Date | string
   }
 
   export type BoostActivationWhereInput = {
@@ -11360,6 +15617,8 @@ export namespace Prisma {
     expiresAt?: DateTimeFilter<"BoostActivation"> | Date | string
     boostId?: StringFilter<"BoostActivation"> | string
     userId?: StringFilter<"BoostActivation"> | string
+    createdAt?: DateTimeFilter<"BoostActivation"> | Date | string
+    updatedAt?: DateTimeFilter<"BoostActivation"> | Date | string
     boost?: XOR<BoostScalarRelationFilter, BoostWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -11370,6 +15629,8 @@ export namespace Prisma {
     expiresAt?: SortOrder
     boostId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     boost?: BoostOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
@@ -11383,6 +15644,8 @@ export namespace Prisma {
     expiresAt?: DateTimeFilter<"BoostActivation"> | Date | string
     boostId?: StringFilter<"BoostActivation"> | string
     userId?: StringFilter<"BoostActivation"> | string
+    createdAt?: DateTimeFilter<"BoostActivation"> | Date | string
+    updatedAt?: DateTimeFilter<"BoostActivation"> | Date | string
     boost?: XOR<BoostScalarRelationFilter, BoostWhereInput>
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
@@ -11393,6 +15656,8 @@ export namespace Prisma {
     expiresAt?: SortOrder
     boostId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: BoostActivationCountOrderByAggregateInput
     _max?: BoostActivationMaxOrderByAggregateInput
     _min?: BoostActivationMinOrderByAggregateInput
@@ -11407,71 +15672,223 @@ export namespace Prisma {
     expiresAt?: DateTimeWithAggregatesFilter<"BoostActivation"> | Date | string
     boostId?: StringWithAggregatesFilter<"BoostActivation"> | string
     userId?: StringWithAggregatesFilter<"BoostActivation"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"BoostActivation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BoostActivation"> | Date | string
   }
 
-  export type GoalWhereInput = {
-    AND?: GoalWhereInput | GoalWhereInput[]
-    OR?: GoalWhereInput[]
-    NOT?: GoalWhereInput | GoalWhereInput[]
-    id?: StringFilter<"Goal"> | string
-    title?: StringFilter<"Goal"> | string
-    description?: StringNullableFilter<"Goal"> | string | null
-    starReward?: IntFilter<"Goal"> | number
-    creatorId?: StringFilter<"Goal"> | string
-    completedAt?: DateTimeNullableFilter<"Goal"> | Date | string | null
-    creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+  export type RoomWhereInput = {
+    AND?: RoomWhereInput | RoomWhereInput[]
+    OR?: RoomWhereInput[]
+    NOT?: RoomWhereInput | RoomWhereInput[]
+    id?: StringFilter<"Room"> | string
+    name?: StringFilter<"Room"> | string
+    createdAt?: DateTimeFilter<"Room"> | Date | string
+    updatedAt?: DateTimeFilter<"Room"> | Date | string
+    createUserId?: StringFilter<"Room"> | string
+    createUser?: XOR<UserScalarRelationFilter, UserWhereInput>
+    members?: RoomMemberListRelationFilter
+    invitations?: InvitationListRelationFilter
     quests?: QuestListRelationFilter
   }
 
-  export type GoalOrderByWithRelationInput = {
+  export type RoomOrderByWithRelationInput = {
     id?: SortOrder
-    title?: SortOrder
-    description?: SortOrderInput | SortOrder
-    starReward?: SortOrder
-    creatorId?: SortOrder
-    completedAt?: SortOrderInput | SortOrder
-    creator?: UserOrderByWithRelationInput
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createUserId?: SortOrder
+    createUser?: UserOrderByWithRelationInput
+    members?: RoomMemberOrderByRelationAggregateInput
+    invitations?: InvitationOrderByRelationAggregateInput
     quests?: QuestOrderByRelationAggregateInput
   }
 
-  export type GoalWhereUniqueInput = Prisma.AtLeast<{
+  export type RoomWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: GoalWhereInput | GoalWhereInput[]
-    OR?: GoalWhereInput[]
-    NOT?: GoalWhereInput | GoalWhereInput[]
-    title?: StringFilter<"Goal"> | string
-    description?: StringNullableFilter<"Goal"> | string | null
-    starReward?: IntFilter<"Goal"> | number
-    creatorId?: StringFilter<"Goal"> | string
-    completedAt?: DateTimeNullableFilter<"Goal"> | Date | string | null
-    creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    AND?: RoomWhereInput | RoomWhereInput[]
+    OR?: RoomWhereInput[]
+    NOT?: RoomWhereInput | RoomWhereInput[]
+    name?: StringFilter<"Room"> | string
+    createdAt?: DateTimeFilter<"Room"> | Date | string
+    updatedAt?: DateTimeFilter<"Room"> | Date | string
+    createUserId?: StringFilter<"Room"> | string
+    createUser?: XOR<UserScalarRelationFilter, UserWhereInput>
+    members?: RoomMemberListRelationFilter
+    invitations?: InvitationListRelationFilter
     quests?: QuestListRelationFilter
   }, "id">
 
-  export type GoalOrderByWithAggregationInput = {
+  export type RoomOrderByWithAggregationInput = {
     id?: SortOrder
-    title?: SortOrder
-    description?: SortOrderInput | SortOrder
-    starReward?: SortOrder
-    creatorId?: SortOrder
-    completedAt?: SortOrderInput | SortOrder
-    _count?: GoalCountOrderByAggregateInput
-    _avg?: GoalAvgOrderByAggregateInput
-    _max?: GoalMaxOrderByAggregateInput
-    _min?: GoalMinOrderByAggregateInput
-    _sum?: GoalSumOrderByAggregateInput
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createUserId?: SortOrder
+    _count?: RoomCountOrderByAggregateInput
+    _max?: RoomMaxOrderByAggregateInput
+    _min?: RoomMinOrderByAggregateInput
   }
 
-  export type GoalScalarWhereWithAggregatesInput = {
-    AND?: GoalScalarWhereWithAggregatesInput | GoalScalarWhereWithAggregatesInput[]
-    OR?: GoalScalarWhereWithAggregatesInput[]
-    NOT?: GoalScalarWhereWithAggregatesInput | GoalScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Goal"> | string
-    title?: StringWithAggregatesFilter<"Goal"> | string
-    description?: StringNullableWithAggregatesFilter<"Goal"> | string | null
-    starReward?: IntWithAggregatesFilter<"Goal"> | number
-    creatorId?: StringWithAggregatesFilter<"Goal"> | string
-    completedAt?: DateTimeNullableWithAggregatesFilter<"Goal"> | Date | string | null
+  export type RoomScalarWhereWithAggregatesInput = {
+    AND?: RoomScalarWhereWithAggregatesInput | RoomScalarWhereWithAggregatesInput[]
+    OR?: RoomScalarWhereWithAggregatesInput[]
+    NOT?: RoomScalarWhereWithAggregatesInput | RoomScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Room"> | string
+    name?: StringWithAggregatesFilter<"Room"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Room"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Room"> | Date | string
+    createUserId?: StringWithAggregatesFilter<"Room"> | string
+  }
+
+  export type RoomMemberWhereInput = {
+    AND?: RoomMemberWhereInput | RoomMemberWhereInput[]
+    OR?: RoomMemberWhereInput[]
+    NOT?: RoomMemberWhereInput | RoomMemberWhereInput[]
+    id?: StringFilter<"RoomMember"> | string
+    roomId?: StringFilter<"RoomMember"> | string
+    userId?: StringFilter<"RoomMember"> | string
+    role?: EnumUserRoleFilter<"RoomMember"> | $Enums.UserRole
+    joinedAt?: DateTimeFilter<"RoomMember"> | Date | string
+    createdAt?: DateTimeFilter<"RoomMember"> | Date | string
+    updatedAt?: DateTimeFilter<"RoomMember"> | Date | string
+    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type RoomMemberOrderByWithRelationInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    userId?: SortOrder
+    role?: SortOrder
+    joinedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    room?: RoomOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type RoomMemberWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RoomMemberWhereInput | RoomMemberWhereInput[]
+    OR?: RoomMemberWhereInput[]
+    NOT?: RoomMemberWhereInput | RoomMemberWhereInput[]
+    roomId?: StringFilter<"RoomMember"> | string
+    userId?: StringFilter<"RoomMember"> | string
+    role?: EnumUserRoleFilter<"RoomMember"> | $Enums.UserRole
+    joinedAt?: DateTimeFilter<"RoomMember"> | Date | string
+    createdAt?: DateTimeFilter<"RoomMember"> | Date | string
+    updatedAt?: DateTimeFilter<"RoomMember"> | Date | string
+    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type RoomMemberOrderByWithAggregationInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    userId?: SortOrder
+    role?: SortOrder
+    joinedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: RoomMemberCountOrderByAggregateInput
+    _max?: RoomMemberMaxOrderByAggregateInput
+    _min?: RoomMemberMinOrderByAggregateInput
+  }
+
+  export type RoomMemberScalarWhereWithAggregatesInput = {
+    AND?: RoomMemberScalarWhereWithAggregatesInput | RoomMemberScalarWhereWithAggregatesInput[]
+    OR?: RoomMemberScalarWhereWithAggregatesInput[]
+    NOT?: RoomMemberScalarWhereWithAggregatesInput | RoomMemberScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RoomMember"> | string
+    roomId?: StringWithAggregatesFilter<"RoomMember"> | string
+    userId?: StringWithAggregatesFilter<"RoomMember"> | string
+    role?: EnumUserRoleWithAggregatesFilter<"RoomMember"> | $Enums.UserRole
+    joinedAt?: DateTimeWithAggregatesFilter<"RoomMember"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"RoomMember"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"RoomMember"> | Date | string
+  }
+
+  export type InvitationWhereInput = {
+    AND?: InvitationWhereInput | InvitationWhereInput[]
+    OR?: InvitationWhereInput[]
+    NOT?: InvitationWhereInput | InvitationWhereInput[]
+    id?: StringFilter<"Invitation"> | string
+    roomId?: StringFilter<"Invitation"> | string
+    email?: StringFilter<"Invitation"> | string
+    role?: EnumUserRoleFilter<"Invitation"> | $Enums.UserRole
+    token?: StringFilter<"Invitation"> | string
+    expiresAt?: DateTimeFilter<"Invitation"> | Date | string
+    invitedById?: StringNullableFilter<"Invitation"> | string | null
+    acceptedAt?: DateTimeNullableFilter<"Invitation"> | Date | string | null
+    createdAt?: DateTimeFilter<"Invitation"> | Date | string
+    updatedAt?: DateTimeFilter<"Invitation"> | Date | string
+    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
+    invitedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }
+
+  export type InvitationOrderByWithRelationInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    email?: SortOrder
+    role?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    invitedById?: SortOrderInput | SortOrder
+    acceptedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    room?: RoomOrderByWithRelationInput
+    invitedBy?: UserOrderByWithRelationInput
+  }
+
+  export type InvitationWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    token?: string
+    AND?: InvitationWhereInput | InvitationWhereInput[]
+    OR?: InvitationWhereInput[]
+    NOT?: InvitationWhereInput | InvitationWhereInput[]
+    roomId?: StringFilter<"Invitation"> | string
+    email?: StringFilter<"Invitation"> | string
+    role?: EnumUserRoleFilter<"Invitation"> | $Enums.UserRole
+    expiresAt?: DateTimeFilter<"Invitation"> | Date | string
+    invitedById?: StringNullableFilter<"Invitation"> | string | null
+    acceptedAt?: DateTimeNullableFilter<"Invitation"> | Date | string | null
+    createdAt?: DateTimeFilter<"Invitation"> | Date | string
+    updatedAt?: DateTimeFilter<"Invitation"> | Date | string
+    room?: XOR<RoomScalarRelationFilter, RoomWhereInput>
+    invitedBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+  }, "id" | "token">
+
+  export type InvitationOrderByWithAggregationInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    email?: SortOrder
+    role?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    invitedById?: SortOrderInput | SortOrder
+    acceptedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: InvitationCountOrderByAggregateInput
+    _max?: InvitationMaxOrderByAggregateInput
+    _min?: InvitationMinOrderByAggregateInput
+  }
+
+  export type InvitationScalarWhereWithAggregatesInput = {
+    AND?: InvitationScalarWhereWithAggregatesInput | InvitationScalarWhereWithAggregatesInput[]
+    OR?: InvitationScalarWhereWithAggregatesInput[]
+    NOT?: InvitationScalarWhereWithAggregatesInput | InvitationScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Invitation"> | string
+    roomId?: StringWithAggregatesFilter<"Invitation"> | string
+    email?: StringWithAggregatesFilter<"Invitation"> | string
+    role?: EnumUserRoleWithAggregatesFilter<"Invitation"> | $Enums.UserRole
+    token?: StringWithAggregatesFilter<"Invitation"> | string
+    expiresAt?: DateTimeWithAggregatesFilter<"Invitation"> | Date | string
+    invitedById?: StringNullableWithAggregatesFilter<"Invitation"> | string | null
+    acceptedAt?: DateTimeNullableWithAggregatesFilter<"Invitation"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Invitation"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Invitation"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -11479,14 +15896,18 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.UserRole
-    stars?: number
+    stars?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
     quests?: QuestCreateNestedManyWithoutCreatorInput
     completions?: QuestCompletionCreateNestedManyWithoutUserInput
     rewardsPurchase?: RewardPurchaseCreateNestedManyWithoutChildInput
     rewards?: RewardCreateNestedManyWithoutCreatorInput
     boosts?: BoostActivationCreateNestedManyWithoutUserInput
     goals?: GoalCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberCreateNestedManyWithoutUserInput
+    createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -11494,14 +15915,18 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.UserRole
-    stars?: number
+    stars?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
     quests?: QuestUncheckedCreateNestedManyWithoutCreatorInput
     completions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
     rewardsPurchase?: RewardPurchaseUncheckedCreateNestedManyWithoutChildInput
     rewards?: RewardUncheckedCreateNestedManyWithoutCreatorInput
     boosts?: BoostActivationUncheckedCreateNestedManyWithoutUserInput
     goals?: GoalUncheckedCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
   }
 
   export type UserUpdateInput = {
@@ -11509,14 +15934,18 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    stars?: IntFieldUpdateOperationsInput | number
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quests?: QuestUpdateManyWithoutCreatorNestedInput
     completions?: QuestCompletionUpdateManyWithoutUserNestedInput
     rewardsPurchase?: RewardPurchaseUpdateManyWithoutChildNestedInput
     rewards?: RewardUpdateManyWithoutCreatorNestedInput
     boosts?: BoostActivationUpdateManyWithoutUserNestedInput
     goals?: GoalUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -11524,14 +15953,18 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    stars?: IntFieldUpdateOperationsInput | number
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quests?: QuestUncheckedUpdateManyWithoutCreatorNestedInput
     completions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
     rewardsPurchase?: RewardPurchaseUncheckedUpdateManyWithoutChildNestedInput
     rewards?: RewardUncheckedUpdateManyWithoutCreatorNestedInput
     boosts?: BoostActivationUncheckedUpdateManyWithoutUserNestedInput
     goals?: GoalUncheckedUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -11539,8 +15972,9 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.UserRole
-    stars?: number
+    stars?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type UserUpdateManyMutationInput = {
@@ -11548,8 +15982,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    stars?: IntFieldUpdateOperationsInput | number
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -11557,361 +15992,9 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    stars?: IntFieldUpdateOperationsInput | number
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type QuestCreateInput = {
-    id?: string
-    title: string
-    description?: string | null
-    deadline: Date | string
-    difficulty: number
-    creator: UserCreateNestedOneWithoutQuestsInput
-    goal?: GoalCreateNestedOneWithoutQuestsInput
-    completions?: QuestCompletionCreateNestedManyWithoutQuestInput
-  }
-
-  export type QuestUncheckedCreateInput = {
-    id?: string
-    title: string
-    description?: string | null
-    deadline: Date | string
-    difficulty: number
-    creatorId: string
-    goalId?: string | null
-    completions?: QuestCompletionUncheckedCreateNestedManyWithoutQuestInput
-  }
-
-  export type QuestUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
-    difficulty?: IntFieldUpdateOperationsInput | number
-    creator?: UserUpdateOneRequiredWithoutQuestsNestedInput
-    goal?: GoalUpdateOneWithoutQuestsNestedInput
-    completions?: QuestCompletionUpdateManyWithoutQuestNestedInput
-  }
-
-  export type QuestUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
-    difficulty?: IntFieldUpdateOperationsInput | number
-    creatorId?: StringFieldUpdateOperationsInput | string
-    goalId?: NullableStringFieldUpdateOperationsInput | string | null
-    completions?: QuestCompletionUncheckedUpdateManyWithoutQuestNestedInput
-  }
-
-  export type QuestCreateManyInput = {
-    id?: string
-    title: string
-    description?: string | null
-    deadline: Date | string
-    difficulty: number
-    creatorId: string
-    goalId?: string | null
-  }
-
-  export type QuestUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
-    difficulty?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type QuestUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
-    difficulty?: IntFieldUpdateOperationsInput | number
-    creatorId?: StringFieldUpdateOperationsInput | string
-    goalId?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type QuestCompletionCreateInput = {
-    id?: string
-    completedAt?: Date | string
-    isLate?: boolean
-    starsAwarded: number
-    quest: QuestCreateNestedOneWithoutCompletionsInput
-    user: UserCreateNestedOneWithoutCompletionsInput
-  }
-
-  export type QuestCompletionUncheckedCreateInput = {
-    id?: string
-    completedAt?: Date | string
-    isLate?: boolean
-    starsAwarded: number
-    questId: string
-    userId: string
-  }
-
-  export type QuestCompletionUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    isLate?: BoolFieldUpdateOperationsInput | boolean
-    starsAwarded?: IntFieldUpdateOperationsInput | number
-    quest?: QuestUpdateOneRequiredWithoutCompletionsNestedInput
-    user?: UserUpdateOneRequiredWithoutCompletionsNestedInput
-  }
-
-  export type QuestCompletionUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    isLate?: BoolFieldUpdateOperationsInput | boolean
-    starsAwarded?: IntFieldUpdateOperationsInput | number
-    questId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type QuestCompletionCreateManyInput = {
-    id?: string
-    completedAt?: Date | string
-    isLate?: boolean
-    starsAwarded: number
-    questId: string
-    userId: string
-  }
-
-  export type QuestCompletionUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    isLate?: BoolFieldUpdateOperationsInput | boolean
-    starsAwarded?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type QuestCompletionUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    isLate?: BoolFieldUpdateOperationsInput | boolean
-    starsAwarded?: IntFieldUpdateOperationsInput | number
-    questId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type RewardCreateInput = {
-    id?: string
-    title: string
-    description?: string | null
-    starCost: number
-    creator: UserCreateNestedOneWithoutRewardsInput
-    purchases?: RewardPurchaseCreateNestedManyWithoutRewardInput
-  }
-
-  export type RewardUncheckedCreateInput = {
-    id?: string
-    title: string
-    description?: string | null
-    starCost: number
-    creatorId: string
-    purchases?: RewardPurchaseUncheckedCreateNestedManyWithoutRewardInput
-  }
-
-  export type RewardUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    starCost?: IntFieldUpdateOperationsInput | number
-    creator?: UserUpdateOneRequiredWithoutRewardsNestedInput
-    purchases?: RewardPurchaseUpdateManyWithoutRewardNestedInput
-  }
-
-  export type RewardUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    starCost?: IntFieldUpdateOperationsInput | number
-    creatorId?: StringFieldUpdateOperationsInput | string
-    purchases?: RewardPurchaseUncheckedUpdateManyWithoutRewardNestedInput
-  }
-
-  export type RewardCreateManyInput = {
-    id?: string
-    title: string
-    description?: string | null
-    starCost: number
-    creatorId: string
-  }
-
-  export type RewardUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    starCost?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type RewardUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    starCost?: IntFieldUpdateOperationsInput | number
-    creatorId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type RewardPurchaseCreateInput = {
-    id?: string
-    purchasedAt?: Date | string
-    reward: RewardCreateNestedOneWithoutPurchasesInput
-    child: UserCreateNestedOneWithoutRewardsPurchaseInput
-  }
-
-  export type RewardPurchaseUncheckedCreateInput = {
-    id?: string
-    purchasedAt?: Date | string
-    rewardId: string
-    childId: string
-  }
-
-  export type RewardPurchaseUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    reward?: RewardUpdateOneRequiredWithoutPurchasesNestedInput
-    child?: UserUpdateOneRequiredWithoutRewardsPurchaseNestedInput
-  }
-
-  export type RewardPurchaseUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    rewardId?: StringFieldUpdateOperationsInput | string
-    childId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type RewardPurchaseCreateManyInput = {
-    id?: string
-    purchasedAt?: Date | string
-    rewardId: string
-    childId: string
-  }
-
-  export type RewardPurchaseUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type RewardPurchaseUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    rewardId?: StringFieldUpdateOperationsInput | string
-    childId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type BoostCreateInput = {
-    id?: string
-    name: string
-    description?: string | null
-    cooldownDays: number
-    durationHours: number
-    activations?: BoostActivationCreateNestedManyWithoutBoostInput
-  }
-
-  export type BoostUncheckedCreateInput = {
-    id?: string
-    name: string
-    description?: string | null
-    cooldownDays: number
-    durationHours: number
-    activations?: BoostActivationUncheckedCreateNestedManyWithoutBoostInput
-  }
-
-  export type BoostUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    cooldownDays?: IntFieldUpdateOperationsInput | number
-    durationHours?: IntFieldUpdateOperationsInput | number
-    activations?: BoostActivationUpdateManyWithoutBoostNestedInput
-  }
-
-  export type BoostUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    cooldownDays?: IntFieldUpdateOperationsInput | number
-    durationHours?: IntFieldUpdateOperationsInput | number
-    activations?: BoostActivationUncheckedUpdateManyWithoutBoostNestedInput
-  }
-
-  export type BoostCreateManyInput = {
-    id?: string
-    name: string
-    description?: string | null
-    cooldownDays: number
-    durationHours: number
-  }
-
-  export type BoostUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    cooldownDays?: IntFieldUpdateOperationsInput | number
-    durationHours?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type BoostUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    cooldownDays?: IntFieldUpdateOperationsInput | number
-    durationHours?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type BoostActivationCreateInput = {
-    id?: string
-    activatedAt?: Date | string
-    expiresAt: Date | string
-    boost: BoostCreateNestedOneWithoutActivationsInput
-    user: UserCreateNestedOneWithoutBoostsInput
-  }
-
-  export type BoostActivationUncheckedCreateInput = {
-    id?: string
-    activatedAt?: Date | string
-    expiresAt: Date | string
-    boostId: string
-    userId: string
-  }
-
-  export type BoostActivationUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    activatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    boost?: BoostUpdateOneRequiredWithoutActivationsNestedInput
-    user?: UserUpdateOneRequiredWithoutBoostsNestedInput
-  }
-
-  export type BoostActivationUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    activatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    boostId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type BoostActivationCreateManyInput = {
-    id?: string
-    activatedAt?: Date | string
-    expiresAt: Date | string
-    boostId: string
-    userId: string
-  }
-
-  export type BoostActivationUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    activatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type BoostActivationUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    activatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    boostId?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type GoalCreateInput = {
@@ -11920,6 +16003,8 @@ export namespace Prisma {
     description?: string | null
     starReward: number
     completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     creator: UserCreateNestedOneWithoutGoalsInput
     quests?: QuestCreateNestedManyWithoutGoalInput
   }
@@ -11931,6 +16016,8 @@ export namespace Prisma {
     starReward: number
     creatorId: string
     completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     quests?: QuestUncheckedCreateNestedManyWithoutGoalInput
   }
 
@@ -11940,6 +16027,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     starReward?: IntFieldUpdateOperationsInput | number
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     creator?: UserUpdateOneRequiredWithoutGoalsNestedInput
     quests?: QuestUpdateManyWithoutGoalNestedInput
   }
@@ -11951,6 +16040,8 @@ export namespace Prisma {
     starReward?: IntFieldUpdateOperationsInput | number
     creatorId?: StringFieldUpdateOperationsInput | string
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quests?: QuestUncheckedUpdateManyWithoutGoalNestedInput
   }
 
@@ -11961,6 +16052,8 @@ export namespace Prisma {
     starReward: number
     creatorId: string
     completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type GoalUpdateManyMutationInput = {
@@ -11969,6 +16062,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     starReward?: IntFieldUpdateOperationsInput | number
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type GoalUncheckedUpdateManyInput = {
@@ -11978,6 +16073,675 @@ export namespace Prisma {
     starReward?: IntFieldUpdateOperationsInput | number
     creatorId?: StringFieldUpdateOperationsInput | string
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestCreateInput = {
+    id?: string
+    title: string
+    description?: string | null
+    deadline: Date | string
+    difficulty?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creator: UserCreateNestedOneWithoutQuestsInput
+    goal?: GoalCreateNestedOneWithoutQuestsInput
+    room?: RoomCreateNestedOneWithoutQuestsInput
+    completions?: QuestCompletionCreateNestedManyWithoutQuestInput
+  }
+
+  export type QuestUncheckedCreateInput = {
+    id?: string
+    title: string
+    description?: string | null
+    deadline: Date | string
+    difficulty?: number
+    creatorId: string
+    goalId?: string | null
+    roomId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completions?: QuestCompletionUncheckedCreateNestedManyWithoutQuestInput
+  }
+
+  export type QuestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    difficulty?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: UserUpdateOneRequiredWithoutQuestsNestedInput
+    goal?: GoalUpdateOneWithoutQuestsNestedInput
+    room?: RoomUpdateOneWithoutQuestsNestedInput
+    completions?: QuestCompletionUpdateManyWithoutQuestNestedInput
+  }
+
+  export type QuestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    difficulty?: IntFieldUpdateOperationsInput | number
+    creatorId?: StringFieldUpdateOperationsInput | string
+    goalId?: NullableStringFieldUpdateOperationsInput | string | null
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completions?: QuestCompletionUncheckedUpdateManyWithoutQuestNestedInput
+  }
+
+  export type QuestCreateManyInput = {
+    id?: string
+    title: string
+    description?: string | null
+    deadline: Date | string
+    difficulty?: number
+    creatorId: string
+    goalId?: string | null
+    roomId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    difficulty?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    difficulty?: IntFieldUpdateOperationsInput | number
+    creatorId?: StringFieldUpdateOperationsInput | string
+    goalId?: NullableStringFieldUpdateOperationsInput | string | null
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestCompletionCreateInput = {
+    id?: string
+    completedAt?: Date | string
+    isLate?: boolean
+    starsAwarded: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quest: QuestCreateNestedOneWithoutCompletionsInput
+    user: UserCreateNestedOneWithoutCompletionsInput
+  }
+
+  export type QuestCompletionUncheckedCreateInput = {
+    id?: string
+    completedAt?: Date | string
+    isLate?: boolean
+    starsAwarded: number
+    questId: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuestCompletionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isLate?: BoolFieldUpdateOperationsInput | boolean
+    starsAwarded?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quest?: QuestUpdateOneRequiredWithoutCompletionsNestedInput
+    user?: UserUpdateOneRequiredWithoutCompletionsNestedInput
+  }
+
+  export type QuestCompletionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isLate?: BoolFieldUpdateOperationsInput | boolean
+    starsAwarded?: IntFieldUpdateOperationsInput | number
+    questId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestCompletionCreateManyInput = {
+    id?: string
+    completedAt?: Date | string
+    isLate?: boolean
+    starsAwarded: number
+    questId: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuestCompletionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isLate?: BoolFieldUpdateOperationsInput | boolean
+    starsAwarded?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestCompletionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isLate?: BoolFieldUpdateOperationsInput | boolean
+    starsAwarded?: IntFieldUpdateOperationsInput | number
+    questId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RewardCreateInput = {
+    id?: string
+    title: string
+    description?: string | null
+    starCost: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creator: UserCreateNestedOneWithoutRewardsInput
+    purchases?: RewardPurchaseCreateNestedManyWithoutRewardInput
+  }
+
+  export type RewardUncheckedCreateInput = {
+    id?: string
+    title: string
+    description?: string | null
+    starCost: number
+    creatorId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    purchases?: RewardPurchaseUncheckedCreateNestedManyWithoutRewardInput
+  }
+
+  export type RewardUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    starCost?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: UserUpdateOneRequiredWithoutRewardsNestedInput
+    purchases?: RewardPurchaseUpdateManyWithoutRewardNestedInput
+  }
+
+  export type RewardUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    starCost?: IntFieldUpdateOperationsInput | number
+    creatorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    purchases?: RewardPurchaseUncheckedUpdateManyWithoutRewardNestedInput
+  }
+
+  export type RewardCreateManyInput = {
+    id?: string
+    title: string
+    description?: string | null
+    starCost: number
+    creatorId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RewardUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    starCost?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RewardUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    starCost?: IntFieldUpdateOperationsInput | number
+    creatorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RewardPurchaseCreateInput = {
+    id?: string
+    purchasedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    reward: RewardCreateNestedOneWithoutPurchasesInput
+    child: UserCreateNestedOneWithoutRewardsPurchaseInput
+  }
+
+  export type RewardPurchaseUncheckedCreateInput = {
+    id?: string
+    purchasedAt?: Date | string
+    rewardId: string
+    childId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RewardPurchaseUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    reward?: RewardUpdateOneRequiredWithoutPurchasesNestedInput
+    child?: UserUpdateOneRequiredWithoutRewardsPurchaseNestedInput
+  }
+
+  export type RewardPurchaseUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rewardId?: StringFieldUpdateOperationsInput | string
+    childId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RewardPurchaseCreateManyInput = {
+    id?: string
+    purchasedAt?: Date | string
+    rewardId: string
+    childId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RewardPurchaseUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RewardPurchaseUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rewardId?: StringFieldUpdateOperationsInput | string
+    childId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoostCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    cooldownDays: number
+    durationHours: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    activations?: BoostActivationCreateNestedManyWithoutBoostInput
+  }
+
+  export type BoostUncheckedCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    cooldownDays: number
+    durationHours: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    activations?: BoostActivationUncheckedCreateNestedManyWithoutBoostInput
+  }
+
+  export type BoostUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    cooldownDays?: IntFieldUpdateOperationsInput | number
+    durationHours?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    activations?: BoostActivationUpdateManyWithoutBoostNestedInput
+  }
+
+  export type BoostUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    cooldownDays?: IntFieldUpdateOperationsInput | number
+    durationHours?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    activations?: BoostActivationUncheckedUpdateManyWithoutBoostNestedInput
+  }
+
+  export type BoostCreateManyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    cooldownDays: number
+    durationHours: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BoostUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    cooldownDays?: IntFieldUpdateOperationsInput | number
+    durationHours?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoostUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    cooldownDays?: IntFieldUpdateOperationsInput | number
+    durationHours?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoostActivationCreateInput = {
+    id?: string
+    activatedAt?: Date | string
+    expiresAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    boost: BoostCreateNestedOneWithoutActivationsInput
+    user: UserCreateNestedOneWithoutBoostsInput
+  }
+
+  export type BoostActivationUncheckedCreateInput = {
+    id?: string
+    activatedAt?: Date | string
+    expiresAt: Date | string
+    boostId: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BoostActivationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    activatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    boost?: BoostUpdateOneRequiredWithoutActivationsNestedInput
+    user?: UserUpdateOneRequiredWithoutBoostsNestedInput
+  }
+
+  export type BoostActivationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    activatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    boostId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoostActivationCreateManyInput = {
+    id?: string
+    activatedAt?: Date | string
+    expiresAt: Date | string
+    boostId: string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BoostActivationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    activatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoostActivationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    activatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    boostId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createUser: UserCreateNestedOneWithoutCreatedRoomsInput
+    members?: RoomMemberCreateNestedManyWithoutRoomInput
+    invitations?: InvitationCreateNestedManyWithoutRoomInput
+    quests?: QuestCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomUncheckedCreateInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createUserId: string
+    members?: RoomMemberUncheckedCreateNestedManyWithoutRoomInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutRoomInput
+    quests?: QuestUncheckedCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createUser?: UserUpdateOneRequiredWithoutCreatedRoomsNestedInput
+    members?: RoomMemberUpdateManyWithoutRoomNestedInput
+    invitations?: InvitationUpdateManyWithoutRoomNestedInput
+    quests?: QuestUpdateManyWithoutRoomNestedInput
+  }
+
+  export type RoomUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createUserId?: StringFieldUpdateOperationsInput | string
+    members?: RoomMemberUncheckedUpdateManyWithoutRoomNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutRoomNestedInput
+    quests?: QuestUncheckedUpdateManyWithoutRoomNestedInput
+  }
+
+  export type RoomCreateManyInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createUserId: string
+  }
+
+  export type RoomUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createUserId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type RoomMemberCreateInput = {
+    id?: string
+    role?: $Enums.UserRole
+    joinedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    room: RoomCreateNestedOneWithoutMembersInput
+    user: UserCreateNestedOneWithoutRoomsInput
+  }
+
+  export type RoomMemberUncheckedCreateInput = {
+    id?: string
+    roomId: string
+    userId: string
+    role?: $Enums.UserRole
+    joinedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RoomMemberUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    room?: RoomUpdateOneRequiredWithoutMembersNestedInput
+    user?: UserUpdateOneRequiredWithoutRoomsNestedInput
+  }
+
+  export type RoomMemberUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomMemberCreateManyInput = {
+    id?: string
+    roomId: string
+    userId: string
+    role?: $Enums.UserRole
+    joinedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RoomMemberUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomMemberUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvitationCreateInput = {
+    id?: string
+    email: string
+    role: $Enums.UserRole
+    token: string
+    expiresAt: Date | string
+    acceptedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    room: RoomCreateNestedOneWithoutInvitationsInput
+    invitedBy?: UserCreateNestedOneWithoutRoomInvitationsInput
+  }
+
+  export type InvitationUncheckedCreateInput = {
+    id?: string
+    roomId: string
+    email: string
+    role: $Enums.UserRole
+    token: string
+    expiresAt: Date | string
+    invitedById?: string | null
+    acceptedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvitationUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    room?: RoomUpdateOneRequiredWithoutInvitationsNestedInput
+    invitedBy?: UserUpdateOneWithoutRoomInvitationsNestedInput
+  }
+
+  export type InvitationUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitedById?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvitationCreateManyInput = {
+    id?: string
+    roomId: string
+    email: string
+    role: $Enums.UserRole
+    token: string
+    expiresAt: Date | string
+    invitedById?: string | null
+    acceptedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvitationUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvitationUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitedById?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -12002,15 +16766,15 @@ export namespace Prisma {
     not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -12060,6 +16824,29 @@ export namespace Prisma {
     none?: GoalWhereInput
   }
 
+  export type RoomMemberListRelationFilter = {
+    every?: RoomMemberWhereInput
+    some?: RoomMemberWhereInput
+    none?: RoomMemberWhereInput
+  }
+
+  export type RoomListRelationFilter = {
+    every?: RoomWhereInput
+    some?: RoomWhereInput
+    none?: RoomWhereInput
+  }
+
+  export type InvitationListRelationFilter = {
+    every?: InvitationWhereInput
+    some?: InvitationWhereInput
+    none?: InvitationWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type QuestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -12084,6 +16871,18 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type RoomMemberOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RoomOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InvitationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
@@ -12091,6 +16890,7 @@ export namespace Prisma {
     role?: SortOrder
     stars?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -12104,6 +16904,7 @@ export namespace Prisma {
     role?: SortOrder
     stars?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -12113,6 +16914,7 @@ export namespace Prisma {
     role?: SortOrder
     stars?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -12147,20 +16949,20 @@ export namespace Prisma {
     _max?: NestedEnumUserRoleFilter<$PrismaModel>
   }
 
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -12192,57 +16994,72 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
   }
 
-  export type GoalNullableScalarRelationFilter = {
-    is?: GoalWhereInput | null
-    isNot?: GoalWhereInput | null
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
-  }
-
-  export type QuestCountOrderByAggregateInput = {
+  export type GoalCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    deadline?: SortOrder
-    difficulty?: SortOrder
+    starReward?: SortOrder
     creatorId?: SortOrder
-    goalId?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type QuestAvgOrderByAggregateInput = {
-    difficulty?: SortOrder
+  export type GoalAvgOrderByAggregateInput = {
+    starReward?: SortOrder
   }
 
-  export type QuestMaxOrderByAggregateInput = {
+  export type GoalMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    deadline?: SortOrder
-    difficulty?: SortOrder
+    starReward?: SortOrder
     creatorId?: SortOrder
-    goalId?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type QuestMinOrderByAggregateInput = {
+  export type GoalMinOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
-    deadline?: SortOrder
-    difficulty?: SortOrder
+    starReward?: SortOrder
     creatorId?: SortOrder
-    goalId?: SortOrder
+    completedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type QuestSumOrderByAggregateInput = {
-    difficulty?: SortOrder
+  export type GoalSumOrderByAggregateInput = {
+    starReward?: SortOrder
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -12263,6 +17080,93 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type GoalNullableScalarRelationFilter = {
+    is?: GoalWhereInput | null
+    isNot?: GoalWhereInput | null
+  }
+
+  export type RoomNullableScalarRelationFilter = {
+    is?: RoomWhereInput | null
+    isNot?: RoomWhereInput | null
+  }
+
+  export type QuestCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    deadline?: SortOrder
+    difficulty?: SortOrder
+    creatorId?: SortOrder
+    goalId?: SortOrder
+    roomId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuestAvgOrderByAggregateInput = {
+    difficulty?: SortOrder
+  }
+
+  export type QuestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    deadline?: SortOrder
+    difficulty?: SortOrder
+    creatorId?: SortOrder
+    goalId?: SortOrder
+    roomId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuestMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    deadline?: SortOrder
+    difficulty?: SortOrder
+    creatorId?: SortOrder
+    goalId?: SortOrder
+    roomId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type QuestSumOrderByAggregateInput = {
+    difficulty?: SortOrder
+  }
+
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
@@ -12280,6 +17184,8 @@ export namespace Prisma {
     starsAwarded?: SortOrder
     questId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type QuestCompletionAvgOrderByAggregateInput = {
@@ -12293,6 +17199,8 @@ export namespace Prisma {
     starsAwarded?: SortOrder
     questId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type QuestCompletionMinOrderByAggregateInput = {
@@ -12302,6 +17210,8 @@ export namespace Prisma {
     starsAwarded?: SortOrder
     questId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type QuestCompletionSumOrderByAggregateInput = {
@@ -12322,6 +17232,8 @@ export namespace Prisma {
     description?: SortOrder
     starCost?: SortOrder
     creatorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type RewardAvgOrderByAggregateInput = {
@@ -12334,6 +17246,8 @@ export namespace Prisma {
     description?: SortOrder
     starCost?: SortOrder
     creatorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type RewardMinOrderByAggregateInput = {
@@ -12342,6 +17256,8 @@ export namespace Prisma {
     description?: SortOrder
     starCost?: SortOrder
     creatorId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type RewardSumOrderByAggregateInput = {
@@ -12358,6 +17274,8 @@ export namespace Prisma {
     purchasedAt?: SortOrder
     rewardId?: SortOrder
     childId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type RewardPurchaseMaxOrderByAggregateInput = {
@@ -12365,6 +17283,8 @@ export namespace Prisma {
     purchasedAt?: SortOrder
     rewardId?: SortOrder
     childId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type RewardPurchaseMinOrderByAggregateInput = {
@@ -12372,6 +17292,8 @@ export namespace Prisma {
     purchasedAt?: SortOrder
     rewardId?: SortOrder
     childId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type BoostCountOrderByAggregateInput = {
@@ -12380,6 +17302,8 @@ export namespace Prisma {
     description?: SortOrder
     cooldownDays?: SortOrder
     durationHours?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type BoostAvgOrderByAggregateInput = {
@@ -12393,6 +17317,8 @@ export namespace Prisma {
     description?: SortOrder
     cooldownDays?: SortOrder
     durationHours?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type BoostMinOrderByAggregateInput = {
@@ -12401,6 +17327,8 @@ export namespace Prisma {
     description?: SortOrder
     cooldownDays?: SortOrder
     durationHours?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type BoostSumOrderByAggregateInput = {
@@ -12419,6 +17347,8 @@ export namespace Prisma {
     expiresAt?: SortOrder
     boostId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type BoostActivationMaxOrderByAggregateInput = {
@@ -12427,6 +17357,8 @@ export namespace Prisma {
     expiresAt?: SortOrder
     boostId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type BoostActivationMinOrderByAggregateInput = {
@@ -12435,66 +17367,111 @@ export namespace Prisma {
     expiresAt?: SortOrder
     boostId?: SortOrder
     userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type GoalCountOrderByAggregateInput = {
+  export type RoomCountOrderByAggregateInput = {
     id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
-    starReward?: SortOrder
-    creatorId?: SortOrder
-    completedAt?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createUserId?: SortOrder
   }
 
-  export type GoalAvgOrderByAggregateInput = {
-    starReward?: SortOrder
-  }
-
-  export type GoalMaxOrderByAggregateInput = {
+  export type RoomMaxOrderByAggregateInput = {
     id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
-    starReward?: SortOrder
-    creatorId?: SortOrder
-    completedAt?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createUserId?: SortOrder
   }
 
-  export type GoalMinOrderByAggregateInput = {
+  export type RoomMinOrderByAggregateInput = {
     id?: SortOrder
-    title?: SortOrder
-    description?: SortOrder
-    starReward?: SortOrder
-    creatorId?: SortOrder
-    completedAt?: SortOrder
+    name?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    createUserId?: SortOrder
   }
 
-  export type GoalSumOrderByAggregateInput = {
-    starReward?: SortOrder
+  export type RoomScalarRelationFilter = {
+    is?: RoomWhereInput
+    isNot?: RoomWhereInput
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  export type RoomMemberCountOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    userId?: SortOrder
+    role?: SortOrder
+    joinedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RoomMemberMaxOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    userId?: SortOrder
+    role?: SortOrder
+    joinedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RoomMemberMinOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    userId?: SortOrder
+    role?: SortOrder
+    joinedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type InvitationCountOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    email?: SortOrder
+    role?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    invitedById?: SortOrder
+    acceptedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InvitationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    email?: SortOrder
+    role?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    invitedById?: SortOrder
+    acceptedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InvitationMinOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+    email?: SortOrder
+    role?: SortOrder
+    token?: SortOrder
+    expiresAt?: SortOrder
+    invitedById?: SortOrder
+    acceptedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type QuestCreateNestedManyWithoutCreatorInput = {
@@ -12539,6 +17516,27 @@ export namespace Prisma {
     connect?: GoalWhereUniqueInput | GoalWhereUniqueInput[]
   }
 
+  export type RoomMemberCreateNestedManyWithoutUserInput = {
+    create?: XOR<RoomMemberCreateWithoutUserInput, RoomMemberUncheckedCreateWithoutUserInput> | RoomMemberCreateWithoutUserInput[] | RoomMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RoomMemberCreateOrConnectWithoutUserInput | RoomMemberCreateOrConnectWithoutUserInput[]
+    createMany?: RoomMemberCreateManyUserInputEnvelope
+    connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+  }
+
+  export type RoomCreateNestedManyWithoutCreateUserInput = {
+    create?: XOR<RoomCreateWithoutCreateUserInput, RoomUncheckedCreateWithoutCreateUserInput> | RoomCreateWithoutCreateUserInput[] | RoomUncheckedCreateWithoutCreateUserInput[]
+    connectOrCreate?: RoomCreateOrConnectWithoutCreateUserInput | RoomCreateOrConnectWithoutCreateUserInput[]
+    createMany?: RoomCreateManyCreateUserInputEnvelope
+    connect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+  }
+
+  export type InvitationCreateNestedManyWithoutInvitedByInput = {
+    create?: XOR<InvitationCreateWithoutInvitedByInput, InvitationUncheckedCreateWithoutInvitedByInput> | InvitationCreateWithoutInvitedByInput[] | InvitationUncheckedCreateWithoutInvitedByInput[]
+    connectOrCreate?: InvitationCreateOrConnectWithoutInvitedByInput | InvitationCreateOrConnectWithoutInvitedByInput[]
+    createMany?: InvitationCreateManyInvitedByInputEnvelope
+    connect?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+  }
+
   export type QuestUncheckedCreateNestedManyWithoutCreatorInput = {
     create?: XOR<QuestCreateWithoutCreatorInput, QuestUncheckedCreateWithoutCreatorInput> | QuestCreateWithoutCreatorInput[] | QuestUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: QuestCreateOrConnectWithoutCreatorInput | QuestCreateOrConnectWithoutCreatorInput[]
@@ -12581,6 +17579,27 @@ export namespace Prisma {
     connect?: GoalWhereUniqueInput | GoalWhereUniqueInput[]
   }
 
+  export type RoomMemberUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<RoomMemberCreateWithoutUserInput, RoomMemberUncheckedCreateWithoutUserInput> | RoomMemberCreateWithoutUserInput[] | RoomMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RoomMemberCreateOrConnectWithoutUserInput | RoomMemberCreateOrConnectWithoutUserInput[]
+    createMany?: RoomMemberCreateManyUserInputEnvelope
+    connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+  }
+
+  export type RoomUncheckedCreateNestedManyWithoutCreateUserInput = {
+    create?: XOR<RoomCreateWithoutCreateUserInput, RoomUncheckedCreateWithoutCreateUserInput> | RoomCreateWithoutCreateUserInput[] | RoomUncheckedCreateWithoutCreateUserInput[]
+    connectOrCreate?: RoomCreateOrConnectWithoutCreateUserInput | RoomCreateOrConnectWithoutCreateUserInput[]
+    createMany?: RoomCreateManyCreateUserInputEnvelope
+    connect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+  }
+
+  export type InvitationUncheckedCreateNestedManyWithoutInvitedByInput = {
+    create?: XOR<InvitationCreateWithoutInvitedByInput, InvitationUncheckedCreateWithoutInvitedByInput> | InvitationCreateWithoutInvitedByInput[] | InvitationUncheckedCreateWithoutInvitedByInput[]
+    connectOrCreate?: InvitationCreateOrConnectWithoutInvitedByInput | InvitationCreateOrConnectWithoutInvitedByInput[]
+    createMany?: InvitationCreateManyInvitedByInputEnvelope
+    connect?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -12589,8 +17608,8 @@ export namespace Prisma {
     set?: $Enums.UserRole
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
     increment?: number
     decrement?: number
     multiply?: number
@@ -12685,6 +17704,48 @@ export namespace Prisma {
     deleteMany?: GoalScalarWhereInput | GoalScalarWhereInput[]
   }
 
+  export type RoomMemberUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RoomMemberCreateWithoutUserInput, RoomMemberUncheckedCreateWithoutUserInput> | RoomMemberCreateWithoutUserInput[] | RoomMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RoomMemberCreateOrConnectWithoutUserInput | RoomMemberCreateOrConnectWithoutUserInput[]
+    upsert?: RoomMemberUpsertWithWhereUniqueWithoutUserInput | RoomMemberUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RoomMemberCreateManyUserInputEnvelope
+    set?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    disconnect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    delete?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    update?: RoomMemberUpdateWithWhereUniqueWithoutUserInput | RoomMemberUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RoomMemberUpdateManyWithWhereWithoutUserInput | RoomMemberUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RoomMemberScalarWhereInput | RoomMemberScalarWhereInput[]
+  }
+
+  export type RoomUpdateManyWithoutCreateUserNestedInput = {
+    create?: XOR<RoomCreateWithoutCreateUserInput, RoomUncheckedCreateWithoutCreateUserInput> | RoomCreateWithoutCreateUserInput[] | RoomUncheckedCreateWithoutCreateUserInput[]
+    connectOrCreate?: RoomCreateOrConnectWithoutCreateUserInput | RoomCreateOrConnectWithoutCreateUserInput[]
+    upsert?: RoomUpsertWithWhereUniqueWithoutCreateUserInput | RoomUpsertWithWhereUniqueWithoutCreateUserInput[]
+    createMany?: RoomCreateManyCreateUserInputEnvelope
+    set?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    disconnect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    delete?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    connect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    update?: RoomUpdateWithWhereUniqueWithoutCreateUserInput | RoomUpdateWithWhereUniqueWithoutCreateUserInput[]
+    updateMany?: RoomUpdateManyWithWhereWithoutCreateUserInput | RoomUpdateManyWithWhereWithoutCreateUserInput[]
+    deleteMany?: RoomScalarWhereInput | RoomScalarWhereInput[]
+  }
+
+  export type InvitationUpdateManyWithoutInvitedByNestedInput = {
+    create?: XOR<InvitationCreateWithoutInvitedByInput, InvitationUncheckedCreateWithoutInvitedByInput> | InvitationCreateWithoutInvitedByInput[] | InvitationUncheckedCreateWithoutInvitedByInput[]
+    connectOrCreate?: InvitationCreateOrConnectWithoutInvitedByInput | InvitationCreateOrConnectWithoutInvitedByInput[]
+    upsert?: InvitationUpsertWithWhereUniqueWithoutInvitedByInput | InvitationUpsertWithWhereUniqueWithoutInvitedByInput[]
+    createMany?: InvitationCreateManyInvitedByInputEnvelope
+    set?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+    disconnect?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+    delete?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+    connect?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+    update?: InvitationUpdateWithWhereUniqueWithoutInvitedByInput | InvitationUpdateWithWhereUniqueWithoutInvitedByInput[]
+    updateMany?: InvitationUpdateManyWithWhereWithoutInvitedByInput | InvitationUpdateManyWithWhereWithoutInvitedByInput[]
+    deleteMany?: InvitationScalarWhereInput | InvitationScalarWhereInput[]
+  }
+
   export type QuestUncheckedUpdateManyWithoutCreatorNestedInput = {
     create?: XOR<QuestCreateWithoutCreatorInput, QuestUncheckedCreateWithoutCreatorInput> | QuestCreateWithoutCreatorInput[] | QuestUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: QuestCreateOrConnectWithoutCreatorInput | QuestCreateOrConnectWithoutCreatorInput[]
@@ -12769,6 +17830,120 @@ export namespace Prisma {
     deleteMany?: GoalScalarWhereInput | GoalScalarWhereInput[]
   }
 
+  export type RoomMemberUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RoomMemberCreateWithoutUserInput, RoomMemberUncheckedCreateWithoutUserInput> | RoomMemberCreateWithoutUserInput[] | RoomMemberUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RoomMemberCreateOrConnectWithoutUserInput | RoomMemberCreateOrConnectWithoutUserInput[]
+    upsert?: RoomMemberUpsertWithWhereUniqueWithoutUserInput | RoomMemberUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RoomMemberCreateManyUserInputEnvelope
+    set?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    disconnect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    delete?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    update?: RoomMemberUpdateWithWhereUniqueWithoutUserInput | RoomMemberUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RoomMemberUpdateManyWithWhereWithoutUserInput | RoomMemberUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RoomMemberScalarWhereInput | RoomMemberScalarWhereInput[]
+  }
+
+  export type RoomUncheckedUpdateManyWithoutCreateUserNestedInput = {
+    create?: XOR<RoomCreateWithoutCreateUserInput, RoomUncheckedCreateWithoutCreateUserInput> | RoomCreateWithoutCreateUserInput[] | RoomUncheckedCreateWithoutCreateUserInput[]
+    connectOrCreate?: RoomCreateOrConnectWithoutCreateUserInput | RoomCreateOrConnectWithoutCreateUserInput[]
+    upsert?: RoomUpsertWithWhereUniqueWithoutCreateUserInput | RoomUpsertWithWhereUniqueWithoutCreateUserInput[]
+    createMany?: RoomCreateManyCreateUserInputEnvelope
+    set?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    disconnect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    delete?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    connect?: RoomWhereUniqueInput | RoomWhereUniqueInput[]
+    update?: RoomUpdateWithWhereUniqueWithoutCreateUserInput | RoomUpdateWithWhereUniqueWithoutCreateUserInput[]
+    updateMany?: RoomUpdateManyWithWhereWithoutCreateUserInput | RoomUpdateManyWithWhereWithoutCreateUserInput[]
+    deleteMany?: RoomScalarWhereInput | RoomScalarWhereInput[]
+  }
+
+  export type InvitationUncheckedUpdateManyWithoutInvitedByNestedInput = {
+    create?: XOR<InvitationCreateWithoutInvitedByInput, InvitationUncheckedCreateWithoutInvitedByInput> | InvitationCreateWithoutInvitedByInput[] | InvitationUncheckedCreateWithoutInvitedByInput[]
+    connectOrCreate?: InvitationCreateOrConnectWithoutInvitedByInput | InvitationCreateOrConnectWithoutInvitedByInput[]
+    upsert?: InvitationUpsertWithWhereUniqueWithoutInvitedByInput | InvitationUpsertWithWhereUniqueWithoutInvitedByInput[]
+    createMany?: InvitationCreateManyInvitedByInputEnvelope
+    set?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+    disconnect?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+    delete?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+    connect?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+    update?: InvitationUpdateWithWhereUniqueWithoutInvitedByInput | InvitationUpdateWithWhereUniqueWithoutInvitedByInput[]
+    updateMany?: InvitationUpdateManyWithWhereWithoutInvitedByInput | InvitationUpdateManyWithWhereWithoutInvitedByInput[]
+    deleteMany?: InvitationScalarWhereInput | InvitationScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutGoalsInput = {
+    create?: XOR<UserCreateWithoutGoalsInput, UserUncheckedCreateWithoutGoalsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGoalsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type QuestCreateNestedManyWithoutGoalInput = {
+    create?: XOR<QuestCreateWithoutGoalInput, QuestUncheckedCreateWithoutGoalInput> | QuestCreateWithoutGoalInput[] | QuestUncheckedCreateWithoutGoalInput[]
+    connectOrCreate?: QuestCreateOrConnectWithoutGoalInput | QuestCreateOrConnectWithoutGoalInput[]
+    createMany?: QuestCreateManyGoalInputEnvelope
+    connect?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
+  }
+
+  export type QuestUncheckedCreateNestedManyWithoutGoalInput = {
+    create?: XOR<QuestCreateWithoutGoalInput, QuestUncheckedCreateWithoutGoalInput> | QuestCreateWithoutGoalInput[] | QuestUncheckedCreateWithoutGoalInput[]
+    connectOrCreate?: QuestCreateOrConnectWithoutGoalInput | QuestCreateOrConnectWithoutGoalInput[]
+    createMany?: QuestCreateManyGoalInputEnvelope
+    connect?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type UserUpdateOneRequiredWithoutGoalsNestedInput = {
+    create?: XOR<UserCreateWithoutGoalsInput, UserUncheckedCreateWithoutGoalsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGoalsInput
+    upsert?: UserUpsertWithoutGoalsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGoalsInput, UserUpdateWithoutGoalsInput>, UserUncheckedUpdateWithoutGoalsInput>
+  }
+
+  export type QuestUpdateManyWithoutGoalNestedInput = {
+    create?: XOR<QuestCreateWithoutGoalInput, QuestUncheckedCreateWithoutGoalInput> | QuestCreateWithoutGoalInput[] | QuestUncheckedCreateWithoutGoalInput[]
+    connectOrCreate?: QuestCreateOrConnectWithoutGoalInput | QuestCreateOrConnectWithoutGoalInput[]
+    upsert?: QuestUpsertWithWhereUniqueWithoutGoalInput | QuestUpsertWithWhereUniqueWithoutGoalInput[]
+    createMany?: QuestCreateManyGoalInputEnvelope
+    set?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
+    disconnect?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
+    delete?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
+    connect?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
+    update?: QuestUpdateWithWhereUniqueWithoutGoalInput | QuestUpdateWithWhereUniqueWithoutGoalInput[]
+    updateMany?: QuestUpdateManyWithWhereWithoutGoalInput | QuestUpdateManyWithWhereWithoutGoalInput[]
+    deleteMany?: QuestScalarWhereInput | QuestScalarWhereInput[]
+  }
+
+  export type QuestUncheckedUpdateManyWithoutGoalNestedInput = {
+    create?: XOR<QuestCreateWithoutGoalInput, QuestUncheckedCreateWithoutGoalInput> | QuestCreateWithoutGoalInput[] | QuestUncheckedCreateWithoutGoalInput[]
+    connectOrCreate?: QuestCreateOrConnectWithoutGoalInput | QuestCreateOrConnectWithoutGoalInput[]
+    upsert?: QuestUpsertWithWhereUniqueWithoutGoalInput | QuestUpsertWithWhereUniqueWithoutGoalInput[]
+    createMany?: QuestCreateManyGoalInputEnvelope
+    set?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
+    disconnect?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
+    delete?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
+    connect?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
+    update?: QuestUpdateWithWhereUniqueWithoutGoalInput | QuestUpdateWithWhereUniqueWithoutGoalInput[]
+    updateMany?: QuestUpdateManyWithWhereWithoutGoalInput | QuestUpdateManyWithWhereWithoutGoalInput[]
+    deleteMany?: QuestScalarWhereInput | QuestScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutQuestsInput = {
     create?: XOR<UserCreateWithoutQuestsInput, UserUncheckedCreateWithoutQuestsInput>
     connectOrCreate?: UserCreateOrConnectWithoutQuestsInput
@@ -12779,6 +17954,12 @@ export namespace Prisma {
     create?: XOR<GoalCreateWithoutQuestsInput, GoalUncheckedCreateWithoutQuestsInput>
     connectOrCreate?: GoalCreateOrConnectWithoutQuestsInput
     connect?: GoalWhereUniqueInput
+  }
+
+  export type RoomCreateNestedOneWithoutQuestsInput = {
+    create?: XOR<RoomCreateWithoutQuestsInput, RoomUncheckedCreateWithoutQuestsInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutQuestsInput
+    connect?: RoomWhereUniqueInput
   }
 
   export type QuestCompletionCreateNestedManyWithoutQuestInput = {
@@ -12793,10 +17974,6 @@ export namespace Prisma {
     connectOrCreate?: QuestCompletionCreateOrConnectWithoutQuestInput | QuestCompletionCreateOrConnectWithoutQuestInput[]
     createMany?: QuestCompletionCreateManyQuestInputEnvelope
     connect?: QuestCompletionWhereUniqueInput | QuestCompletionWhereUniqueInput[]
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type UserUpdateOneRequiredWithoutQuestsNestedInput = {
@@ -12815,6 +17992,16 @@ export namespace Prisma {
     delete?: GoalWhereInput | boolean
     connect?: GoalWhereUniqueInput
     update?: XOR<XOR<GoalUpdateToOneWithWhereWithoutQuestsInput, GoalUpdateWithoutQuestsInput>, GoalUncheckedUpdateWithoutQuestsInput>
+  }
+
+  export type RoomUpdateOneWithoutQuestsNestedInput = {
+    create?: XOR<RoomCreateWithoutQuestsInput, RoomUncheckedCreateWithoutQuestsInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutQuestsInput
+    upsert?: RoomUpsertWithoutQuestsInput
+    disconnect?: RoomWhereInput | boolean
+    delete?: RoomWhereInput | boolean
+    connect?: RoomWhereUniqueInput
+    update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutQuestsInput, RoomUpdateWithoutQuestsInput>, RoomUncheckedUpdateWithoutQuestsInput>
   }
 
   export type QuestCompletionUpdateManyWithoutQuestNestedInput = {
@@ -13031,64 +18218,202 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBoostsInput, UserUpdateWithoutBoostsInput>, UserUncheckedUpdateWithoutBoostsInput>
   }
 
-  export type UserCreateNestedOneWithoutGoalsInput = {
-    create?: XOR<UserCreateWithoutGoalsInput, UserUncheckedCreateWithoutGoalsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutGoalsInput
+  export type UserCreateNestedOneWithoutCreatedRoomsInput = {
+    create?: XOR<UserCreateWithoutCreatedRoomsInput, UserUncheckedCreateWithoutCreatedRoomsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedRoomsInput
     connect?: UserWhereUniqueInput
   }
 
-  export type QuestCreateNestedManyWithoutGoalInput = {
-    create?: XOR<QuestCreateWithoutGoalInput, QuestUncheckedCreateWithoutGoalInput> | QuestCreateWithoutGoalInput[] | QuestUncheckedCreateWithoutGoalInput[]
-    connectOrCreate?: QuestCreateOrConnectWithoutGoalInput | QuestCreateOrConnectWithoutGoalInput[]
-    createMany?: QuestCreateManyGoalInputEnvelope
+  export type RoomMemberCreateNestedManyWithoutRoomInput = {
+    create?: XOR<RoomMemberCreateWithoutRoomInput, RoomMemberUncheckedCreateWithoutRoomInput> | RoomMemberCreateWithoutRoomInput[] | RoomMemberUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: RoomMemberCreateOrConnectWithoutRoomInput | RoomMemberCreateOrConnectWithoutRoomInput[]
+    createMany?: RoomMemberCreateManyRoomInputEnvelope
+    connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+  }
+
+  export type InvitationCreateNestedManyWithoutRoomInput = {
+    create?: XOR<InvitationCreateWithoutRoomInput, InvitationUncheckedCreateWithoutRoomInput> | InvitationCreateWithoutRoomInput[] | InvitationUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: InvitationCreateOrConnectWithoutRoomInput | InvitationCreateOrConnectWithoutRoomInput[]
+    createMany?: InvitationCreateManyRoomInputEnvelope
+    connect?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+  }
+
+  export type QuestCreateNestedManyWithoutRoomInput = {
+    create?: XOR<QuestCreateWithoutRoomInput, QuestUncheckedCreateWithoutRoomInput> | QuestCreateWithoutRoomInput[] | QuestUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: QuestCreateOrConnectWithoutRoomInput | QuestCreateOrConnectWithoutRoomInput[]
+    createMany?: QuestCreateManyRoomInputEnvelope
     connect?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
   }
 
-  export type QuestUncheckedCreateNestedManyWithoutGoalInput = {
-    create?: XOR<QuestCreateWithoutGoalInput, QuestUncheckedCreateWithoutGoalInput> | QuestCreateWithoutGoalInput[] | QuestUncheckedCreateWithoutGoalInput[]
-    connectOrCreate?: QuestCreateOrConnectWithoutGoalInput | QuestCreateOrConnectWithoutGoalInput[]
-    createMany?: QuestCreateManyGoalInputEnvelope
+  export type RoomMemberUncheckedCreateNestedManyWithoutRoomInput = {
+    create?: XOR<RoomMemberCreateWithoutRoomInput, RoomMemberUncheckedCreateWithoutRoomInput> | RoomMemberCreateWithoutRoomInput[] | RoomMemberUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: RoomMemberCreateOrConnectWithoutRoomInput | RoomMemberCreateOrConnectWithoutRoomInput[]
+    createMany?: RoomMemberCreateManyRoomInputEnvelope
+    connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+  }
+
+  export type InvitationUncheckedCreateNestedManyWithoutRoomInput = {
+    create?: XOR<InvitationCreateWithoutRoomInput, InvitationUncheckedCreateWithoutRoomInput> | InvitationCreateWithoutRoomInput[] | InvitationUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: InvitationCreateOrConnectWithoutRoomInput | InvitationCreateOrConnectWithoutRoomInput[]
+    createMany?: InvitationCreateManyRoomInputEnvelope
+    connect?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+  }
+
+  export type QuestUncheckedCreateNestedManyWithoutRoomInput = {
+    create?: XOR<QuestCreateWithoutRoomInput, QuestUncheckedCreateWithoutRoomInput> | QuestCreateWithoutRoomInput[] | QuestUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: QuestCreateOrConnectWithoutRoomInput | QuestCreateOrConnectWithoutRoomInput[]
+    createMany?: QuestCreateManyRoomInputEnvelope
     connect?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-  }
-
-  export type UserUpdateOneRequiredWithoutGoalsNestedInput = {
-    create?: XOR<UserCreateWithoutGoalsInput, UserUncheckedCreateWithoutGoalsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutGoalsInput
-    upsert?: UserUpsertWithoutGoalsInput
+  export type UserUpdateOneRequiredWithoutCreatedRoomsNestedInput = {
+    create?: XOR<UserCreateWithoutCreatedRoomsInput, UserUncheckedCreateWithoutCreatedRoomsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCreatedRoomsInput
+    upsert?: UserUpsertWithoutCreatedRoomsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGoalsInput, UserUpdateWithoutGoalsInput>, UserUncheckedUpdateWithoutGoalsInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCreatedRoomsInput, UserUpdateWithoutCreatedRoomsInput>, UserUncheckedUpdateWithoutCreatedRoomsInput>
   }
 
-  export type QuestUpdateManyWithoutGoalNestedInput = {
-    create?: XOR<QuestCreateWithoutGoalInput, QuestUncheckedCreateWithoutGoalInput> | QuestCreateWithoutGoalInput[] | QuestUncheckedCreateWithoutGoalInput[]
-    connectOrCreate?: QuestCreateOrConnectWithoutGoalInput | QuestCreateOrConnectWithoutGoalInput[]
-    upsert?: QuestUpsertWithWhereUniqueWithoutGoalInput | QuestUpsertWithWhereUniqueWithoutGoalInput[]
-    createMany?: QuestCreateManyGoalInputEnvelope
+  export type RoomMemberUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<RoomMemberCreateWithoutRoomInput, RoomMemberUncheckedCreateWithoutRoomInput> | RoomMemberCreateWithoutRoomInput[] | RoomMemberUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: RoomMemberCreateOrConnectWithoutRoomInput | RoomMemberCreateOrConnectWithoutRoomInput[]
+    upsert?: RoomMemberUpsertWithWhereUniqueWithoutRoomInput | RoomMemberUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: RoomMemberCreateManyRoomInputEnvelope
+    set?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    disconnect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    delete?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    update?: RoomMemberUpdateWithWhereUniqueWithoutRoomInput | RoomMemberUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: RoomMemberUpdateManyWithWhereWithoutRoomInput | RoomMemberUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: RoomMemberScalarWhereInput | RoomMemberScalarWhereInput[]
+  }
+
+  export type InvitationUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<InvitationCreateWithoutRoomInput, InvitationUncheckedCreateWithoutRoomInput> | InvitationCreateWithoutRoomInput[] | InvitationUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: InvitationCreateOrConnectWithoutRoomInput | InvitationCreateOrConnectWithoutRoomInput[]
+    upsert?: InvitationUpsertWithWhereUniqueWithoutRoomInput | InvitationUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: InvitationCreateManyRoomInputEnvelope
+    set?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+    disconnect?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+    delete?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+    connect?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+    update?: InvitationUpdateWithWhereUniqueWithoutRoomInput | InvitationUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: InvitationUpdateManyWithWhereWithoutRoomInput | InvitationUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: InvitationScalarWhereInput | InvitationScalarWhereInput[]
+  }
+
+  export type QuestUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<QuestCreateWithoutRoomInput, QuestUncheckedCreateWithoutRoomInput> | QuestCreateWithoutRoomInput[] | QuestUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: QuestCreateOrConnectWithoutRoomInput | QuestCreateOrConnectWithoutRoomInput[]
+    upsert?: QuestUpsertWithWhereUniqueWithoutRoomInput | QuestUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: QuestCreateManyRoomInputEnvelope
     set?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
     disconnect?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
     delete?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
     connect?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
-    update?: QuestUpdateWithWhereUniqueWithoutGoalInput | QuestUpdateWithWhereUniqueWithoutGoalInput[]
-    updateMany?: QuestUpdateManyWithWhereWithoutGoalInput | QuestUpdateManyWithWhereWithoutGoalInput[]
+    update?: QuestUpdateWithWhereUniqueWithoutRoomInput | QuestUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: QuestUpdateManyWithWhereWithoutRoomInput | QuestUpdateManyWithWhereWithoutRoomInput[]
     deleteMany?: QuestScalarWhereInput | QuestScalarWhereInput[]
   }
 
-  export type QuestUncheckedUpdateManyWithoutGoalNestedInput = {
-    create?: XOR<QuestCreateWithoutGoalInput, QuestUncheckedCreateWithoutGoalInput> | QuestCreateWithoutGoalInput[] | QuestUncheckedCreateWithoutGoalInput[]
-    connectOrCreate?: QuestCreateOrConnectWithoutGoalInput | QuestCreateOrConnectWithoutGoalInput[]
-    upsert?: QuestUpsertWithWhereUniqueWithoutGoalInput | QuestUpsertWithWhereUniqueWithoutGoalInput[]
-    createMany?: QuestCreateManyGoalInputEnvelope
+  export type RoomMemberUncheckedUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<RoomMemberCreateWithoutRoomInput, RoomMemberUncheckedCreateWithoutRoomInput> | RoomMemberCreateWithoutRoomInput[] | RoomMemberUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: RoomMemberCreateOrConnectWithoutRoomInput | RoomMemberCreateOrConnectWithoutRoomInput[]
+    upsert?: RoomMemberUpsertWithWhereUniqueWithoutRoomInput | RoomMemberUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: RoomMemberCreateManyRoomInputEnvelope
+    set?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    disconnect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    delete?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    connect?: RoomMemberWhereUniqueInput | RoomMemberWhereUniqueInput[]
+    update?: RoomMemberUpdateWithWhereUniqueWithoutRoomInput | RoomMemberUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: RoomMemberUpdateManyWithWhereWithoutRoomInput | RoomMemberUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: RoomMemberScalarWhereInput | RoomMemberScalarWhereInput[]
+  }
+
+  export type InvitationUncheckedUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<InvitationCreateWithoutRoomInput, InvitationUncheckedCreateWithoutRoomInput> | InvitationCreateWithoutRoomInput[] | InvitationUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: InvitationCreateOrConnectWithoutRoomInput | InvitationCreateOrConnectWithoutRoomInput[]
+    upsert?: InvitationUpsertWithWhereUniqueWithoutRoomInput | InvitationUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: InvitationCreateManyRoomInputEnvelope
+    set?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+    disconnect?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+    delete?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+    connect?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+    update?: InvitationUpdateWithWhereUniqueWithoutRoomInput | InvitationUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: InvitationUpdateManyWithWhereWithoutRoomInput | InvitationUpdateManyWithWhereWithoutRoomInput[]
+    deleteMany?: InvitationScalarWhereInput | InvitationScalarWhereInput[]
+  }
+
+  export type QuestUncheckedUpdateManyWithoutRoomNestedInput = {
+    create?: XOR<QuestCreateWithoutRoomInput, QuestUncheckedCreateWithoutRoomInput> | QuestCreateWithoutRoomInput[] | QuestUncheckedCreateWithoutRoomInput[]
+    connectOrCreate?: QuestCreateOrConnectWithoutRoomInput | QuestCreateOrConnectWithoutRoomInput[]
+    upsert?: QuestUpsertWithWhereUniqueWithoutRoomInput | QuestUpsertWithWhereUniqueWithoutRoomInput[]
+    createMany?: QuestCreateManyRoomInputEnvelope
     set?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
     disconnect?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
     delete?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
     connect?: QuestWhereUniqueInput | QuestWhereUniqueInput[]
-    update?: QuestUpdateWithWhereUniqueWithoutGoalInput | QuestUpdateWithWhereUniqueWithoutGoalInput[]
-    updateMany?: QuestUpdateManyWithWhereWithoutGoalInput | QuestUpdateManyWithWhereWithoutGoalInput[]
+    update?: QuestUpdateWithWhereUniqueWithoutRoomInput | QuestUpdateWithWhereUniqueWithoutRoomInput[]
+    updateMany?: QuestUpdateManyWithWhereWithoutRoomInput | QuestUpdateManyWithWhereWithoutRoomInput[]
     deleteMany?: QuestScalarWhereInput | QuestScalarWhereInput[]
+  }
+
+  export type RoomCreateNestedOneWithoutMembersInput = {
+    create?: XOR<RoomCreateWithoutMembersInput, RoomUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutMembersInput
+    connect?: RoomWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutRoomsInput = {
+    create?: XOR<UserCreateWithoutRoomsInput, UserUncheckedCreateWithoutRoomsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRoomsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type RoomUpdateOneRequiredWithoutMembersNestedInput = {
+    create?: XOR<RoomCreateWithoutMembersInput, RoomUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutMembersInput
+    upsert?: RoomUpsertWithoutMembersInput
+    connect?: RoomWhereUniqueInput
+    update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutMembersInput, RoomUpdateWithoutMembersInput>, RoomUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutRoomsNestedInput = {
+    create?: XOR<UserCreateWithoutRoomsInput, UserUncheckedCreateWithoutRoomsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRoomsInput
+    upsert?: UserUpsertWithoutRoomsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRoomsInput, UserUpdateWithoutRoomsInput>, UserUncheckedUpdateWithoutRoomsInput>
+  }
+
+  export type RoomCreateNestedOneWithoutInvitationsInput = {
+    create?: XOR<RoomCreateWithoutInvitationsInput, RoomUncheckedCreateWithoutInvitationsInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutInvitationsInput
+    connect?: RoomWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutRoomInvitationsInput = {
+    create?: XOR<UserCreateWithoutRoomInvitationsInput, UserUncheckedCreateWithoutRoomInvitationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRoomInvitationsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type RoomUpdateOneRequiredWithoutInvitationsNestedInput = {
+    create?: XOR<RoomCreateWithoutInvitationsInput, RoomUncheckedCreateWithoutInvitationsInput>
+    connectOrCreate?: RoomCreateOrConnectWithoutInvitationsInput
+    upsert?: RoomUpsertWithoutInvitationsInput
+    connect?: RoomWhereUniqueInput
+    update?: XOR<XOR<RoomUpdateToOneWithWhereWithoutInvitationsInput, RoomUpdateWithoutInvitationsInput>, RoomUncheckedUpdateWithoutInvitationsInput>
+  }
+
+  export type UserUpdateOneWithoutRoomInvitationsNestedInput = {
+    create?: XOR<UserCreateWithoutRoomInvitationsInput, UserUncheckedCreateWithoutRoomInvitationsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRoomInvitationsInput
+    upsert?: UserUpsertWithoutRoomInvitationsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRoomInvitationsInput, UserUpdateWithoutRoomInvitationsInput>, UserUncheckedUpdateWithoutRoomInvitationsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -13112,15 +18437,15 @@ export namespace Prisma {
     not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
   }
 
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -13151,6 +18476,17 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type NestedEnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
     in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
@@ -13161,31 +18497,31 @@ export namespace Prisma {
     _max?: NestedEnumUserRoleFilter<$PrismaModel>
   }
 
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
     lt?: number | FloatFieldRefInput<$PrismaModel>
     lte?: number | FloatFieldRefInput<$PrismaModel>
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -13216,6 +18552,17 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -13233,39 +18580,31 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
     lt?: number | IntFieldRefInput<$PrismaModel>
     lte?: number | IntFieldRefInput<$PrismaModel>
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -13282,13 +18621,29 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type QuestCreateWithoutCreatorInput = {
     id?: string
     title: string
     description?: string | null
     deadline: Date | string
-    difficulty: number
+    difficulty?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
     goal?: GoalCreateNestedOneWithoutQuestsInput
+    room?: RoomCreateNestedOneWithoutQuestsInput
     completions?: QuestCompletionCreateNestedManyWithoutQuestInput
   }
 
@@ -13297,8 +18652,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     deadline: Date | string
-    difficulty: number
+    difficulty?: number
     goalId?: string | null
+    roomId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     completions?: QuestCompletionUncheckedCreateNestedManyWithoutQuestInput
   }
 
@@ -13317,6 +18675,8 @@ export namespace Prisma {
     completedAt?: Date | string
     isLate?: boolean
     starsAwarded: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
     quest: QuestCreateNestedOneWithoutCompletionsInput
   }
 
@@ -13326,6 +18686,8 @@ export namespace Prisma {
     isLate?: boolean
     starsAwarded: number
     questId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type QuestCompletionCreateOrConnectWithoutUserInput = {
@@ -13341,6 +18703,8 @@ export namespace Prisma {
   export type RewardPurchaseCreateWithoutChildInput = {
     id?: string
     purchasedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     reward: RewardCreateNestedOneWithoutPurchasesInput
   }
 
@@ -13348,6 +18712,8 @@ export namespace Prisma {
     id?: string
     purchasedAt?: Date | string
     rewardId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RewardPurchaseCreateOrConnectWithoutChildInput = {
@@ -13365,6 +18731,8 @@ export namespace Prisma {
     title: string
     description?: string | null
     starCost: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
     purchases?: RewardPurchaseCreateNestedManyWithoutRewardInput
   }
 
@@ -13373,6 +18741,8 @@ export namespace Prisma {
     title: string
     description?: string | null
     starCost: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
     purchases?: RewardPurchaseUncheckedCreateNestedManyWithoutRewardInput
   }
 
@@ -13390,6 +18760,8 @@ export namespace Prisma {
     id?: string
     activatedAt?: Date | string
     expiresAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     boost: BoostCreateNestedOneWithoutActivationsInput
   }
 
@@ -13398,6 +18770,8 @@ export namespace Prisma {
     activatedAt?: Date | string
     expiresAt: Date | string
     boostId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type BoostActivationCreateOrConnectWithoutUserInput = {
@@ -13416,6 +18790,8 @@ export namespace Prisma {
     description?: string | null
     starReward: number
     completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     quests?: QuestCreateNestedManyWithoutGoalInput
   }
 
@@ -13425,6 +18801,8 @@ export namespace Prisma {
     description?: string | null
     starReward: number
     completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     quests?: QuestUncheckedCreateNestedManyWithoutGoalInput
   }
 
@@ -13435,6 +18813,98 @@ export namespace Prisma {
 
   export type GoalCreateManyCreatorInputEnvelope = {
     data: GoalCreateManyCreatorInput | GoalCreateManyCreatorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RoomMemberCreateWithoutUserInput = {
+    id?: string
+    role?: $Enums.UserRole
+    joinedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    room: RoomCreateNestedOneWithoutMembersInput
+  }
+
+  export type RoomMemberUncheckedCreateWithoutUserInput = {
+    id?: string
+    roomId: string
+    role?: $Enums.UserRole
+    joinedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RoomMemberCreateOrConnectWithoutUserInput = {
+    where: RoomMemberWhereUniqueInput
+    create: XOR<RoomMemberCreateWithoutUserInput, RoomMemberUncheckedCreateWithoutUserInput>
+  }
+
+  export type RoomMemberCreateManyUserInputEnvelope = {
+    data: RoomMemberCreateManyUserInput | RoomMemberCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RoomCreateWithoutCreateUserInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: RoomMemberCreateNestedManyWithoutRoomInput
+    invitations?: InvitationCreateNestedManyWithoutRoomInput
+    quests?: QuestCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomUncheckedCreateWithoutCreateUserInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: RoomMemberUncheckedCreateNestedManyWithoutRoomInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutRoomInput
+    quests?: QuestUncheckedCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomCreateOrConnectWithoutCreateUserInput = {
+    where: RoomWhereUniqueInput
+    create: XOR<RoomCreateWithoutCreateUserInput, RoomUncheckedCreateWithoutCreateUserInput>
+  }
+
+  export type RoomCreateManyCreateUserInputEnvelope = {
+    data: RoomCreateManyCreateUserInput | RoomCreateManyCreateUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type InvitationCreateWithoutInvitedByInput = {
+    id?: string
+    email: string
+    role: $Enums.UserRole
+    token: string
+    expiresAt: Date | string
+    acceptedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    room: RoomCreateNestedOneWithoutInvitationsInput
+  }
+
+  export type InvitationUncheckedCreateWithoutInvitedByInput = {
+    id?: string
+    roomId: string
+    email: string
+    role: $Enums.UserRole
+    token: string
+    expiresAt: Date | string
+    acceptedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvitationCreateOrConnectWithoutInvitedByInput = {
+    where: InvitationWhereUniqueInput
+    create: XOR<InvitationCreateWithoutInvitedByInput, InvitationUncheckedCreateWithoutInvitedByInput>
+  }
+
+  export type InvitationCreateManyInvitedByInputEnvelope = {
+    data: InvitationCreateManyInvitedByInput | InvitationCreateManyInvitedByInput[]
     skipDuplicates?: boolean
   }
 
@@ -13465,6 +18935,9 @@ export namespace Prisma {
     difficulty?: IntFilter<"Quest"> | number
     creatorId?: StringFilter<"Quest"> | string
     goalId?: StringNullableFilter<"Quest"> | string | null
+    roomId?: StringNullableFilter<"Quest"> | string | null
+    createdAt?: DateTimeFilter<"Quest"> | Date | string
+    updatedAt?: DateTimeFilter<"Quest"> | Date | string
   }
 
   export type QuestCompletionUpsertWithWhereUniqueWithoutUserInput = {
@@ -13493,6 +18966,8 @@ export namespace Prisma {
     starsAwarded?: IntFilter<"QuestCompletion"> | number
     questId?: StringFilter<"QuestCompletion"> | string
     userId?: StringFilter<"QuestCompletion"> | string
+    createdAt?: DateTimeFilter<"QuestCompletion"> | Date | string
+    updatedAt?: DateTimeFilter<"QuestCompletion"> | Date | string
   }
 
   export type RewardPurchaseUpsertWithWhereUniqueWithoutChildInput = {
@@ -13519,6 +18994,8 @@ export namespace Prisma {
     purchasedAt?: DateTimeFilter<"RewardPurchase"> | Date | string
     rewardId?: StringFilter<"RewardPurchase"> | string
     childId?: StringFilter<"RewardPurchase"> | string
+    createdAt?: DateTimeFilter<"RewardPurchase"> | Date | string
+    updatedAt?: DateTimeFilter<"RewardPurchase"> | Date | string
   }
 
   export type RewardUpsertWithWhereUniqueWithoutCreatorInput = {
@@ -13546,6 +19023,8 @@ export namespace Prisma {
     description?: StringNullableFilter<"Reward"> | string | null
     starCost?: IntFilter<"Reward"> | number
     creatorId?: StringFilter<"Reward"> | string
+    createdAt?: DateTimeFilter<"Reward"> | Date | string
+    updatedAt?: DateTimeFilter<"Reward"> | Date | string
   }
 
   export type BoostActivationUpsertWithWhereUniqueWithoutUserInput = {
@@ -13573,6 +19052,8 @@ export namespace Prisma {
     expiresAt?: DateTimeFilter<"BoostActivation"> | Date | string
     boostId?: StringFilter<"BoostActivation"> | string
     userId?: StringFilter<"BoostActivation"> | string
+    createdAt?: DateTimeFilter<"BoostActivation"> | Date | string
+    updatedAt?: DateTimeFilter<"BoostActivation"> | Date | string
   }
 
   export type GoalUpsertWithWhereUniqueWithoutCreatorInput = {
@@ -13601,6 +19082,236 @@ export namespace Prisma {
     starReward?: IntFilter<"Goal"> | number
     creatorId?: StringFilter<"Goal"> | string
     completedAt?: DateTimeNullableFilter<"Goal"> | Date | string | null
+    createdAt?: DateTimeFilter<"Goal"> | Date | string
+    updatedAt?: DateTimeFilter<"Goal"> | Date | string
+  }
+
+  export type RoomMemberUpsertWithWhereUniqueWithoutUserInput = {
+    where: RoomMemberWhereUniqueInput
+    update: XOR<RoomMemberUpdateWithoutUserInput, RoomMemberUncheckedUpdateWithoutUserInput>
+    create: XOR<RoomMemberCreateWithoutUserInput, RoomMemberUncheckedCreateWithoutUserInput>
+  }
+
+  export type RoomMemberUpdateWithWhereUniqueWithoutUserInput = {
+    where: RoomMemberWhereUniqueInput
+    data: XOR<RoomMemberUpdateWithoutUserInput, RoomMemberUncheckedUpdateWithoutUserInput>
+  }
+
+  export type RoomMemberUpdateManyWithWhereWithoutUserInput = {
+    where: RoomMemberScalarWhereInput
+    data: XOR<RoomMemberUpdateManyMutationInput, RoomMemberUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type RoomMemberScalarWhereInput = {
+    AND?: RoomMemberScalarWhereInput | RoomMemberScalarWhereInput[]
+    OR?: RoomMemberScalarWhereInput[]
+    NOT?: RoomMemberScalarWhereInput | RoomMemberScalarWhereInput[]
+    id?: StringFilter<"RoomMember"> | string
+    roomId?: StringFilter<"RoomMember"> | string
+    userId?: StringFilter<"RoomMember"> | string
+    role?: EnumUserRoleFilter<"RoomMember"> | $Enums.UserRole
+    joinedAt?: DateTimeFilter<"RoomMember"> | Date | string
+    createdAt?: DateTimeFilter<"RoomMember"> | Date | string
+    updatedAt?: DateTimeFilter<"RoomMember"> | Date | string
+  }
+
+  export type RoomUpsertWithWhereUniqueWithoutCreateUserInput = {
+    where: RoomWhereUniqueInput
+    update: XOR<RoomUpdateWithoutCreateUserInput, RoomUncheckedUpdateWithoutCreateUserInput>
+    create: XOR<RoomCreateWithoutCreateUserInput, RoomUncheckedCreateWithoutCreateUserInput>
+  }
+
+  export type RoomUpdateWithWhereUniqueWithoutCreateUserInput = {
+    where: RoomWhereUniqueInput
+    data: XOR<RoomUpdateWithoutCreateUserInput, RoomUncheckedUpdateWithoutCreateUserInput>
+  }
+
+  export type RoomUpdateManyWithWhereWithoutCreateUserInput = {
+    where: RoomScalarWhereInput
+    data: XOR<RoomUpdateManyMutationInput, RoomUncheckedUpdateManyWithoutCreateUserInput>
+  }
+
+  export type RoomScalarWhereInput = {
+    AND?: RoomScalarWhereInput | RoomScalarWhereInput[]
+    OR?: RoomScalarWhereInput[]
+    NOT?: RoomScalarWhereInput | RoomScalarWhereInput[]
+    id?: StringFilter<"Room"> | string
+    name?: StringFilter<"Room"> | string
+    createdAt?: DateTimeFilter<"Room"> | Date | string
+    updatedAt?: DateTimeFilter<"Room"> | Date | string
+    createUserId?: StringFilter<"Room"> | string
+  }
+
+  export type InvitationUpsertWithWhereUniqueWithoutInvitedByInput = {
+    where: InvitationWhereUniqueInput
+    update: XOR<InvitationUpdateWithoutInvitedByInput, InvitationUncheckedUpdateWithoutInvitedByInput>
+    create: XOR<InvitationCreateWithoutInvitedByInput, InvitationUncheckedCreateWithoutInvitedByInput>
+  }
+
+  export type InvitationUpdateWithWhereUniqueWithoutInvitedByInput = {
+    where: InvitationWhereUniqueInput
+    data: XOR<InvitationUpdateWithoutInvitedByInput, InvitationUncheckedUpdateWithoutInvitedByInput>
+  }
+
+  export type InvitationUpdateManyWithWhereWithoutInvitedByInput = {
+    where: InvitationScalarWhereInput
+    data: XOR<InvitationUpdateManyMutationInput, InvitationUncheckedUpdateManyWithoutInvitedByInput>
+  }
+
+  export type InvitationScalarWhereInput = {
+    AND?: InvitationScalarWhereInput | InvitationScalarWhereInput[]
+    OR?: InvitationScalarWhereInput[]
+    NOT?: InvitationScalarWhereInput | InvitationScalarWhereInput[]
+    id?: StringFilter<"Invitation"> | string
+    roomId?: StringFilter<"Invitation"> | string
+    email?: StringFilter<"Invitation"> | string
+    role?: EnumUserRoleFilter<"Invitation"> | $Enums.UserRole
+    token?: StringFilter<"Invitation"> | string
+    expiresAt?: DateTimeFilter<"Invitation"> | Date | string
+    invitedById?: StringNullableFilter<"Invitation"> | string | null
+    acceptedAt?: DateTimeNullableFilter<"Invitation"> | Date | string | null
+    createdAt?: DateTimeFilter<"Invitation"> | Date | string
+    updatedAt?: DateTimeFilter<"Invitation"> | Date | string
+  }
+
+  export type UserCreateWithoutGoalsInput = {
+    id?: string
+    email: string
+    password: string
+    role: $Enums.UserRole
+    stars?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quests?: QuestCreateNestedManyWithoutCreatorInput
+    completions?: QuestCompletionCreateNestedManyWithoutUserInput
+    rewardsPurchase?: RewardPurchaseCreateNestedManyWithoutChildInput
+    rewards?: RewardCreateNestedManyWithoutCreatorInput
+    boosts?: BoostActivationCreateNestedManyWithoutUserInput
+    rooms?: RoomMemberCreateNestedManyWithoutUserInput
+    createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
+  }
+
+  export type UserUncheckedCreateWithoutGoalsInput = {
+    id?: string
+    email: string
+    password: string
+    role: $Enums.UserRole
+    stars?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quests?: QuestUncheckedCreateNestedManyWithoutCreatorInput
+    completions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
+    rewardsPurchase?: RewardPurchaseUncheckedCreateNestedManyWithoutChildInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCreatorInput
+    boosts?: BoostActivationUncheckedCreateNestedManyWithoutUserInput
+    rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
+  }
+
+  export type UserCreateOrConnectWithoutGoalsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutGoalsInput, UserUncheckedCreateWithoutGoalsInput>
+  }
+
+  export type QuestCreateWithoutGoalInput = {
+    id?: string
+    title: string
+    description?: string | null
+    deadline: Date | string
+    difficulty?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creator: UserCreateNestedOneWithoutQuestsInput
+    room?: RoomCreateNestedOneWithoutQuestsInput
+    completions?: QuestCompletionCreateNestedManyWithoutQuestInput
+  }
+
+  export type QuestUncheckedCreateWithoutGoalInput = {
+    id?: string
+    title: string
+    description?: string | null
+    deadline: Date | string
+    difficulty?: number
+    creatorId: string
+    roomId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completions?: QuestCompletionUncheckedCreateNestedManyWithoutQuestInput
+  }
+
+  export type QuestCreateOrConnectWithoutGoalInput = {
+    where: QuestWhereUniqueInput
+    create: XOR<QuestCreateWithoutGoalInput, QuestUncheckedCreateWithoutGoalInput>
+  }
+
+  export type QuestCreateManyGoalInputEnvelope = {
+    data: QuestCreateManyGoalInput | QuestCreateManyGoalInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutGoalsInput = {
+    update: XOR<UserUpdateWithoutGoalsInput, UserUncheckedUpdateWithoutGoalsInput>
+    create: XOR<UserCreateWithoutGoalsInput, UserUncheckedCreateWithoutGoalsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutGoalsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutGoalsInput, UserUncheckedUpdateWithoutGoalsInput>
+  }
+
+  export type UserUpdateWithoutGoalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quests?: QuestUpdateManyWithoutCreatorNestedInput
+    completions?: QuestCompletionUpdateManyWithoutUserNestedInput
+    rewardsPurchase?: RewardPurchaseUpdateManyWithoutChildNestedInput
+    rewards?: RewardUpdateManyWithoutCreatorNestedInput
+    boosts?: BoostActivationUpdateManyWithoutUserNestedInput
+    rooms?: RoomMemberUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutGoalsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quests?: QuestUncheckedUpdateManyWithoutCreatorNestedInput
+    completions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
+    rewardsPurchase?: RewardPurchaseUncheckedUpdateManyWithoutChildNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCreatorNestedInput
+    boosts?: BoostActivationUncheckedUpdateManyWithoutUserNestedInput
+    rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+  }
+
+  export type QuestUpsertWithWhereUniqueWithoutGoalInput = {
+    where: QuestWhereUniqueInput
+    update: XOR<QuestUpdateWithoutGoalInput, QuestUncheckedUpdateWithoutGoalInput>
+    create: XOR<QuestCreateWithoutGoalInput, QuestUncheckedCreateWithoutGoalInput>
+  }
+
+  export type QuestUpdateWithWhereUniqueWithoutGoalInput = {
+    where: QuestWhereUniqueInput
+    data: XOR<QuestUpdateWithoutGoalInput, QuestUncheckedUpdateWithoutGoalInput>
+  }
+
+  export type QuestUpdateManyWithWhereWithoutGoalInput = {
+    where: QuestScalarWhereInput
+    data: XOR<QuestUpdateManyMutationInput, QuestUncheckedUpdateManyWithoutGoalInput>
   }
 
   export type UserCreateWithoutQuestsInput = {
@@ -13608,13 +19319,17 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.UserRole
-    stars?: number
+    stars?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
     completions?: QuestCompletionCreateNestedManyWithoutUserInput
     rewardsPurchase?: RewardPurchaseCreateNestedManyWithoutChildInput
     rewards?: RewardCreateNestedManyWithoutCreatorInput
     boosts?: BoostActivationCreateNestedManyWithoutUserInput
     goals?: GoalCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberCreateNestedManyWithoutUserInput
+    createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
   }
 
   export type UserUncheckedCreateWithoutQuestsInput = {
@@ -13622,13 +19337,17 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.UserRole
-    stars?: number
+    stars?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
     completions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
     rewardsPurchase?: RewardPurchaseUncheckedCreateNestedManyWithoutChildInput
     rewards?: RewardUncheckedCreateNestedManyWithoutCreatorInput
     boosts?: BoostActivationUncheckedCreateNestedManyWithoutUserInput
     goals?: GoalUncheckedCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
   }
 
   export type UserCreateOrConnectWithoutQuestsInput = {
@@ -13642,6 +19361,8 @@ export namespace Prisma {
     description?: string | null
     starReward: number
     completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     creator: UserCreateNestedOneWithoutGoalsInput
   }
 
@@ -13652,6 +19373,8 @@ export namespace Prisma {
     starReward: number
     creatorId: string
     completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type GoalCreateOrConnectWithoutQuestsInput = {
@@ -13659,11 +19382,38 @@ export namespace Prisma {
     create: XOR<GoalCreateWithoutQuestsInput, GoalUncheckedCreateWithoutQuestsInput>
   }
 
+  export type RoomCreateWithoutQuestsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createUser: UserCreateNestedOneWithoutCreatedRoomsInput
+    members?: RoomMemberCreateNestedManyWithoutRoomInput
+    invitations?: InvitationCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomUncheckedCreateWithoutQuestsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createUserId: string
+    members?: RoomMemberUncheckedCreateNestedManyWithoutRoomInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomCreateOrConnectWithoutQuestsInput = {
+    where: RoomWhereUniqueInput
+    create: XOR<RoomCreateWithoutQuestsInput, RoomUncheckedCreateWithoutQuestsInput>
+  }
+
   export type QuestCompletionCreateWithoutQuestInput = {
     id?: string
     completedAt?: Date | string
     isLate?: boolean
     starsAwarded: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutCompletionsInput
   }
 
@@ -13673,6 +19423,8 @@ export namespace Prisma {
     isLate?: boolean
     starsAwarded: number
     userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type QuestCompletionCreateOrConnectWithoutQuestInput = {
@@ -13701,13 +19453,17 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    stars?: IntFieldUpdateOperationsInput | number
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     completions?: QuestCompletionUpdateManyWithoutUserNestedInput
     rewardsPurchase?: RewardPurchaseUpdateManyWithoutChildNestedInput
     rewards?: RewardUpdateManyWithoutCreatorNestedInput
     boosts?: BoostActivationUpdateManyWithoutUserNestedInput
     goals?: GoalUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutQuestsInput = {
@@ -13715,13 +19471,17 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    stars?: IntFieldUpdateOperationsInput | number
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     completions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
     rewardsPurchase?: RewardPurchaseUncheckedUpdateManyWithoutChildNestedInput
     rewards?: RewardUncheckedUpdateManyWithoutCreatorNestedInput
     boosts?: BoostActivationUncheckedUpdateManyWithoutUserNestedInput
     goals?: GoalUncheckedUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
   }
 
   export type GoalUpsertWithoutQuestsInput = {
@@ -13741,6 +19501,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     starReward?: IntFieldUpdateOperationsInput | number
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     creator?: UserUpdateOneRequiredWithoutGoalsNestedInput
   }
 
@@ -13751,6 +19513,39 @@ export namespace Prisma {
     starReward?: IntFieldUpdateOperationsInput | number
     creatorId?: StringFieldUpdateOperationsInput | string
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomUpsertWithoutQuestsInput = {
+    update: XOR<RoomUpdateWithoutQuestsInput, RoomUncheckedUpdateWithoutQuestsInput>
+    create: XOR<RoomCreateWithoutQuestsInput, RoomUncheckedCreateWithoutQuestsInput>
+    where?: RoomWhereInput
+  }
+
+  export type RoomUpdateToOneWithWhereWithoutQuestsInput = {
+    where?: RoomWhereInput
+    data: XOR<RoomUpdateWithoutQuestsInput, RoomUncheckedUpdateWithoutQuestsInput>
+  }
+
+  export type RoomUpdateWithoutQuestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createUser?: UserUpdateOneRequiredWithoutCreatedRoomsNestedInput
+    members?: RoomMemberUpdateManyWithoutRoomNestedInput
+    invitations?: InvitationUpdateManyWithoutRoomNestedInput
+  }
+
+  export type RoomUncheckedUpdateWithoutQuestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createUserId?: StringFieldUpdateOperationsInput | string
+    members?: RoomMemberUncheckedUpdateManyWithoutRoomNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutRoomNestedInput
   }
 
   export type QuestCompletionUpsertWithWhereUniqueWithoutQuestInput = {
@@ -13774,9 +19569,12 @@ export namespace Prisma {
     title: string
     description?: string | null
     deadline: Date | string
-    difficulty: number
+    difficulty?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
     creator: UserCreateNestedOneWithoutQuestsInput
     goal?: GoalCreateNestedOneWithoutQuestsInput
+    room?: RoomCreateNestedOneWithoutQuestsInput
   }
 
   export type QuestUncheckedCreateWithoutCompletionsInput = {
@@ -13784,9 +19582,12 @@ export namespace Prisma {
     title: string
     description?: string | null
     deadline: Date | string
-    difficulty: number
+    difficulty?: number
     creatorId: string
     goalId?: string | null
+    roomId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type QuestCreateOrConnectWithoutCompletionsInput = {
@@ -13799,13 +19600,17 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.UserRole
-    stars?: number
+    stars?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
     quests?: QuestCreateNestedManyWithoutCreatorInput
     rewardsPurchase?: RewardPurchaseCreateNestedManyWithoutChildInput
     rewards?: RewardCreateNestedManyWithoutCreatorInput
     boosts?: BoostActivationCreateNestedManyWithoutUserInput
     goals?: GoalCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberCreateNestedManyWithoutUserInput
+    createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
   }
 
   export type UserUncheckedCreateWithoutCompletionsInput = {
@@ -13813,13 +19618,17 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.UserRole
-    stars?: number
+    stars?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
     quests?: QuestUncheckedCreateNestedManyWithoutCreatorInput
     rewardsPurchase?: RewardPurchaseUncheckedCreateNestedManyWithoutChildInput
     rewards?: RewardUncheckedCreateNestedManyWithoutCreatorInput
     boosts?: BoostActivationUncheckedCreateNestedManyWithoutUserInput
     goals?: GoalUncheckedCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
   }
 
   export type UserCreateOrConnectWithoutCompletionsInput = {
@@ -13844,8 +19653,11 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     deadline?: DateTimeFieldUpdateOperationsInput | Date | string
     difficulty?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     creator?: UserUpdateOneRequiredWithoutQuestsNestedInput
     goal?: GoalUpdateOneWithoutQuestsNestedInput
+    room?: RoomUpdateOneWithoutQuestsNestedInput
   }
 
   export type QuestUncheckedUpdateWithoutCompletionsInput = {
@@ -13856,6 +19668,9 @@ export namespace Prisma {
     difficulty?: IntFieldUpdateOperationsInput | number
     creatorId?: StringFieldUpdateOperationsInput | string
     goalId?: NullableStringFieldUpdateOperationsInput | string | null
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUpsertWithoutCompletionsInput = {
@@ -13874,13 +19689,17 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    stars?: IntFieldUpdateOperationsInput | number
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quests?: QuestUpdateManyWithoutCreatorNestedInput
     rewardsPurchase?: RewardPurchaseUpdateManyWithoutChildNestedInput
     rewards?: RewardUpdateManyWithoutCreatorNestedInput
     boosts?: BoostActivationUpdateManyWithoutUserNestedInput
     goals?: GoalUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompletionsInput = {
@@ -13888,13 +19707,17 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    stars?: IntFieldUpdateOperationsInput | number
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quests?: QuestUncheckedUpdateManyWithoutCreatorNestedInput
     rewardsPurchase?: RewardPurchaseUncheckedUpdateManyWithoutChildNestedInput
     rewards?: RewardUncheckedUpdateManyWithoutCreatorNestedInput
     boosts?: BoostActivationUncheckedUpdateManyWithoutUserNestedInput
     goals?: GoalUncheckedUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
   }
 
   export type UserCreateWithoutRewardsInput = {
@@ -13902,13 +19725,17 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.UserRole
-    stars?: number
+    stars?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
     quests?: QuestCreateNestedManyWithoutCreatorInput
     completions?: QuestCompletionCreateNestedManyWithoutUserInput
     rewardsPurchase?: RewardPurchaseCreateNestedManyWithoutChildInput
     boosts?: BoostActivationCreateNestedManyWithoutUserInput
     goals?: GoalCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberCreateNestedManyWithoutUserInput
+    createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
   }
 
   export type UserUncheckedCreateWithoutRewardsInput = {
@@ -13916,13 +19743,17 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.UserRole
-    stars?: number
+    stars?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
     quests?: QuestUncheckedCreateNestedManyWithoutCreatorInput
     completions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
     rewardsPurchase?: RewardPurchaseUncheckedCreateNestedManyWithoutChildInput
     boosts?: BoostActivationUncheckedCreateNestedManyWithoutUserInput
     goals?: GoalUncheckedCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
   }
 
   export type UserCreateOrConnectWithoutRewardsInput = {
@@ -13933,6 +19764,8 @@ export namespace Prisma {
   export type RewardPurchaseCreateWithoutRewardInput = {
     id?: string
     purchasedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     child: UserCreateNestedOneWithoutRewardsPurchaseInput
   }
 
@@ -13940,6 +19773,8 @@ export namespace Prisma {
     id?: string
     purchasedAt?: Date | string
     childId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RewardPurchaseCreateOrConnectWithoutRewardInput = {
@@ -13968,13 +19803,17 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    stars?: IntFieldUpdateOperationsInput | number
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quests?: QuestUpdateManyWithoutCreatorNestedInput
     completions?: QuestCompletionUpdateManyWithoutUserNestedInput
     rewardsPurchase?: RewardPurchaseUpdateManyWithoutChildNestedInput
     boosts?: BoostActivationUpdateManyWithoutUserNestedInput
     goals?: GoalUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRewardsInput = {
@@ -13982,13 +19821,17 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    stars?: IntFieldUpdateOperationsInput | number
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quests?: QuestUncheckedUpdateManyWithoutCreatorNestedInput
     completions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
     rewardsPurchase?: RewardPurchaseUncheckedUpdateManyWithoutChildNestedInput
     boosts?: BoostActivationUncheckedUpdateManyWithoutUserNestedInput
     goals?: GoalUncheckedUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
   }
 
   export type RewardPurchaseUpsertWithWhereUniqueWithoutRewardInput = {
@@ -14012,6 +19855,8 @@ export namespace Prisma {
     title: string
     description?: string | null
     starCost: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
     creator: UserCreateNestedOneWithoutRewardsInput
   }
 
@@ -14021,6 +19866,8 @@ export namespace Prisma {
     description?: string | null
     starCost: number
     creatorId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RewardCreateOrConnectWithoutPurchasesInput = {
@@ -14033,13 +19880,17 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.UserRole
-    stars?: number
+    stars?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
     quests?: QuestCreateNestedManyWithoutCreatorInput
     completions?: QuestCompletionCreateNestedManyWithoutUserInput
     rewards?: RewardCreateNestedManyWithoutCreatorInput
     boosts?: BoostActivationCreateNestedManyWithoutUserInput
     goals?: GoalCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberCreateNestedManyWithoutUserInput
+    createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
   }
 
   export type UserUncheckedCreateWithoutRewardsPurchaseInput = {
@@ -14047,13 +19898,17 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.UserRole
-    stars?: number
+    stars?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
     quests?: QuestUncheckedCreateNestedManyWithoutCreatorInput
     completions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
     rewards?: RewardUncheckedCreateNestedManyWithoutCreatorInput
     boosts?: BoostActivationUncheckedCreateNestedManyWithoutUserInput
     goals?: GoalUncheckedCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
   }
 
   export type UserCreateOrConnectWithoutRewardsPurchaseInput = {
@@ -14077,6 +19932,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     starCost?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     creator?: UserUpdateOneRequiredWithoutRewardsNestedInput
   }
 
@@ -14086,6 +19943,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     starCost?: IntFieldUpdateOperationsInput | number
     creatorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUpsertWithoutRewardsPurchaseInput = {
@@ -14104,13 +19963,17 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    stars?: IntFieldUpdateOperationsInput | number
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quests?: QuestUpdateManyWithoutCreatorNestedInput
     completions?: QuestCompletionUpdateManyWithoutUserNestedInput
     rewards?: RewardUpdateManyWithoutCreatorNestedInput
     boosts?: BoostActivationUpdateManyWithoutUserNestedInput
     goals?: GoalUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRewardsPurchaseInput = {
@@ -14118,19 +19981,25 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    stars?: IntFieldUpdateOperationsInput | number
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quests?: QuestUncheckedUpdateManyWithoutCreatorNestedInput
     completions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
     rewards?: RewardUncheckedUpdateManyWithoutCreatorNestedInput
     boosts?: BoostActivationUncheckedUpdateManyWithoutUserNestedInput
     goals?: GoalUncheckedUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
   }
 
   export type BoostActivationCreateWithoutBoostInput = {
     id?: string
     activatedAt?: Date | string
     expiresAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     user: UserCreateNestedOneWithoutBoostsInput
   }
 
@@ -14139,6 +20008,8 @@ export namespace Prisma {
     activatedAt?: Date | string
     expiresAt: Date | string
     userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type BoostActivationCreateOrConnectWithoutBoostInput = {
@@ -14173,6 +20044,8 @@ export namespace Prisma {
     description?: string | null
     cooldownDays: number
     durationHours: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type BoostUncheckedCreateWithoutActivationsInput = {
@@ -14181,6 +20054,8 @@ export namespace Prisma {
     description?: string | null
     cooldownDays: number
     durationHours: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type BoostCreateOrConnectWithoutActivationsInput = {
@@ -14193,13 +20068,17 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.UserRole
-    stars?: number
+    stars?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
     quests?: QuestCreateNestedManyWithoutCreatorInput
     completions?: QuestCompletionCreateNestedManyWithoutUserInput
     rewardsPurchase?: RewardPurchaseCreateNestedManyWithoutChildInput
     rewards?: RewardCreateNestedManyWithoutCreatorInput
     goals?: GoalCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberCreateNestedManyWithoutUserInput
+    createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
   }
 
   export type UserUncheckedCreateWithoutBoostsInput = {
@@ -14207,13 +20086,17 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.UserRole
-    stars?: number
+    stars?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
     quests?: QuestUncheckedCreateNestedManyWithoutCreatorInput
     completions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
     rewardsPurchase?: RewardPurchaseUncheckedCreateNestedManyWithoutChildInput
     rewards?: RewardUncheckedCreateNestedManyWithoutCreatorInput
     goals?: GoalUncheckedCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
   }
 
   export type UserCreateOrConnectWithoutBoostsInput = {
@@ -14238,6 +20121,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     cooldownDays?: IntFieldUpdateOperationsInput | number
     durationHours?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BoostUncheckedUpdateWithoutActivationsInput = {
@@ -14246,6 +20131,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     cooldownDays?: IntFieldUpdateOperationsInput | number
     durationHours?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserUpsertWithoutBoostsInput = {
@@ -14264,13 +20151,17 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    stars?: IntFieldUpdateOperationsInput | number
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quests?: QuestUpdateManyWithoutCreatorNestedInput
     completions?: QuestCompletionUpdateManyWithoutUserNestedInput
     rewardsPurchase?: RewardPurchaseUpdateManyWithoutChildNestedInput
     rewards?: RewardUpdateManyWithoutCreatorNestedInput
     goals?: GoalUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBoostsInput = {
@@ -14278,131 +20169,539 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    stars?: IntFieldUpdateOperationsInput | number
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quests?: QuestUncheckedUpdateManyWithoutCreatorNestedInput
     completions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
     rewardsPurchase?: RewardPurchaseUncheckedUpdateManyWithoutChildNestedInput
     rewards?: RewardUncheckedUpdateManyWithoutCreatorNestedInput
     goals?: GoalUncheckedUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
   }
 
-  export type UserCreateWithoutGoalsInput = {
+  export type UserCreateWithoutCreatedRoomsInput = {
     id?: string
     email: string
     password: string
     role: $Enums.UserRole
-    stars?: number
+    stars?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
     quests?: QuestCreateNestedManyWithoutCreatorInput
     completions?: QuestCompletionCreateNestedManyWithoutUserInput
     rewardsPurchase?: RewardPurchaseCreateNestedManyWithoutChildInput
     rewards?: RewardCreateNestedManyWithoutCreatorInput
     boosts?: BoostActivationCreateNestedManyWithoutUserInput
+    goals?: GoalCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberCreateNestedManyWithoutUserInput
+    roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
   }
 
-  export type UserUncheckedCreateWithoutGoalsInput = {
+  export type UserUncheckedCreateWithoutCreatedRoomsInput = {
     id?: string
     email: string
     password: string
     role: $Enums.UserRole
-    stars?: number
+    stars?: number | null
     createdAt?: Date | string
+    updatedAt?: Date | string
     quests?: QuestUncheckedCreateNestedManyWithoutCreatorInput
     completions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
     rewardsPurchase?: RewardPurchaseUncheckedCreateNestedManyWithoutChildInput
     rewards?: RewardUncheckedCreateNestedManyWithoutCreatorInput
     boosts?: BoostActivationUncheckedCreateNestedManyWithoutUserInput
+    goals?: GoalUncheckedCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
   }
 
-  export type UserCreateOrConnectWithoutGoalsInput = {
+  export type UserCreateOrConnectWithoutCreatedRoomsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutGoalsInput, UserUncheckedCreateWithoutGoalsInput>
+    create: XOR<UserCreateWithoutCreatedRoomsInput, UserUncheckedCreateWithoutCreatedRoomsInput>
   }
 
-  export type QuestCreateWithoutGoalInput = {
+  export type RoomMemberCreateWithoutRoomInput = {
     id?: string
-    title: string
-    description?: string | null
-    deadline: Date | string
-    difficulty: number
-    creator: UserCreateNestedOneWithoutQuestsInput
-    completions?: QuestCompletionCreateNestedManyWithoutQuestInput
+    role?: $Enums.UserRole
+    joinedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutRoomsInput
   }
 
-  export type QuestUncheckedCreateWithoutGoalInput = {
+  export type RoomMemberUncheckedCreateWithoutRoomInput = {
     id?: string
-    title: string
-    description?: string | null
-    deadline: Date | string
-    difficulty: number
-    creatorId: string
-    completions?: QuestCompletionUncheckedCreateNestedManyWithoutQuestInput
+    userId: string
+    role?: $Enums.UserRole
+    joinedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type QuestCreateOrConnectWithoutGoalInput = {
-    where: QuestWhereUniqueInput
-    create: XOR<QuestCreateWithoutGoalInput, QuestUncheckedCreateWithoutGoalInput>
+  export type RoomMemberCreateOrConnectWithoutRoomInput = {
+    where: RoomMemberWhereUniqueInput
+    create: XOR<RoomMemberCreateWithoutRoomInput, RoomMemberUncheckedCreateWithoutRoomInput>
   }
 
-  export type QuestCreateManyGoalInputEnvelope = {
-    data: QuestCreateManyGoalInput | QuestCreateManyGoalInput[]
+  export type RoomMemberCreateManyRoomInputEnvelope = {
+    data: RoomMemberCreateManyRoomInput | RoomMemberCreateManyRoomInput[]
     skipDuplicates?: boolean
   }
 
-  export type UserUpsertWithoutGoalsInput = {
-    update: XOR<UserUpdateWithoutGoalsInput, UserUncheckedUpdateWithoutGoalsInput>
-    create: XOR<UserCreateWithoutGoalsInput, UserUncheckedCreateWithoutGoalsInput>
+  export type InvitationCreateWithoutRoomInput = {
+    id?: string
+    email: string
+    role: $Enums.UserRole
+    token: string
+    expiresAt: Date | string
+    acceptedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    invitedBy?: UserCreateNestedOneWithoutRoomInvitationsInput
+  }
+
+  export type InvitationUncheckedCreateWithoutRoomInput = {
+    id?: string
+    email: string
+    role: $Enums.UserRole
+    token: string
+    expiresAt: Date | string
+    invitedById?: string | null
+    acceptedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvitationCreateOrConnectWithoutRoomInput = {
+    where: InvitationWhereUniqueInput
+    create: XOR<InvitationCreateWithoutRoomInput, InvitationUncheckedCreateWithoutRoomInput>
+  }
+
+  export type InvitationCreateManyRoomInputEnvelope = {
+    data: InvitationCreateManyRoomInput | InvitationCreateManyRoomInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type QuestCreateWithoutRoomInput = {
+    id?: string
+    title: string
+    description?: string | null
+    deadline: Date | string
+    difficulty?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    creator: UserCreateNestedOneWithoutQuestsInput
+    goal?: GoalCreateNestedOneWithoutQuestsInput
+    completions?: QuestCompletionCreateNestedManyWithoutQuestInput
+  }
+
+  export type QuestUncheckedCreateWithoutRoomInput = {
+    id?: string
+    title: string
+    description?: string | null
+    deadline: Date | string
+    difficulty?: number
+    creatorId: string
+    goalId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    completions?: QuestCompletionUncheckedCreateNestedManyWithoutQuestInput
+  }
+
+  export type QuestCreateOrConnectWithoutRoomInput = {
+    where: QuestWhereUniqueInput
+    create: XOR<QuestCreateWithoutRoomInput, QuestUncheckedCreateWithoutRoomInput>
+  }
+
+  export type QuestCreateManyRoomInputEnvelope = {
+    data: QuestCreateManyRoomInput | QuestCreateManyRoomInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutCreatedRoomsInput = {
+    update: XOR<UserUpdateWithoutCreatedRoomsInput, UserUncheckedUpdateWithoutCreatedRoomsInput>
+    create: XOR<UserCreateWithoutCreatedRoomsInput, UserUncheckedCreateWithoutCreatedRoomsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutGoalsInput = {
+  export type UserUpdateToOneWithWhereWithoutCreatedRoomsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutGoalsInput, UserUncheckedUpdateWithoutGoalsInput>
+    data: XOR<UserUpdateWithoutCreatedRoomsInput, UserUncheckedUpdateWithoutCreatedRoomsInput>
   }
 
-  export type UserUpdateWithoutGoalsInput = {
+  export type UserUpdateWithoutCreatedRoomsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    stars?: IntFieldUpdateOperationsInput | number
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quests?: QuestUpdateManyWithoutCreatorNestedInput
     completions?: QuestCompletionUpdateManyWithoutUserNestedInput
     rewardsPurchase?: RewardPurchaseUpdateManyWithoutChildNestedInput
     rewards?: RewardUpdateManyWithoutCreatorNestedInput
     boosts?: BoostActivationUpdateManyWithoutUserNestedInput
+    goals?: GoalUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUpdateManyWithoutUserNestedInput
+    roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutGoalsInput = {
+  export type UserUncheckedUpdateWithoutCreatedRoomsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
-    stars?: IntFieldUpdateOperationsInput | number
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quests?: QuestUncheckedUpdateManyWithoutCreatorNestedInput
     completions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
     rewardsPurchase?: RewardPurchaseUncheckedUpdateManyWithoutChildNestedInput
     rewards?: RewardUncheckedUpdateManyWithoutCreatorNestedInput
     boosts?: BoostActivationUncheckedUpdateManyWithoutUserNestedInput
+    goals?: GoalUncheckedUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
   }
 
-  export type QuestUpsertWithWhereUniqueWithoutGoalInput = {
+  export type RoomMemberUpsertWithWhereUniqueWithoutRoomInput = {
+    where: RoomMemberWhereUniqueInput
+    update: XOR<RoomMemberUpdateWithoutRoomInput, RoomMemberUncheckedUpdateWithoutRoomInput>
+    create: XOR<RoomMemberCreateWithoutRoomInput, RoomMemberUncheckedCreateWithoutRoomInput>
+  }
+
+  export type RoomMemberUpdateWithWhereUniqueWithoutRoomInput = {
+    where: RoomMemberWhereUniqueInput
+    data: XOR<RoomMemberUpdateWithoutRoomInput, RoomMemberUncheckedUpdateWithoutRoomInput>
+  }
+
+  export type RoomMemberUpdateManyWithWhereWithoutRoomInput = {
+    where: RoomMemberScalarWhereInput
+    data: XOR<RoomMemberUpdateManyMutationInput, RoomMemberUncheckedUpdateManyWithoutRoomInput>
+  }
+
+  export type InvitationUpsertWithWhereUniqueWithoutRoomInput = {
+    where: InvitationWhereUniqueInput
+    update: XOR<InvitationUpdateWithoutRoomInput, InvitationUncheckedUpdateWithoutRoomInput>
+    create: XOR<InvitationCreateWithoutRoomInput, InvitationUncheckedCreateWithoutRoomInput>
+  }
+
+  export type InvitationUpdateWithWhereUniqueWithoutRoomInput = {
+    where: InvitationWhereUniqueInput
+    data: XOR<InvitationUpdateWithoutRoomInput, InvitationUncheckedUpdateWithoutRoomInput>
+  }
+
+  export type InvitationUpdateManyWithWhereWithoutRoomInput = {
+    where: InvitationScalarWhereInput
+    data: XOR<InvitationUpdateManyMutationInput, InvitationUncheckedUpdateManyWithoutRoomInput>
+  }
+
+  export type QuestUpsertWithWhereUniqueWithoutRoomInput = {
     where: QuestWhereUniqueInput
-    update: XOR<QuestUpdateWithoutGoalInput, QuestUncheckedUpdateWithoutGoalInput>
-    create: XOR<QuestCreateWithoutGoalInput, QuestUncheckedCreateWithoutGoalInput>
+    update: XOR<QuestUpdateWithoutRoomInput, QuestUncheckedUpdateWithoutRoomInput>
+    create: XOR<QuestCreateWithoutRoomInput, QuestUncheckedCreateWithoutRoomInput>
   }
 
-  export type QuestUpdateWithWhereUniqueWithoutGoalInput = {
+  export type QuestUpdateWithWhereUniqueWithoutRoomInput = {
     where: QuestWhereUniqueInput
-    data: XOR<QuestUpdateWithoutGoalInput, QuestUncheckedUpdateWithoutGoalInput>
+    data: XOR<QuestUpdateWithoutRoomInput, QuestUncheckedUpdateWithoutRoomInput>
   }
 
-  export type QuestUpdateManyWithWhereWithoutGoalInput = {
+  export type QuestUpdateManyWithWhereWithoutRoomInput = {
     where: QuestScalarWhereInput
-    data: XOR<QuestUpdateManyMutationInput, QuestUncheckedUpdateManyWithoutGoalInput>
+    data: XOR<QuestUpdateManyMutationInput, QuestUncheckedUpdateManyWithoutRoomInput>
+  }
+
+  export type RoomCreateWithoutMembersInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createUser: UserCreateNestedOneWithoutCreatedRoomsInput
+    invitations?: InvitationCreateNestedManyWithoutRoomInput
+    quests?: QuestCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomUncheckedCreateWithoutMembersInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createUserId: string
+    invitations?: InvitationUncheckedCreateNestedManyWithoutRoomInput
+    quests?: QuestUncheckedCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomCreateOrConnectWithoutMembersInput = {
+    where: RoomWhereUniqueInput
+    create: XOR<RoomCreateWithoutMembersInput, RoomUncheckedCreateWithoutMembersInput>
+  }
+
+  export type UserCreateWithoutRoomsInput = {
+    id?: string
+    email: string
+    password: string
+    role: $Enums.UserRole
+    stars?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quests?: QuestCreateNestedManyWithoutCreatorInput
+    completions?: QuestCompletionCreateNestedManyWithoutUserInput
+    rewardsPurchase?: RewardPurchaseCreateNestedManyWithoutChildInput
+    rewards?: RewardCreateNestedManyWithoutCreatorInput
+    boosts?: BoostActivationCreateNestedManyWithoutUserInput
+    goals?: GoalCreateNestedManyWithoutCreatorInput
+    createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
+  }
+
+  export type UserUncheckedCreateWithoutRoomsInput = {
+    id?: string
+    email: string
+    password: string
+    role: $Enums.UserRole
+    stars?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quests?: QuestUncheckedCreateNestedManyWithoutCreatorInput
+    completions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
+    rewardsPurchase?: RewardPurchaseUncheckedCreateNestedManyWithoutChildInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCreatorInput
+    boosts?: BoostActivationUncheckedCreateNestedManyWithoutUserInput
+    goals?: GoalUncheckedCreateNestedManyWithoutCreatorInput
+    createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
+  }
+
+  export type UserCreateOrConnectWithoutRoomsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRoomsInput, UserUncheckedCreateWithoutRoomsInput>
+  }
+
+  export type RoomUpsertWithoutMembersInput = {
+    update: XOR<RoomUpdateWithoutMembersInput, RoomUncheckedUpdateWithoutMembersInput>
+    create: XOR<RoomCreateWithoutMembersInput, RoomUncheckedCreateWithoutMembersInput>
+    where?: RoomWhereInput
+  }
+
+  export type RoomUpdateToOneWithWhereWithoutMembersInput = {
+    where?: RoomWhereInput
+    data: XOR<RoomUpdateWithoutMembersInput, RoomUncheckedUpdateWithoutMembersInput>
+  }
+
+  export type RoomUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createUser?: UserUpdateOneRequiredWithoutCreatedRoomsNestedInput
+    invitations?: InvitationUpdateManyWithoutRoomNestedInput
+    quests?: QuestUpdateManyWithoutRoomNestedInput
+  }
+
+  export type RoomUncheckedUpdateWithoutMembersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createUserId?: StringFieldUpdateOperationsInput | string
+    invitations?: InvitationUncheckedUpdateManyWithoutRoomNestedInput
+    quests?: QuestUncheckedUpdateManyWithoutRoomNestedInput
+  }
+
+  export type UserUpsertWithoutRoomsInput = {
+    update: XOR<UserUpdateWithoutRoomsInput, UserUncheckedUpdateWithoutRoomsInput>
+    create: XOR<UserCreateWithoutRoomsInput, UserUncheckedCreateWithoutRoomsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRoomsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRoomsInput, UserUncheckedUpdateWithoutRoomsInput>
+  }
+
+  export type UserUpdateWithoutRoomsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quests?: QuestUpdateManyWithoutCreatorNestedInput
+    completions?: QuestCompletionUpdateManyWithoutUserNestedInput
+    rewardsPurchase?: RewardPurchaseUpdateManyWithoutChildNestedInput
+    rewards?: RewardUpdateManyWithoutCreatorNestedInput
+    boosts?: BoostActivationUpdateManyWithoutUserNestedInput
+    goals?: GoalUpdateManyWithoutCreatorNestedInput
+    createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRoomsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quests?: QuestUncheckedUpdateManyWithoutCreatorNestedInput
+    completions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
+    rewardsPurchase?: RewardPurchaseUncheckedUpdateManyWithoutChildNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCreatorNestedInput
+    boosts?: BoostActivationUncheckedUpdateManyWithoutUserNestedInput
+    goals?: GoalUncheckedUpdateManyWithoutCreatorNestedInput
+    createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+  }
+
+  export type RoomCreateWithoutInvitationsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createUser: UserCreateNestedOneWithoutCreatedRoomsInput
+    members?: RoomMemberCreateNestedManyWithoutRoomInput
+    quests?: QuestCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomUncheckedCreateWithoutInvitationsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    createUserId: string
+    members?: RoomMemberUncheckedCreateNestedManyWithoutRoomInput
+    quests?: QuestUncheckedCreateNestedManyWithoutRoomInput
+  }
+
+  export type RoomCreateOrConnectWithoutInvitationsInput = {
+    where: RoomWhereUniqueInput
+    create: XOR<RoomCreateWithoutInvitationsInput, RoomUncheckedCreateWithoutInvitationsInput>
+  }
+
+  export type UserCreateWithoutRoomInvitationsInput = {
+    id?: string
+    email: string
+    password: string
+    role: $Enums.UserRole
+    stars?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quests?: QuestCreateNestedManyWithoutCreatorInput
+    completions?: QuestCompletionCreateNestedManyWithoutUserInput
+    rewardsPurchase?: RewardPurchaseCreateNestedManyWithoutChildInput
+    rewards?: RewardCreateNestedManyWithoutCreatorInput
+    boosts?: BoostActivationCreateNestedManyWithoutUserInput
+    goals?: GoalCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberCreateNestedManyWithoutUserInput
+    createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
+  }
+
+  export type UserUncheckedCreateWithoutRoomInvitationsInput = {
+    id?: string
+    email: string
+    password: string
+    role: $Enums.UserRole
+    stars?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quests?: QuestUncheckedCreateNestedManyWithoutCreatorInput
+    completions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
+    rewardsPurchase?: RewardPurchaseUncheckedCreateNestedManyWithoutChildInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCreatorInput
+    boosts?: BoostActivationUncheckedCreateNestedManyWithoutUserInput
+    goals?: GoalUncheckedCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
+  }
+
+  export type UserCreateOrConnectWithoutRoomInvitationsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRoomInvitationsInput, UserUncheckedCreateWithoutRoomInvitationsInput>
+  }
+
+  export type RoomUpsertWithoutInvitationsInput = {
+    update: XOR<RoomUpdateWithoutInvitationsInput, RoomUncheckedUpdateWithoutInvitationsInput>
+    create: XOR<RoomCreateWithoutInvitationsInput, RoomUncheckedCreateWithoutInvitationsInput>
+    where?: RoomWhereInput
+  }
+
+  export type RoomUpdateToOneWithWhereWithoutInvitationsInput = {
+    where?: RoomWhereInput
+    data: XOR<RoomUpdateWithoutInvitationsInput, RoomUncheckedUpdateWithoutInvitationsInput>
+  }
+
+  export type RoomUpdateWithoutInvitationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createUser?: UserUpdateOneRequiredWithoutCreatedRoomsNestedInput
+    members?: RoomMemberUpdateManyWithoutRoomNestedInput
+    quests?: QuestUpdateManyWithoutRoomNestedInput
+  }
+
+  export type RoomUncheckedUpdateWithoutInvitationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createUserId?: StringFieldUpdateOperationsInput | string
+    members?: RoomMemberUncheckedUpdateManyWithoutRoomNestedInput
+    quests?: QuestUncheckedUpdateManyWithoutRoomNestedInput
+  }
+
+  export type UserUpsertWithoutRoomInvitationsInput = {
+    update: XOR<UserUpdateWithoutRoomInvitationsInput, UserUncheckedUpdateWithoutRoomInvitationsInput>
+    create: XOR<UserCreateWithoutRoomInvitationsInput, UserUncheckedCreateWithoutRoomInvitationsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRoomInvitationsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRoomInvitationsInput, UserUncheckedUpdateWithoutRoomInvitationsInput>
+  }
+
+  export type UserUpdateWithoutRoomInvitationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quests?: QuestUpdateManyWithoutCreatorNestedInput
+    completions?: QuestCompletionUpdateManyWithoutUserNestedInput
+    rewardsPurchase?: RewardPurchaseUpdateManyWithoutChildNestedInput
+    rewards?: RewardUpdateManyWithoutCreatorNestedInput
+    boosts?: BoostActivationUpdateManyWithoutUserNestedInput
+    goals?: GoalUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRoomInvitationsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quests?: QuestUncheckedUpdateManyWithoutCreatorNestedInput
+    completions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
+    rewardsPurchase?: RewardPurchaseUncheckedUpdateManyWithoutChildNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCreatorNestedInput
+    boosts?: BoostActivationUncheckedUpdateManyWithoutUserNestedInput
+    goals?: GoalUncheckedUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
   }
 
   export type QuestCreateManyCreatorInput = {
@@ -14410,8 +20709,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     deadline: Date | string
-    difficulty: number
+    difficulty?: number
     goalId?: string | null
+    roomId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type QuestCompletionCreateManyUserInput = {
@@ -14420,12 +20722,16 @@ export namespace Prisma {
     isLate?: boolean
     starsAwarded: number
     questId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RewardPurchaseCreateManyChildInput = {
     id?: string
     purchasedAt?: Date | string
     rewardId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RewardCreateManyCreatorInput = {
@@ -14433,6 +20739,8 @@ export namespace Prisma {
     title: string
     description?: string | null
     starCost: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type BoostActivationCreateManyUserInput = {
@@ -14440,6 +20748,8 @@ export namespace Prisma {
     activatedAt?: Date | string
     expiresAt: Date | string
     boostId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type GoalCreateManyCreatorInput = {
@@ -14448,6 +20758,36 @@ export namespace Prisma {
     description?: string | null
     starReward: number
     completedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RoomMemberCreateManyUserInput = {
+    id?: string
+    roomId: string
+    role?: $Enums.UserRole
+    joinedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RoomCreateManyCreateUserInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvitationCreateManyInvitedByInput = {
+    id?: string
+    roomId: string
+    email: string
+    role: $Enums.UserRole
+    token: string
+    expiresAt: Date | string
+    acceptedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type QuestUpdateWithoutCreatorInput = {
@@ -14456,7 +20796,10 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     deadline?: DateTimeFieldUpdateOperationsInput | Date | string
     difficulty?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     goal?: GoalUpdateOneWithoutQuestsNestedInput
+    room?: RoomUpdateOneWithoutQuestsNestedInput
     completions?: QuestCompletionUpdateManyWithoutQuestNestedInput
   }
 
@@ -14467,6 +20810,9 @@ export namespace Prisma {
     deadline?: DateTimeFieldUpdateOperationsInput | Date | string
     difficulty?: IntFieldUpdateOperationsInput | number
     goalId?: NullableStringFieldUpdateOperationsInput | string | null
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     completions?: QuestCompletionUncheckedUpdateManyWithoutQuestNestedInput
   }
 
@@ -14477,6 +20823,9 @@ export namespace Prisma {
     deadline?: DateTimeFieldUpdateOperationsInput | Date | string
     difficulty?: IntFieldUpdateOperationsInput | number
     goalId?: NullableStringFieldUpdateOperationsInput | string | null
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type QuestCompletionUpdateWithoutUserInput = {
@@ -14484,6 +20833,8 @@ export namespace Prisma {
     completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isLate?: BoolFieldUpdateOperationsInput | boolean
     starsAwarded?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quest?: QuestUpdateOneRequiredWithoutCompletionsNestedInput
   }
 
@@ -14493,6 +20844,8 @@ export namespace Prisma {
     isLate?: BoolFieldUpdateOperationsInput | boolean
     starsAwarded?: IntFieldUpdateOperationsInput | number
     questId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type QuestCompletionUncheckedUpdateManyWithoutUserInput = {
@@ -14501,11 +20854,15 @@ export namespace Prisma {
     isLate?: BoolFieldUpdateOperationsInput | boolean
     starsAwarded?: IntFieldUpdateOperationsInput | number
     questId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RewardPurchaseUpdateWithoutChildInput = {
     id?: StringFieldUpdateOperationsInput | string
     purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reward?: RewardUpdateOneRequiredWithoutPurchasesNestedInput
   }
 
@@ -14513,12 +20870,16 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rewardId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RewardPurchaseUncheckedUpdateManyWithoutChildInput = {
     id?: StringFieldUpdateOperationsInput | string
     purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rewardId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RewardUpdateWithoutCreatorInput = {
@@ -14526,6 +20887,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     starCost?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     purchases?: RewardPurchaseUpdateManyWithoutRewardNestedInput
   }
 
@@ -14534,6 +20897,8 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     starCost?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     purchases?: RewardPurchaseUncheckedUpdateManyWithoutRewardNestedInput
   }
 
@@ -14542,12 +20907,16 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     starCost?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BoostActivationUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     activatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     boost?: BoostUpdateOneRequiredWithoutActivationsNestedInput
   }
 
@@ -14556,6 +20925,8 @@ export namespace Prisma {
     activatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     boostId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BoostActivationUncheckedUpdateManyWithoutUserInput = {
@@ -14563,6 +20934,8 @@ export namespace Prisma {
     activatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     boostId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type GoalUpdateWithoutCreatorInput = {
@@ -14571,6 +20944,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     starReward?: IntFieldUpdateOperationsInput | number
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quests?: QuestUpdateManyWithoutGoalNestedInput
   }
 
@@ -14580,6 +20955,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     starReward?: IntFieldUpdateOperationsInput | number
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quests?: QuestUncheckedUpdateManyWithoutGoalNestedInput
   }
 
@@ -14589,90 +20966,98 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     starReward?: IntFieldUpdateOperationsInput | number
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type QuestCompletionCreateManyQuestInput = {
-    id?: string
-    completedAt?: Date | string
-    isLate?: boolean
-    starsAwarded: number
-    userId: string
-  }
-
-  export type QuestCompletionUpdateWithoutQuestInput = {
+  export type RoomMemberUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    isLate?: BoolFieldUpdateOperationsInput | boolean
-    starsAwarded?: IntFieldUpdateOperationsInput | number
-    user?: UserUpdateOneRequiredWithoutCompletionsNestedInput
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    room?: RoomUpdateOneRequiredWithoutMembersNestedInput
   }
 
-  export type QuestCompletionUncheckedUpdateWithoutQuestInput = {
+  export type RoomMemberUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    isLate?: BoolFieldUpdateOperationsInput | boolean
-    starsAwarded?: IntFieldUpdateOperationsInput | number
-    userId?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type QuestCompletionUncheckedUpdateManyWithoutQuestInput = {
+  export type RoomMemberUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    isLate?: BoolFieldUpdateOperationsInput | boolean
-    starsAwarded?: IntFieldUpdateOperationsInput | number
-    userId?: StringFieldUpdateOperationsInput | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type RewardPurchaseCreateManyRewardInput = {
-    id?: string
-    purchasedAt?: Date | string
-    childId: string
-  }
-
-  export type RewardPurchaseUpdateWithoutRewardInput = {
+  export type RoomUpdateWithoutCreateUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    child?: UserUpdateOneRequiredWithoutRewardsPurchaseNestedInput
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: RoomMemberUpdateManyWithoutRoomNestedInput
+    invitations?: InvitationUpdateManyWithoutRoomNestedInput
+    quests?: QuestUpdateManyWithoutRoomNestedInput
   }
 
-  export type RewardPurchaseUncheckedUpdateWithoutRewardInput = {
+  export type RoomUncheckedUpdateWithoutCreateUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    childId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: RoomMemberUncheckedUpdateManyWithoutRoomNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutRoomNestedInput
+    quests?: QuestUncheckedUpdateManyWithoutRoomNestedInput
   }
 
-  export type RewardPurchaseUncheckedUpdateManyWithoutRewardInput = {
+  export type RoomUncheckedUpdateManyWithoutCreateUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    childId?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type BoostActivationCreateManyBoostInput = {
-    id?: string
-    activatedAt?: Date | string
-    expiresAt: Date | string
-    userId: string
-  }
-
-  export type BoostActivationUpdateWithoutBoostInput = {
+  export type InvitationUpdateWithoutInvitedByInput = {
     id?: StringFieldUpdateOperationsInput | string
-    activatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    token?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutBoostsNestedInput
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    room?: RoomUpdateOneRequiredWithoutInvitationsNestedInput
   }
 
-  export type BoostActivationUncheckedUpdateWithoutBoostInput = {
+  export type InvitationUncheckedUpdateWithoutInvitedByInput = {
     id?: StringFieldUpdateOperationsInput | string
-    activatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    token?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type BoostActivationUncheckedUpdateManyWithoutBoostInput = {
+  export type InvitationUncheckedUpdateManyWithoutInvitedByInput = {
     id?: StringFieldUpdateOperationsInput | string
-    activatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    roomId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    token?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    userId?: StringFieldUpdateOperationsInput | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type QuestCreateManyGoalInput = {
@@ -14680,8 +21065,11 @@ export namespace Prisma {
     title: string
     description?: string | null
     deadline: Date | string
-    difficulty: number
+    difficulty?: number
     creatorId: string
+    roomId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type QuestUpdateWithoutGoalInput = {
@@ -14690,7 +21078,10 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     deadline?: DateTimeFieldUpdateOperationsInput | Date | string
     difficulty?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     creator?: UserUpdateOneRequiredWithoutQuestsNestedInput
+    room?: RoomUpdateOneWithoutQuestsNestedInput
     completions?: QuestCompletionUpdateManyWithoutQuestNestedInput
   }
 
@@ -14701,6 +21092,9 @@ export namespace Prisma {
     deadline?: DateTimeFieldUpdateOperationsInput | Date | string
     difficulty?: IntFieldUpdateOperationsInput | number
     creatorId?: StringFieldUpdateOperationsInput | string
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     completions?: QuestCompletionUncheckedUpdateManyWithoutQuestNestedInput
   }
 
@@ -14711,6 +21105,251 @@ export namespace Prisma {
     deadline?: DateTimeFieldUpdateOperationsInput | Date | string
     difficulty?: IntFieldUpdateOperationsInput | number
     creatorId?: StringFieldUpdateOperationsInput | string
+    roomId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestCompletionCreateManyQuestInput = {
+    id?: string
+    completedAt?: Date | string
+    isLate?: boolean
+    starsAwarded: number
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuestCompletionUpdateWithoutQuestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isLate?: BoolFieldUpdateOperationsInput | boolean
+    starsAwarded?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutCompletionsNestedInput
+  }
+
+  export type QuestCompletionUncheckedUpdateWithoutQuestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isLate?: BoolFieldUpdateOperationsInput | boolean
+    starsAwarded?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestCompletionUncheckedUpdateManyWithoutQuestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isLate?: BoolFieldUpdateOperationsInput | boolean
+    starsAwarded?: IntFieldUpdateOperationsInput | number
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RewardPurchaseCreateManyRewardInput = {
+    id?: string
+    purchasedAt?: Date | string
+    childId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RewardPurchaseUpdateWithoutRewardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    child?: UserUpdateOneRequiredWithoutRewardsPurchaseNestedInput
+  }
+
+  export type RewardPurchaseUncheckedUpdateWithoutRewardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    childId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RewardPurchaseUncheckedUpdateManyWithoutRewardInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    purchasedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    childId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoostActivationCreateManyBoostInput = {
+    id?: string
+    activatedAt?: Date | string
+    expiresAt: Date | string
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BoostActivationUpdateWithoutBoostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    activatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBoostsNestedInput
+  }
+
+  export type BoostActivationUncheckedUpdateWithoutBoostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    activatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BoostActivationUncheckedUpdateManyWithoutBoostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    activatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomMemberCreateManyRoomInput = {
+    id?: string
+    userId: string
+    role?: $Enums.UserRole
+    joinedAt?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvitationCreateManyRoomInput = {
+    id?: string
+    email: string
+    role: $Enums.UserRole
+    token: string
+    expiresAt: Date | string
+    invitedById?: string | null
+    acceptedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type QuestCreateManyRoomInput = {
+    id?: string
+    title: string
+    description?: string | null
+    deadline: Date | string
+    difficulty?: number
+    creatorId: string
+    goalId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RoomMemberUpdateWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutRoomsNestedInput
+  }
+
+  export type RoomMemberUncheckedUpdateWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RoomMemberUncheckedUpdateManyWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvitationUpdateWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitedBy?: UserUpdateOneWithoutRoomInvitationsNestedInput
+  }
+
+  export type InvitationUncheckedUpdateWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitedById?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvitationUncheckedUpdateManyWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    token?: StringFieldUpdateOperationsInput | string
+    expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invitedById?: NullableStringFieldUpdateOperationsInput | string | null
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type QuestUpdateWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    difficulty?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    creator?: UserUpdateOneRequiredWithoutQuestsNestedInput
+    goal?: GoalUpdateOneWithoutQuestsNestedInput
+    completions?: QuestCompletionUpdateManyWithoutQuestNestedInput
+  }
+
+  export type QuestUncheckedUpdateWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    difficulty?: IntFieldUpdateOperationsInput | number
+    creatorId?: StringFieldUpdateOperationsInput | string
+    goalId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completions?: QuestCompletionUncheckedUpdateManyWithoutQuestNestedInput
+  }
+
+  export type QuestUncheckedUpdateManyWithoutRoomInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    difficulty?: IntFieldUpdateOperationsInput | number
+    creatorId?: StringFieldUpdateOperationsInput | string
+    goalId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

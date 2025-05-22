@@ -16,7 +16,7 @@ export class AccountService {
 	}
 
 	async create(input: CreateUserInput): Promise<User> {
-		const { email, password } = input;
+		const { email, password, role } = input;
 
 		const isEmailExist = await this.prisma.user.findUnique({
 			where: {
@@ -29,6 +29,7 @@ export class AccountService {
 		const user = await this.prisma.user.create({
 			data: {
 				email,
+				role,
 				password: await hash(password),
 			},
 		});

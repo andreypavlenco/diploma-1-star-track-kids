@@ -2,15 +2,59 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Boost {
+  activations: [BoostActivation!]
+  cooldownDays: Int!
+  description: String
+  durationHours: Int!
+  id: ID!
+  name: String!
+}
+
+type BoostActivation {
+  activatedAt: DateTime!
+  boost: Boost!
+  boostId: ID!
+  expiresAt: DateTime!
+  id: ID!
+  user: UserModel!
+  userId: ID!
+}
+
 input CreateUserInput {
   email: String!
   password: String!
+  role: UserRole!
 }
 
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+type Goal {
+  completedAt: DateTime
+  creator: UserModel!
+  creatorId: ID!
+  description: String
+  id: ID!
+  quests: [Quest!]
+  starReward: Int!
+  title: String!
+}
+
+type Invitation {
+  acceptedAt: DateTime
+  email: String!
+  expiresAt: DateTime!
+  id: ID!
+  invitedBy: UserModel!
+  invitedById: ID!
+  role: UserRole!
+  room: Room!
+  roomId: ID!
+  token: String!
+}
 
 input LoginInput {
   email: String!
@@ -27,10 +71,99 @@ type Query {
   findAllUsers: [UserModel!]!
 }
 
-type UserModel {
+type Quest {
+  completions: [QuestCompletion!]
+  creator: UserModel!
+  creatorId: ID!
+  deadline: DateTime!
+  description: String
+  difficulty: Int!
+  goal: Goal
+  goalId: ID
+  id: ID!
+  room: Room
+  roomId: ID
+  title: String!
+}
+
+type QuestCompletion {
+  completedAt: DateTime!
+  id: ID!
+  isLate: Boolean!
+  quest: Quest!
+  questId: ID!
+  starsAwarded: Int!
+  user: UserModel!
+  userId: ID!
+}
+
+type RewardModel {
   createdAt: DateTime!
+  creator: UserModel!
+  creatorId: String!
+  description: String
+  id: ID!
+  purchases: [RewardPurchaseModel!]!
+  starCost: Int!
+  title: String!
+}
+
+type RewardPurchaseModel {
+  child: [UserModel!]!
+  childId: String!
+  createdAt: DateTime!
+  creator: UserModel!
+  creatorId: String!
+  description: String
+  id: ID!
+  purchasedAt: DateTime!
+  rewarId: String!
+  reward: [RewardModel!]!
+  starCost: Int!
+}
+
+type Room {
+  createdAt: DateTime!
+  createdBy: UserModel!
+  createdById: ID!
+  id: ID!
+  invitations: [Invitation!]!
+  members: [RoomMember!]!
+  name: String!
+  quests: [Quest!]
+}
+
+type RoomMember {
+  id: ID!
+  joinedAt: DateTime!
+  role: UserRole!
+  room: Room!
+  roomId: ID!
+  user: UserModel!
+  userId: ID!
+}
+
+type UserModel {
+  boosts: [BoostActivation!]!
+  completions: [QuestCompletion!]!
+  createdAt: DateTime!
+  createdRooms: [Room!]!
   email: String!
+  goals: [Goal!]!
   id: ID!
   password: String!
+  quests: [Quest!]!
+  reward: [RewardPurchaseModel!]!
+  rewardsPurchase: [RewardModel!]!
+  role: UserRole!
+  roomInvitations: [Invitation!]!
+  rooms: [RoomMember!]!
+  stars: Int!
   updateAt: DateTime!
+  updatedAt: DateTime!
+}
+
+enum UserRole {
+  CHILD
+  PARENT
 }
