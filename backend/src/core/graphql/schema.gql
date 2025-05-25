@@ -21,6 +21,10 @@ type BoostActivation {
   userId: ID!
 }
 
+input CreateRoomInput {
+  name: String!
+}
+
 input CreateUserInput {
   email: String!
   password: String!
@@ -62,13 +66,18 @@ input LoginInput {
 }
 
 type Mutation {
+  createRoom(data: CreateRoomInput!): Room!
   createUser(data: CreateUserInput!): UserModel!
+  deleteRoom(roomId: String!): Boolean!
   loginUser(data: LoginInput!): UserModel!
   logoutUser: Boolean!
+  updateRoom(date: CreateRoomInput!, roomId: String!): [Room!]!
 }
 
 type Query {
-  findAllUsers: [UserModel!]!
+  findAllRoomsUser: [Room!]!
+  findProfile: UserModel!
+  findRoomById(roomId: String!): Room!
 }
 
 type Quest {
@@ -123,9 +132,9 @@ type RewardPurchaseModel {
 }
 
 type Room {
+  createUser: UserModel!
+  createUserId: ID!
   createdAt: DateTime!
-  createdBy: UserModel!
-  createdById: ID!
   id: ID!
   invitations: [Invitation!]!
   members: [RoomMember!]!

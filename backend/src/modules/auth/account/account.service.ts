@@ -10,9 +10,12 @@ import { CreateUserInput } from './input/create-user.input';
 export class AccountService {
 	constructor(private readonly prisma: PrismaService) {}
 
-	async findAll() {
-		const users = await this.prisma.user.findMany();
-		return users;
+	async findById(id: string) {
+		const user = await this.prisma.user.findUnique({
+			where: { id },
+			include: { quests: true, createdRooms: true },
+		});
+		return user;
 	}
 
 	async create(input: CreateUserInput): Promise<User> {
