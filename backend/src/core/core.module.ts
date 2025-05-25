@@ -9,6 +9,7 @@ import { BoostModule } from '../modules/boost/boost.module';
 import { GoalModule } from '../modules/goal/goal.module';
 import { QuestModule } from '../modules/quest/quest.module';
 import { RewardModule } from '../modules/reward/reward.module';
+import { RoomModule } from '../modules/room/room.module';
 import { IS_DEV_ENV } from '../shared/utils/is.dev-util';
 
 import { getGraphqlConfig } from './config/graphql.config';
@@ -35,6 +36,7 @@ import { RedisModule } from './redis/redis.module';
 		GoalModule,
 		RewardModule,
 		BoostModule,
+		RoomModule,
 	],
 })
 export class CoreModule {}

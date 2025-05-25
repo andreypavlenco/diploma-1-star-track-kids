@@ -18,10 +18,10 @@ export class RoomModel {
 	createdAt: Date;
 
 	@Field(() => UserModel)
-	createdBy: UserModel;
+	createUser: UserModel;
 
 	@Field(() => ID)
-	createdById: string;
+	createUserId: string;
 
 	@Field(() => [RoomMemberModel])
 	members: RoomMemberModel[];
