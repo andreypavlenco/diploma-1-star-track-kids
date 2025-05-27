@@ -21,6 +21,27 @@ type BoostActivation {
   userId: ID!
 }
 
+input CreateGoalInput {
+  description: String
+  starReward: Int!
+  title: String!
+}
+
+input CreateQuestInput {
+  deadline: DateTime!
+  description: String
+  difficulty: Int!
+  goalId: ID
+  roomId: ID!
+  title: String!
+}
+
+input CreateRewardInput {
+  description: String
+  starCost: Int!
+  title: String!
+}
+
 input CreateRoomInput {
   name: String!
 }
@@ -66,17 +87,37 @@ input LoginInput {
 }
 
 type Mutation {
+  completeGoal(goalId: String!): Goal!
+  createGoal(data: CreateGoalInput!): Goal!
+  createQuest(data: CreateQuestInput!, roomId: String!): Quest!
+  createReward(data: CreateRewardInput!): RewardModel!
   createRoom(data: CreateRoomInput!): Room!
   createUser(data: CreateUserInput!): UserModel!
+  deleteGoal(goalId: String!): Boolean!
+  deleteQuest(questId: String!): Quest!
+  deleteReward(rewardId: String!): Boolean!
   deleteRoom(roomId: String!): Boolean!
   loginUser(data: LoginInput!): UserModel!
   logoutUser: Boolean!
-  updateRoom(date: CreateRoomInput!, roomId: String!): [Room!]!
+  uncompleteGoal(goalId: String!): Goal!
+  updateGoal(data: UpdateGoalInput!, goalId: String!): Goal!
+  updateQuest(data: CreateQuestInput!, questId: String!): Quest!
+  updateReward(data: UpdateRewardInput!, rewardId: String!): RewardModel!
+  updateRoom(data: CreateRoomInput!, roomId: String!): Room!
 }
 
 type Query {
+  findActiveGoals: [Goal!]!
+  findAllQuestRoom(roomId: String!): [Quest!]!
   findAllRoomsUser: [Room!]!
+  findByCreatorId: RewardModel!
+  findByIdQuest(questId: String!, roomId: String!): Quest!
+  findCompletedGoals: [Goal!]!
+  findGoalById(goalId: String!): Goal!
+  findGoalForChild: Goal!
   findProfile: UserModel!
+  findRewardById(rewardId: String!): RewardModel!
+  findRewardsForChild: [RewardModel!]!
   findRoomById(roomId: String!): Room!
 }
 
@@ -152,14 +193,28 @@ type RoomMember {
   userId: ID!
 }
 
+input UpdateGoalInput {
+  description: String
+  starReward: Int
+  title: String
+}
+
+input UpdateRewardInput {
+  description: String
+  starCost: Int
+  title: String
+}
+
 type UserModel {
   boosts: [BoostActivation!]!
+  children: [UserModel]!
   completions: [QuestCompletion!]!
   createdAt: DateTime!
   createdRooms: [Room!]!
   email: String!
   goals: [Goal!]!
   id: ID!
+  parents: [UserModel]!
   password: String!
   quests: [Quest!]!
   reward: [RewardPurchaseModel!]!
