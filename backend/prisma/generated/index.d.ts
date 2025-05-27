@@ -1805,6 +1805,8 @@ export namespace Prisma {
     rooms: number
     createdRooms: number
     roomInvitations: number
+    parents: number
+    children: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1817,6 +1819,8 @@ export namespace Prisma {
     rooms?: boolean | UserCountOutputTypeCountRoomsArgs
     createdRooms?: boolean | UserCountOutputTypeCountCreatedRoomsArgs
     roomInvitations?: boolean | UserCountOutputTypeCountRoomInvitationsArgs
+    parents?: boolean | UserCountOutputTypeCountParentsArgs
+    children?: boolean | UserCountOutputTypeCountChildrenArgs
   }
 
   // Custom InputTypes
@@ -1891,6 +1895,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountRoomInvitationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: InvitationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountParentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountChildrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UserWhereInput
   }
 
 
@@ -2294,6 +2312,8 @@ export namespace Prisma {
     rooms?: boolean | User$roomsArgs<ExtArgs>
     createdRooms?: boolean | User$createdRoomsArgs<ExtArgs>
     roomInvitations?: boolean | User$roomInvitationsArgs<ExtArgs>
+    parents?: boolean | User$parentsArgs<ExtArgs>
+    children?: boolean | User$childrenArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2338,6 +2358,8 @@ export namespace Prisma {
     rooms?: boolean | User$roomsArgs<ExtArgs>
     createdRooms?: boolean | User$createdRoomsArgs<ExtArgs>
     roomInvitations?: boolean | User$roomInvitationsArgs<ExtArgs>
+    parents?: boolean | User$parentsArgs<ExtArgs>
+    children?: boolean | User$childrenArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2355,6 +2377,8 @@ export namespace Prisma {
       rooms: Prisma.$RoomMemberPayload<ExtArgs>[]
       createdRooms: Prisma.$RoomPayload<ExtArgs>[]
       roomInvitations: Prisma.$InvitationPayload<ExtArgs>[]
+      parents: Prisma.$UserPayload<ExtArgs>[]
+      children: Prisma.$UserPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2767,6 +2791,8 @@ export namespace Prisma {
     rooms<T extends User$roomsArgs<ExtArgs> = {}>(args?: Subset<T, User$roomsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdRooms<T extends User$createdRoomsArgs<ExtArgs> = {}>(args?: Subset<T, User$createdRoomsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoomPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     roomInvitations<T extends User$roomInvitationsArgs<ExtArgs> = {}>(args?: Subset<T, User$roomInvitationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    parents<T extends User$parentsArgs<ExtArgs> = {}>(args?: Subset<T, User$parentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    children<T extends User$childrenArgs<ExtArgs> = {}>(args?: Subset<T, User$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3404,6 +3430,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: InvitationScalarFieldEnum | InvitationScalarFieldEnum[]
+  }
+
+  /**
+   * User.parents
+   */
+  export type User$parentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    cursor?: UserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
+  }
+
+  /**
+   * User.children
+   */
+  export type User$childrenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+    orderBy?: UserOrderByWithRelationInput | UserOrderByWithRelationInput[]
+    cursor?: UserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
   /**
@@ -15096,6 +15170,8 @@ export namespace Prisma {
     rooms?: RoomMemberListRelationFilter
     createdRooms?: RoomListRelationFilter
     roomInvitations?: InvitationListRelationFilter
+    parents?: UserListRelationFilter
+    children?: UserListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -15115,6 +15191,8 @@ export namespace Prisma {
     rooms?: RoomMemberOrderByRelationAggregateInput
     createdRooms?: RoomOrderByRelationAggregateInput
     roomInvitations?: InvitationOrderByRelationAggregateInput
+    parents?: UserOrderByRelationAggregateInput
+    children?: UserOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -15137,6 +15215,8 @@ export namespace Prisma {
     rooms?: RoomMemberListRelationFilter
     createdRooms?: RoomListRelationFilter
     roomInvitations?: InvitationListRelationFilter
+    parents?: UserListRelationFilter
+    children?: UserListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -15568,17 +15648,17 @@ export namespace Prisma {
 
   export type BoostWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    name?: string
     AND?: BoostWhereInput | BoostWhereInput[]
     OR?: BoostWhereInput[]
     NOT?: BoostWhereInput | BoostWhereInput[]
-    name?: StringFilter<"Boost"> | string
     description?: StringNullableFilter<"Boost"> | string | null
     cooldownDays?: IntFilter<"Boost"> | number
     durationHours?: IntFilter<"Boost"> | number
     createdAt?: DateTimeFilter<"Boost"> | Date | string
     updatedAt?: DateTimeFilter<"Boost"> | Date | string
     activations?: BoostActivationListRelationFilter
-  }, "id">
+  }, "id" | "name">
 
   export type BoostOrderByWithAggregationInput = {
     id?: SortOrder
@@ -15908,6 +15988,8 @@ export namespace Prisma {
     rooms?: RoomMemberCreateNestedManyWithoutUserInput
     createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
     roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
+    parents?: UserCreateNestedManyWithoutChildrenInput
+    children?: UserCreateNestedManyWithoutParentsInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -15927,6 +16009,8 @@ export namespace Prisma {
     rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
     roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
+    parents?: UserUncheckedCreateNestedManyWithoutChildrenInput
+    children?: UserUncheckedCreateNestedManyWithoutParentsInput
   }
 
   export type UserUpdateInput = {
@@ -15946,6 +16030,8 @@ export namespace Prisma {
     rooms?: RoomMemberUpdateManyWithoutUserNestedInput
     createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
     roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUpdateManyWithoutChildrenNestedInput
+    children?: UserUpdateManyWithoutParentsNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -15965,6 +16051,8 @@ export namespace Prisma {
     rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
     roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUncheckedUpdateManyWithoutChildrenNestedInput
+    children?: UserUncheckedUpdateManyWithoutParentsNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -16842,6 +16930,12 @@ export namespace Prisma {
     none?: InvitationWhereInput
   }
 
+  export type UserListRelationFilter = {
+    every?: UserWhereInput
+    some?: UserWhereInput
+    none?: UserWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -16880,6 +16974,10 @@ export namespace Prisma {
   }
 
   export type InvitationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -17537,6 +17635,18 @@ export namespace Prisma {
     connect?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
   }
 
+  export type UserCreateNestedManyWithoutChildrenInput = {
+    create?: XOR<UserCreateWithoutChildrenInput, UserUncheckedCreateWithoutChildrenInput> | UserCreateWithoutChildrenInput[] | UserUncheckedCreateWithoutChildrenInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutChildrenInput | UserCreateOrConnectWithoutChildrenInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type UserCreateNestedManyWithoutParentsInput = {
+    create?: XOR<UserCreateWithoutParentsInput, UserUncheckedCreateWithoutParentsInput> | UserCreateWithoutParentsInput[] | UserUncheckedCreateWithoutParentsInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutParentsInput | UserCreateOrConnectWithoutParentsInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
   export type QuestUncheckedCreateNestedManyWithoutCreatorInput = {
     create?: XOR<QuestCreateWithoutCreatorInput, QuestUncheckedCreateWithoutCreatorInput> | QuestCreateWithoutCreatorInput[] | QuestUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: QuestCreateOrConnectWithoutCreatorInput | QuestCreateOrConnectWithoutCreatorInput[]
@@ -17598,6 +17708,18 @@ export namespace Prisma {
     connectOrCreate?: InvitationCreateOrConnectWithoutInvitedByInput | InvitationCreateOrConnectWithoutInvitedByInput[]
     createMany?: InvitationCreateManyInvitedByInputEnvelope
     connect?: InvitationWhereUniqueInput | InvitationWhereUniqueInput[]
+  }
+
+  export type UserUncheckedCreateNestedManyWithoutChildrenInput = {
+    create?: XOR<UserCreateWithoutChildrenInput, UserUncheckedCreateWithoutChildrenInput> | UserCreateWithoutChildrenInput[] | UserUncheckedCreateWithoutChildrenInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutChildrenInput | UserCreateOrConnectWithoutChildrenInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+  }
+
+  export type UserUncheckedCreateNestedManyWithoutParentsInput = {
+    create?: XOR<UserCreateWithoutParentsInput, UserUncheckedCreateWithoutParentsInput> | UserCreateWithoutParentsInput[] | UserUncheckedCreateWithoutParentsInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutParentsInput | UserCreateOrConnectWithoutParentsInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -17746,6 +17868,32 @@ export namespace Prisma {
     deleteMany?: InvitationScalarWhereInput | InvitationScalarWhereInput[]
   }
 
+  export type UserUpdateManyWithoutChildrenNestedInput = {
+    create?: XOR<UserCreateWithoutChildrenInput, UserUncheckedCreateWithoutChildrenInput> | UserCreateWithoutChildrenInput[] | UserUncheckedCreateWithoutChildrenInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutChildrenInput | UserCreateOrConnectWithoutChildrenInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutChildrenInput | UserUpsertWithWhereUniqueWithoutChildrenInput[]
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutChildrenInput | UserUpdateWithWhereUniqueWithoutChildrenInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutChildrenInput | UserUpdateManyWithWhereWithoutChildrenInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type UserUpdateManyWithoutParentsNestedInput = {
+    create?: XOR<UserCreateWithoutParentsInput, UserUncheckedCreateWithoutParentsInput> | UserCreateWithoutParentsInput[] | UserUncheckedCreateWithoutParentsInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutParentsInput | UserCreateOrConnectWithoutParentsInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutParentsInput | UserUpsertWithWhereUniqueWithoutParentsInput[]
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutParentsInput | UserUpdateWithWhereUniqueWithoutParentsInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutParentsInput | UserUpdateManyWithWhereWithoutParentsInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
   export type QuestUncheckedUpdateManyWithoutCreatorNestedInput = {
     create?: XOR<QuestCreateWithoutCreatorInput, QuestUncheckedCreateWithoutCreatorInput> | QuestCreateWithoutCreatorInput[] | QuestUncheckedCreateWithoutCreatorInput[]
     connectOrCreate?: QuestCreateOrConnectWithoutCreatorInput | QuestCreateOrConnectWithoutCreatorInput[]
@@ -17870,6 +18018,32 @@ export namespace Prisma {
     update?: InvitationUpdateWithWhereUniqueWithoutInvitedByInput | InvitationUpdateWithWhereUniqueWithoutInvitedByInput[]
     updateMany?: InvitationUpdateManyWithWhereWithoutInvitedByInput | InvitationUpdateManyWithWhereWithoutInvitedByInput[]
     deleteMany?: InvitationScalarWhereInput | InvitationScalarWhereInput[]
+  }
+
+  export type UserUncheckedUpdateManyWithoutChildrenNestedInput = {
+    create?: XOR<UserCreateWithoutChildrenInput, UserUncheckedCreateWithoutChildrenInput> | UserCreateWithoutChildrenInput[] | UserUncheckedCreateWithoutChildrenInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutChildrenInput | UserCreateOrConnectWithoutChildrenInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutChildrenInput | UserUpsertWithWhereUniqueWithoutChildrenInput[]
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutChildrenInput | UserUpdateWithWhereUniqueWithoutChildrenInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutChildrenInput | UserUpdateManyWithWhereWithoutChildrenInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
+  }
+
+  export type UserUncheckedUpdateManyWithoutParentsNestedInput = {
+    create?: XOR<UserCreateWithoutParentsInput, UserUncheckedCreateWithoutParentsInput> | UserCreateWithoutParentsInput[] | UserUncheckedCreateWithoutParentsInput[]
+    connectOrCreate?: UserCreateOrConnectWithoutParentsInput | UserCreateOrConnectWithoutParentsInput[]
+    upsert?: UserUpsertWithWhereUniqueWithoutParentsInput | UserUpsertWithWhereUniqueWithoutParentsInput[]
+    set?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    disconnect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    delete?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    connect?: UserWhereUniqueInput | UserWhereUniqueInput[]
+    update?: UserUpdateWithWhereUniqueWithoutParentsInput | UserUpdateWithWhereUniqueWithoutParentsInput[]
+    updateMany?: UserUpdateManyWithWhereWithoutParentsInput | UserUpdateManyWithWhereWithoutParentsInput[]
+    deleteMany?: UserScalarWhereInput | UserScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutGoalsInput = {
@@ -18908,6 +19082,96 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserCreateWithoutChildrenInput = {
+    id?: string
+    email: string
+    password: string
+    role: $Enums.UserRole
+    stars?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quests?: QuestCreateNestedManyWithoutCreatorInput
+    completions?: QuestCompletionCreateNestedManyWithoutUserInput
+    rewardsPurchase?: RewardPurchaseCreateNestedManyWithoutChildInput
+    rewards?: RewardCreateNestedManyWithoutCreatorInput
+    boosts?: BoostActivationCreateNestedManyWithoutUserInput
+    goals?: GoalCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberCreateNestedManyWithoutUserInput
+    createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
+    parents?: UserCreateNestedManyWithoutChildrenInput
+  }
+
+  export type UserUncheckedCreateWithoutChildrenInput = {
+    id?: string
+    email: string
+    password: string
+    role: $Enums.UserRole
+    stars?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quests?: QuestUncheckedCreateNestedManyWithoutCreatorInput
+    completions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
+    rewardsPurchase?: RewardPurchaseUncheckedCreateNestedManyWithoutChildInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCreatorInput
+    boosts?: BoostActivationUncheckedCreateNestedManyWithoutUserInput
+    goals?: GoalUncheckedCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
+    parents?: UserUncheckedCreateNestedManyWithoutChildrenInput
+  }
+
+  export type UserCreateOrConnectWithoutChildrenInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutChildrenInput, UserUncheckedCreateWithoutChildrenInput>
+  }
+
+  export type UserCreateWithoutParentsInput = {
+    id?: string
+    email: string
+    password: string
+    role: $Enums.UserRole
+    stars?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quests?: QuestCreateNestedManyWithoutCreatorInput
+    completions?: QuestCompletionCreateNestedManyWithoutUserInput
+    rewardsPurchase?: RewardPurchaseCreateNestedManyWithoutChildInput
+    rewards?: RewardCreateNestedManyWithoutCreatorInput
+    boosts?: BoostActivationCreateNestedManyWithoutUserInput
+    goals?: GoalCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberCreateNestedManyWithoutUserInput
+    createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
+    children?: UserCreateNestedManyWithoutParentsInput
+  }
+
+  export type UserUncheckedCreateWithoutParentsInput = {
+    id?: string
+    email: string
+    password: string
+    role: $Enums.UserRole
+    stars?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    quests?: QuestUncheckedCreateNestedManyWithoutCreatorInput
+    completions?: QuestCompletionUncheckedCreateNestedManyWithoutUserInput
+    rewardsPurchase?: RewardPurchaseUncheckedCreateNestedManyWithoutChildInput
+    rewards?: RewardUncheckedCreateNestedManyWithoutCreatorInput
+    boosts?: BoostActivationUncheckedCreateNestedManyWithoutUserInput
+    goals?: GoalUncheckedCreateNestedManyWithoutCreatorInput
+    rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
+    createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
+    roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
+    children?: UserUncheckedCreateNestedManyWithoutParentsInput
+  }
+
+  export type UserCreateOrConnectWithoutParentsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutParentsInput, UserUncheckedCreateWithoutParentsInput>
+  }
+
   export type QuestUpsertWithWhereUniqueWithoutCreatorInput = {
     where: QuestWhereUniqueInput
     update: XOR<QuestUpdateWithoutCreatorInput, QuestUncheckedUpdateWithoutCreatorInput>
@@ -19174,6 +19438,51 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Invitation"> | Date | string
   }
 
+  export type UserUpsertWithWhereUniqueWithoutChildrenInput = {
+    where: UserWhereUniqueInput
+    update: XOR<UserUpdateWithoutChildrenInput, UserUncheckedUpdateWithoutChildrenInput>
+    create: XOR<UserCreateWithoutChildrenInput, UserUncheckedCreateWithoutChildrenInput>
+  }
+
+  export type UserUpdateWithWhereUniqueWithoutChildrenInput = {
+    where: UserWhereUniqueInput
+    data: XOR<UserUpdateWithoutChildrenInput, UserUncheckedUpdateWithoutChildrenInput>
+  }
+
+  export type UserUpdateManyWithWhereWithoutChildrenInput = {
+    where: UserScalarWhereInput
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutChildrenInput>
+  }
+
+  export type UserScalarWhereInput = {
+    AND?: UserScalarWhereInput | UserScalarWhereInput[]
+    OR?: UserScalarWhereInput[]
+    NOT?: UserScalarWhereInput | UserScalarWhereInput[]
+    id?: StringFilter<"User"> | string
+    email?: StringFilter<"User"> | string
+    password?: StringFilter<"User"> | string
+    role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
+    stars?: IntNullableFilter<"User"> | number | null
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+  }
+
+  export type UserUpsertWithWhereUniqueWithoutParentsInput = {
+    where: UserWhereUniqueInput
+    update: XOR<UserUpdateWithoutParentsInput, UserUncheckedUpdateWithoutParentsInput>
+    create: XOR<UserCreateWithoutParentsInput, UserUncheckedCreateWithoutParentsInput>
+  }
+
+  export type UserUpdateWithWhereUniqueWithoutParentsInput = {
+    where: UserWhereUniqueInput
+    data: XOR<UserUpdateWithoutParentsInput, UserUncheckedUpdateWithoutParentsInput>
+  }
+
+  export type UserUpdateManyWithWhereWithoutParentsInput = {
+    where: UserScalarWhereInput
+    data: XOR<UserUpdateManyMutationInput, UserUncheckedUpdateManyWithoutParentsInput>
+  }
+
   export type UserCreateWithoutGoalsInput = {
     id?: string
     email: string
@@ -19190,6 +19499,8 @@ export namespace Prisma {
     rooms?: RoomMemberCreateNestedManyWithoutUserInput
     createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
     roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
+    parents?: UserCreateNestedManyWithoutChildrenInput
+    children?: UserCreateNestedManyWithoutParentsInput
   }
 
   export type UserUncheckedCreateWithoutGoalsInput = {
@@ -19208,6 +19519,8 @@ export namespace Prisma {
     rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
     roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
+    parents?: UserUncheckedCreateNestedManyWithoutChildrenInput
+    children?: UserUncheckedCreateNestedManyWithoutParentsInput
   }
 
   export type UserCreateOrConnectWithoutGoalsInput = {
@@ -19278,6 +19591,8 @@ export namespace Prisma {
     rooms?: RoomMemberUpdateManyWithoutUserNestedInput
     createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
     roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUpdateManyWithoutChildrenNestedInput
+    children?: UserUpdateManyWithoutParentsNestedInput
   }
 
   export type UserUncheckedUpdateWithoutGoalsInput = {
@@ -19296,6 +19611,8 @@ export namespace Prisma {
     rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
     roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUncheckedUpdateManyWithoutChildrenNestedInput
+    children?: UserUncheckedUpdateManyWithoutParentsNestedInput
   }
 
   export type QuestUpsertWithWhereUniqueWithoutGoalInput = {
@@ -19330,6 +19647,8 @@ export namespace Prisma {
     rooms?: RoomMemberCreateNestedManyWithoutUserInput
     createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
     roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
+    parents?: UserCreateNestedManyWithoutChildrenInput
+    children?: UserCreateNestedManyWithoutParentsInput
   }
 
   export type UserUncheckedCreateWithoutQuestsInput = {
@@ -19348,6 +19667,8 @@ export namespace Prisma {
     rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
     roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
+    parents?: UserUncheckedCreateNestedManyWithoutChildrenInput
+    children?: UserUncheckedCreateNestedManyWithoutParentsInput
   }
 
   export type UserCreateOrConnectWithoutQuestsInput = {
@@ -19464,6 +19785,8 @@ export namespace Prisma {
     rooms?: RoomMemberUpdateManyWithoutUserNestedInput
     createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
     roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUpdateManyWithoutChildrenNestedInput
+    children?: UserUpdateManyWithoutParentsNestedInput
   }
 
   export type UserUncheckedUpdateWithoutQuestsInput = {
@@ -19482,6 +19805,8 @@ export namespace Prisma {
     rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
     roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUncheckedUpdateManyWithoutChildrenNestedInput
+    children?: UserUncheckedUpdateManyWithoutParentsNestedInput
   }
 
   export type GoalUpsertWithoutQuestsInput = {
@@ -19611,6 +19936,8 @@ export namespace Prisma {
     rooms?: RoomMemberCreateNestedManyWithoutUserInput
     createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
     roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
+    parents?: UserCreateNestedManyWithoutChildrenInput
+    children?: UserCreateNestedManyWithoutParentsInput
   }
 
   export type UserUncheckedCreateWithoutCompletionsInput = {
@@ -19629,6 +19956,8 @@ export namespace Prisma {
     rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
     roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
+    parents?: UserUncheckedCreateNestedManyWithoutChildrenInput
+    children?: UserUncheckedCreateNestedManyWithoutParentsInput
   }
 
   export type UserCreateOrConnectWithoutCompletionsInput = {
@@ -19700,6 +20029,8 @@ export namespace Prisma {
     rooms?: RoomMemberUpdateManyWithoutUserNestedInput
     createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
     roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUpdateManyWithoutChildrenNestedInput
+    children?: UserUpdateManyWithoutParentsNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCompletionsInput = {
@@ -19718,6 +20049,8 @@ export namespace Prisma {
     rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
     roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUncheckedUpdateManyWithoutChildrenNestedInput
+    children?: UserUncheckedUpdateManyWithoutParentsNestedInput
   }
 
   export type UserCreateWithoutRewardsInput = {
@@ -19736,6 +20069,8 @@ export namespace Prisma {
     rooms?: RoomMemberCreateNestedManyWithoutUserInput
     createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
     roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
+    parents?: UserCreateNestedManyWithoutChildrenInput
+    children?: UserCreateNestedManyWithoutParentsInput
   }
 
   export type UserUncheckedCreateWithoutRewardsInput = {
@@ -19754,6 +20089,8 @@ export namespace Prisma {
     rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
     roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
+    parents?: UserUncheckedCreateNestedManyWithoutChildrenInput
+    children?: UserUncheckedCreateNestedManyWithoutParentsInput
   }
 
   export type UserCreateOrConnectWithoutRewardsInput = {
@@ -19814,6 +20151,8 @@ export namespace Prisma {
     rooms?: RoomMemberUpdateManyWithoutUserNestedInput
     createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
     roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUpdateManyWithoutChildrenNestedInput
+    children?: UserUpdateManyWithoutParentsNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRewardsInput = {
@@ -19832,6 +20171,8 @@ export namespace Prisma {
     rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
     roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUncheckedUpdateManyWithoutChildrenNestedInput
+    children?: UserUncheckedUpdateManyWithoutParentsNestedInput
   }
 
   export type RewardPurchaseUpsertWithWhereUniqueWithoutRewardInput = {
@@ -19891,6 +20232,8 @@ export namespace Prisma {
     rooms?: RoomMemberCreateNestedManyWithoutUserInput
     createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
     roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
+    parents?: UserCreateNestedManyWithoutChildrenInput
+    children?: UserCreateNestedManyWithoutParentsInput
   }
 
   export type UserUncheckedCreateWithoutRewardsPurchaseInput = {
@@ -19909,6 +20252,8 @@ export namespace Prisma {
     rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
     roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
+    parents?: UserUncheckedCreateNestedManyWithoutChildrenInput
+    children?: UserUncheckedCreateNestedManyWithoutParentsInput
   }
 
   export type UserCreateOrConnectWithoutRewardsPurchaseInput = {
@@ -19974,6 +20319,8 @@ export namespace Prisma {
     rooms?: RoomMemberUpdateManyWithoutUserNestedInput
     createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
     roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUpdateManyWithoutChildrenNestedInput
+    children?: UserUpdateManyWithoutParentsNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRewardsPurchaseInput = {
@@ -19992,6 +20339,8 @@ export namespace Prisma {
     rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
     roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUncheckedUpdateManyWithoutChildrenNestedInput
+    children?: UserUncheckedUpdateManyWithoutParentsNestedInput
   }
 
   export type BoostActivationCreateWithoutBoostInput = {
@@ -20079,6 +20428,8 @@ export namespace Prisma {
     rooms?: RoomMemberCreateNestedManyWithoutUserInput
     createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
     roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
+    parents?: UserCreateNestedManyWithoutChildrenInput
+    children?: UserCreateNestedManyWithoutParentsInput
   }
 
   export type UserUncheckedCreateWithoutBoostsInput = {
@@ -20097,6 +20448,8 @@ export namespace Prisma {
     rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
     roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
+    parents?: UserUncheckedCreateNestedManyWithoutChildrenInput
+    children?: UserUncheckedCreateNestedManyWithoutParentsInput
   }
 
   export type UserCreateOrConnectWithoutBoostsInput = {
@@ -20162,6 +20515,8 @@ export namespace Prisma {
     rooms?: RoomMemberUpdateManyWithoutUserNestedInput
     createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
     roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUpdateManyWithoutChildrenNestedInput
+    children?: UserUpdateManyWithoutParentsNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBoostsInput = {
@@ -20180,6 +20535,8 @@ export namespace Prisma {
     rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
     roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUncheckedUpdateManyWithoutChildrenNestedInput
+    children?: UserUncheckedUpdateManyWithoutParentsNestedInput
   }
 
   export type UserCreateWithoutCreatedRoomsInput = {
@@ -20198,6 +20555,8 @@ export namespace Prisma {
     goals?: GoalCreateNestedManyWithoutCreatorInput
     rooms?: RoomMemberCreateNestedManyWithoutUserInput
     roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
+    parents?: UserCreateNestedManyWithoutChildrenInput
+    children?: UserCreateNestedManyWithoutParentsInput
   }
 
   export type UserUncheckedCreateWithoutCreatedRoomsInput = {
@@ -20216,6 +20575,8 @@ export namespace Prisma {
     goals?: GoalUncheckedCreateNestedManyWithoutCreatorInput
     rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
+    parents?: UserUncheckedCreateNestedManyWithoutChildrenInput
+    children?: UserUncheckedCreateNestedManyWithoutParentsInput
   }
 
   export type UserCreateOrConnectWithoutCreatedRoomsInput = {
@@ -20348,6 +20709,8 @@ export namespace Prisma {
     goals?: GoalUpdateManyWithoutCreatorNestedInput
     rooms?: RoomMemberUpdateManyWithoutUserNestedInput
     roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUpdateManyWithoutChildrenNestedInput
+    children?: UserUpdateManyWithoutParentsNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreatedRoomsInput = {
@@ -20366,6 +20729,8 @@ export namespace Prisma {
     goals?: GoalUncheckedUpdateManyWithoutCreatorNestedInput
     rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUncheckedUpdateManyWithoutChildrenNestedInput
+    children?: UserUncheckedUpdateManyWithoutParentsNestedInput
   }
 
   export type RoomMemberUpsertWithWhereUniqueWithoutRoomInput = {
@@ -20457,6 +20822,8 @@ export namespace Prisma {
     goals?: GoalCreateNestedManyWithoutCreatorInput
     createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
     roomInvitations?: InvitationCreateNestedManyWithoutInvitedByInput
+    parents?: UserCreateNestedManyWithoutChildrenInput
+    children?: UserCreateNestedManyWithoutParentsInput
   }
 
   export type UserUncheckedCreateWithoutRoomsInput = {
@@ -20475,6 +20842,8 @@ export namespace Prisma {
     goals?: GoalUncheckedCreateNestedManyWithoutCreatorInput
     createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
     roomInvitations?: InvitationUncheckedCreateNestedManyWithoutInvitedByInput
+    parents?: UserUncheckedCreateNestedManyWithoutChildrenInput
+    children?: UserUncheckedCreateNestedManyWithoutParentsInput
   }
 
   export type UserCreateOrConnectWithoutRoomsInput = {
@@ -20540,6 +20909,8 @@ export namespace Prisma {
     goals?: GoalUpdateManyWithoutCreatorNestedInput
     createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
     roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUpdateManyWithoutChildrenNestedInput
+    children?: UserUpdateManyWithoutParentsNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoomsInput = {
@@ -20558,6 +20929,8 @@ export namespace Prisma {
     goals?: GoalUncheckedUpdateManyWithoutCreatorNestedInput
     createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
     roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUncheckedUpdateManyWithoutChildrenNestedInput
+    children?: UserUncheckedUpdateManyWithoutParentsNestedInput
   }
 
   export type RoomCreateWithoutInvitationsInput = {
@@ -20601,6 +20974,8 @@ export namespace Prisma {
     goals?: GoalCreateNestedManyWithoutCreatorInput
     rooms?: RoomMemberCreateNestedManyWithoutUserInput
     createdRooms?: RoomCreateNestedManyWithoutCreateUserInput
+    parents?: UserCreateNestedManyWithoutChildrenInput
+    children?: UserCreateNestedManyWithoutParentsInput
   }
 
   export type UserUncheckedCreateWithoutRoomInvitationsInput = {
@@ -20619,6 +20994,8 @@ export namespace Prisma {
     goals?: GoalUncheckedCreateNestedManyWithoutCreatorInput
     rooms?: RoomMemberUncheckedCreateNestedManyWithoutUserInput
     createdRooms?: RoomUncheckedCreateNestedManyWithoutCreateUserInput
+    parents?: UserUncheckedCreateNestedManyWithoutChildrenInput
+    children?: UserUncheckedCreateNestedManyWithoutParentsInput
   }
 
   export type UserCreateOrConnectWithoutRoomInvitationsInput = {
@@ -20684,6 +21061,8 @@ export namespace Prisma {
     goals?: GoalUpdateManyWithoutCreatorNestedInput
     rooms?: RoomMemberUpdateManyWithoutUserNestedInput
     createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
+    parents?: UserUpdateManyWithoutChildrenNestedInput
+    children?: UserUpdateManyWithoutParentsNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoomInvitationsInput = {
@@ -20702,6 +21081,8 @@ export namespace Prisma {
     goals?: GoalUncheckedUpdateManyWithoutCreatorNestedInput
     rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
     createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
+    parents?: UserUncheckedUpdateManyWithoutChildrenNestedInput
+    children?: UserUncheckedUpdateManyWithoutParentsNestedInput
   }
 
   export type QuestCreateManyCreatorInput = {
@@ -21056,6 +21437,106 @@ export namespace Prisma {
     token?: StringFieldUpdateOperationsInput | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quests?: QuestUpdateManyWithoutCreatorNestedInput
+    completions?: QuestCompletionUpdateManyWithoutUserNestedInput
+    rewardsPurchase?: RewardPurchaseUpdateManyWithoutChildNestedInput
+    rewards?: RewardUpdateManyWithoutCreatorNestedInput
+    boosts?: BoostActivationUpdateManyWithoutUserNestedInput
+    goals?: GoalUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUpdateManyWithoutChildrenNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quests?: QuestUncheckedUpdateManyWithoutCreatorNestedInput
+    completions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
+    rewardsPurchase?: RewardPurchaseUncheckedUpdateManyWithoutChildNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCreatorNestedInput
+    boosts?: BoostActivationUncheckedUpdateManyWithoutUserNestedInput
+    goals?: GoalUncheckedUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+    parents?: UserUncheckedUpdateManyWithoutChildrenNestedInput
+  }
+
+  export type UserUncheckedUpdateManyWithoutChildrenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpdateWithoutParentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quests?: QuestUpdateManyWithoutCreatorNestedInput
+    completions?: QuestCompletionUpdateManyWithoutUserNestedInput
+    rewardsPurchase?: RewardPurchaseUpdateManyWithoutChildNestedInput
+    rewards?: RewardUpdateManyWithoutCreatorNestedInput
+    boosts?: BoostActivationUpdateManyWithoutUserNestedInput
+    goals?: GoalUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUpdateManyWithoutInvitedByNestedInput
+    children?: UserUpdateManyWithoutParentsNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutParentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    quests?: QuestUncheckedUpdateManyWithoutCreatorNestedInput
+    completions?: QuestCompletionUncheckedUpdateManyWithoutUserNestedInput
+    rewardsPurchase?: RewardPurchaseUncheckedUpdateManyWithoutChildNestedInput
+    rewards?: RewardUncheckedUpdateManyWithoutCreatorNestedInput
+    boosts?: BoostActivationUncheckedUpdateManyWithoutUserNestedInput
+    goals?: GoalUncheckedUpdateManyWithoutCreatorNestedInput
+    rooms?: RoomMemberUncheckedUpdateManyWithoutUserNestedInput
+    createdRooms?: RoomUncheckedUpdateManyWithoutCreateUserNestedInput
+    roomInvitations?: InvitationUncheckedUpdateManyWithoutInvitedByNestedInput
+    children?: UserUncheckedUpdateManyWithoutParentsNestedInput
+  }
+
+  export type UserUncheckedUpdateManyWithoutParentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+    stars?: NullableIntFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -63,4 +63,10 @@ export class UserModel {
 
 	@Field(() => [InvitationModel])
 	roomInvitations: InvitationModel[];
+
+	@Field(() => [UserModel], { nullable: 'items' })
+	parents?: UserModel[];
+
+	@Field(() => [UserModel], { nullable: 'items' })
+	children?: UserModel[];
 }

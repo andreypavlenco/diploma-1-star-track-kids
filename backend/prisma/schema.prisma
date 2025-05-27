@@ -28,8 +28,10 @@ model User {
   boosts            BoostActivation[]
   goals             Goal[]         @relation("UserGoals")
   rooms             RoomMember[]   @relation("RoomMembers")
-  createdRooms      Room[]        @relation("CreatedRooms")
+  createdRooms      Room[]         @relation("CreatedRooms")
   roomInvitations   Invitation[]   @relation("RoomInvitations")
+  parents           User[]         @relation("UserParents")
+  children          User[]         @relation("UserParents")
  
   @@index([id])
 }
@@ -120,7 +122,7 @@ model RewardPurchase {
 
 model Boost {
   id            String             @id @default(uuid())
-  name          String
+  name          String             @unique
   description   String?
   cooldownDays  Int
   durationHours Int

@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 
 import { Room } from '@/prisma/generated';
 import { PrismaService } from '@/src/core/prisma/prisma.service';
@@ -26,15 +26,10 @@ export class RoomService {
 		return room;
 	}
 
-	async findById(roomId: string, userId: string): Promise<Room | null> {
+	async findById(roomId: string): Promise<Room | null> {
 		const room = await this.prisma.room.findUnique({
 			where: {
 				id: roomId,
-				members: {
-					some: {
-						userId: userId,
-					},
-				},
 			},
 			include: {
 				quests: {
@@ -63,34 +58,15 @@ export class RoomService {
 		return rooms;
 	}
 
-	async delete(roomId: string, createUserId: string): Promise<boolean | null> {
-		const room = await this.prisma.room.findUnique({
-			where: { id: roomId },
-			select: { createUserId: true },
-		});
-		if (!room || room.createUserId !== createUserId) {
-			throw new ForbiddenException('You have no rights to delete this room');
-		}
+	async delete(roomId: string): Promise<boolean | null> {
 		await this.prisma.room.delete({
 			where: { id: roomId },
 		});
 		return true;
 	}
 
-	async update(
-		roomId: string,
-		input: CreateRoomInput,
-		createUserId: string
-	): Promise<Room | null> {
+	async update(roomId: string, input: CreateRoomInput): Promise<Room | null> {
 		const { name } = input;
-
-		const room = await this.prisma.room.findUnique({
-			where: { id: roomId },
-			select: { createUserId: true },
-		});
-		if (!room || room.createUserId !== createUserId) {
-			throw new ForbiddenException('You have no rights to update this room');
-		}
 
 		return await this.prisma.room.update({
 			where: { id: roomId },
