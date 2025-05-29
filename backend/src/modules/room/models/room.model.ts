@@ -1,9 +1,9 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 import { UserModel } from '../../auth/account/models/user.model';
+import { InvitationModel } from '../../invitation/models/invitation.model';
 import { QuestModel } from '../../quest/models/quest.model';
 
-import { InvitationModel } from './invitation.model';
 import { RoomMemberModel } from './rooms-member.model';
 
 @ObjectType('Room')

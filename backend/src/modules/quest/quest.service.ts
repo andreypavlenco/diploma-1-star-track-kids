@@ -1,12 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { addHours } from 'date-fns';
 
 import { PrismaService } from '@/src/core/prisma/prisma.service';
+
+import { BoostService } from '../boost/boost.service';
 
 import { CreateQuestInput } from './input/create-quest.input';
 
 @Injectable()
 export class QuestService {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(
+		private readonly prisma: PrismaService,
+		private readonly boostService: BoostService
+	) {}
 
 	async create(roomId: string, input: CreateQuestInput, userId: string, goalId?: string) {
 		return this.prisma.quest.create({
@@ -72,5 +78,84 @@ export class QuestService {
 			},
 		});
 		return quest;
+	}
+
+	async questCompletion(userId: string, questId: string): Promise<boolean> {
+		const quest = await this.prisma.quest.findUnique({
+			where: { id: questId },
+			select: { difficulty: true, deadline: true, goal: true },
+		});
+
+		let stars = quest.difficulty;
+		const completedAt = new Date(); // предполагаем, что квест завершён сейчас
+		const boosts = await this.boostService.getActiveBoosts(userId);
+
+		// пример проверки «двойных звёзд»
+		if (
+			boosts.some(
+				b => b.boost.name === 'Quick Finish' && completedAt <= addHours(b.activatedAt, 10)
+			)
+		) {
+			stars *= 2;
+		}
+
+		// пример отмены штрафа за просрочку
+		if (completedAt > quest.deadline) {
+			if (!boosts.some(b => b.boost.name === 'No Late Penalty')) {
+				stars = Math.floor(stars / 2);
+			}
+		}
+
+		await this.prisma.questCompletion.create({
+			data: {
+				quest: { connect: { id: questId } },
+				user: { connect: { id: userId } },
+				starsAwarded: stars,
+				isLate: completedAt > quest.deadline,
+				completedAt,
+			},
+			include: {
+				quest: true,
+				user: true,
+			},
+		});
+		await this.prisma.quest.update({
+			where: { id: questId },
+			data: {
+				completions: {
+					connect: {
+						id: questId,
+					},
+				},
+			},
+		});
+		await this.prisma.goal.update({
+			where: { id: quest.goal.id },
+			data: {
+				starReward: { decrement: stars },
+				quests: {
+					connect: {
+						id: questId,
+					},
+				},
+			},
+		});
+
+		// Увеличиваем звёзды пользователя
+		await this.prisma.user.update({
+			where: { id: userId },
+			data: {
+				stars: {
+					increment: stars,
+				},
+				quests: {
+					connect: {
+						id: questId,
+					},
+				},
+			},
+		});
+
+		return true;
 	}
 }

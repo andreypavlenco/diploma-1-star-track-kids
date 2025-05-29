@@ -2,11 +2,11 @@ import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 
 import { BoostActivationModel } from '@/src/modules/boost/models/boost-activation.model';
 import { GoalModel } from '@/src/modules/goal/models/goal.model';
+import { InvitationModel } from '@/src/modules/invitation/models/invitation.model';
 import { QuestCompletionModel } from '@/src/modules/quest/models/quest-completion.model';
 import { QuestModel } from '@/src/modules/quest/models/quest.model';
 import { RewardPurchaseModel } from '@/src/modules/reward/models/reward-purchase.model';
 import { RewardModel } from '@/src/modules/reward/models/reward.model';
-import { InvitationModel } from '@/src/modules/room/models/invitation.model';
 import { RoomModel } from '@/src/modules/room/models/room.model';
 import { RoomMemberModel } from '@/src/modules/room/models/rooms-member.model';
 import { UserRole } from '@/src/shared/type/user-role';

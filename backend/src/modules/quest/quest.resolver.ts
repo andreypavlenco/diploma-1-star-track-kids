@@ -1,9 +1,9 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { UserRole } from '@/prisma/generated';
 import { RoomMember } from '@/src/shared/decorators/access.room.decorator';
 import { Auth } from '@/src/shared/decorators/auth.decorator';
 import { Authorized } from '@/src/shared/decorators/authorized.decorator';
+import { UserRole } from '@/src/shared/type/user-role';
 
 import { CreateQuestInput } from './input/create-quest.input';
 import { QuestModel } from './models/quest.model';
@@ -50,5 +50,11 @@ export class QuestResolver {
 	@Mutation(() => QuestModel, { name: 'deleteQuest' })
 	async delete(@Args('questId') questId: string) {
 		return this.questService.delete(questId);
+	}
+
+	@Auth(UserRole.CHILD)
+	@Mutation(() => Boolean, { name: 'questCompletion' })
+	async questCompletion(@Args('questId') questId: string, @Authorized('id') userId: string) {
+		return this.questService.questCompletion(userId, questId);
 	}
 }
