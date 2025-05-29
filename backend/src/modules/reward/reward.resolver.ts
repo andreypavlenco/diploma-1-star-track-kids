@@ -7,6 +7,7 @@ import { UserRole } from '@/src/shared/type/user-role';
 
 import { CreateRewardInput } from './input/create-reward.input';
 import { UpdateRewardInput } from './input/update-reward.input';
+import { RewardPurchaseModel } from './models/reward-purchase.model';
 import { RewardModel } from './models/reward.model';
 import { RewardService } from './reward.service';
 
@@ -49,5 +50,14 @@ export class RewardResolver {
 	@Query(() => [RewardModel], { name: 'findRewardsForChild' })
 	async findRewardsForChild(@Authorized('id') childId: string) {
 		return this.rewardService.findRewardsForChild(childId);
+	}
+
+	@Auth(UserRole.CHILD)
+	@Query(() => RewardPurchaseModel, { name: 'createRewardPurchase' })
+	async createRewardPurchase(
+		@Args('rewardId') rewardId: string,
+		@Authorized('id') childId: string
+	) {
+		return this.rewardService.createRewardPurchase(childId, rewardId);
 	}
 }

@@ -77,4 +77,44 @@ export class RewardService {
 			include: { creator: true },
 		});
 	}
+
+	async createRewardPurchase(
+		childId: string,
+		rewardId: string
+	): Promise<{ success: boolean; message?: string }> {
+		const [reward, child] = await this.prisma.$transaction([
+			this.prisma.reward.findUnique({ where: { id: rewardId } }),
+			this.prisma.user.findUnique({ where: { id: childId }, select: { stars: true } }),
+		]);
+
+		if (!reward) {
+			return { success: false, message: 'Reward not found' };
+		}
+		if (!child) {
+			return { success: false, message: 'Child not found' };
+		}
+		if (reward.creatorId === childId) {
+			return { success: false, message: 'Cannot purchase your own reward' };
+		}
+
+		const stars = child.stars ?? 0;
+		if (stars < reward.starCost) {
+			return { success: false, message: 'Insufficient stars' };
+		}
+
+		await this.prisma.$transaction([
+			this.prisma.rewardPurchase.create({
+				data: {
+					child: { connect: { id: childId } },
+					reward: { connect: { id: rewardId } },
+				},
+			}),
+			this.prisma.user.update({
+				where: { id: childId },
+				data: { stars: { decrement: reward.starCost } },
+			}),
+		]);
+
+		return { success: true };
+	}
 }

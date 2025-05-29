@@ -3,8 +3,7 @@ import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { UserRole } from '@/src/shared/type/user-role';
 
 import { UserModel } from '../../auth/account/models/user.model';
-
-import { RoomModel } from './room.model';
+import { RoomModel } from '../../room/models/room.model';
 
 @ObjectType('Invitation')
 export class InvitationModel {
@@ -17,24 +16,30 @@ export class InvitationModel {
 	@Field(() => ID)
 	roomId: string;
 
-	@Field()
+	@Field(() => String)
 	email: string;
 
 	@Field(() => UserRole)
 	role: UserRole;
 
-	@Field()
+	@Field(() => String)
 	token: string;
 
 	@Field(() => Date)
 	expiresAt: Date;
 
 	@Field(() => UserModel)
-	invitedBy: UserModel;
+	invitedBy?: UserModel;
 
 	@Field(() => ID)
-	invitedById: string;
+	invitedById?: string;
 
-	@Field(() => Date, { nullable: true })
+	@Field(() => Date)
 	acceptedAt?: Date;
+
+	@Field(() => Date)
+	createdAt: Date;
+
+	@Field(() => Date)
+	updatedAt: Date;
 }

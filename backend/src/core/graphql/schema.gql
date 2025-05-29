@@ -27,6 +27,11 @@ input CreateGoalInput {
   title: String!
 }
 
+input CreateInvitationInput {
+  email: String!
+  role: UserRole!
+}
+
 input CreateQuestInput {
   deadline: DateTime!
   description: String
@@ -69,7 +74,8 @@ type Goal {
 }
 
 type Invitation {
-  acceptedAt: DateTime
+  acceptedAt: DateTime!
+  createdAt: DateTime!
   email: String!
   expiresAt: DateTime!
   id: ID!
@@ -79,6 +85,7 @@ type Invitation {
   room: Room!
   roomId: ID!
   token: String!
+  updatedAt: DateTime!
 }
 
 input LoginInput {
@@ -87,8 +94,11 @@ input LoginInput {
 }
 
 type Mutation {
+  acceptInvitation(token: String!): Boolean!
+  activateBoost(boostId: String!): BoostActivation!
   completeGoal(goalId: String!): Goal!
   createGoal(data: CreateGoalInput!): Goal!
+  createInvitation(data: CreateInvitationInput!, roomId: String!): Boolean!
   createQuest(data: CreateQuestInput!, roomId: String!): Quest!
   createReward(data: CreateRewardInput!): RewardModel!
   createRoom(data: CreateRoomInput!): Room!
@@ -99,6 +109,7 @@ type Mutation {
   deleteRoom(roomId: String!): Boolean!
   loginUser(data: LoginInput!): UserModel!
   logoutUser: Boolean!
+  questCompletion(questId: String!): Boolean!
   uncompleteGoal(goalId: String!): Goal!
   updateGoal(data: UpdateGoalInput!, goalId: String!): Goal!
   updateQuest(data: CreateQuestInput!, questId: String!): Quest!
@@ -107,10 +118,12 @@ type Mutation {
 }
 
 type Query {
+  createRewardPurchase(rewardId: String!): RewardPurchaseModel!
   findActiveGoals: [Goal!]!
   findAllQuestRoom(roomId: String!): [Quest!]!
   findAllRoomsUser: [Room!]!
   findByCreatorId: RewardModel!
+  findByIdBoost(boostId: String!): Boost!
   findByIdQuest(questId: String!, roomId: String!): Quest!
   findCompletedGoals: [Goal!]!
   findGoalById(goalId: String!): Goal!
@@ -119,6 +132,9 @@ type Query {
   findRewardById(rewardId: String!): RewardModel!
   findRewardsForChild: [RewardModel!]!
   findRoomById(roomId: String!): Room!
+  getActiveBoosts: BoostActivation!
+  getUserActivations: [Boost!]!
+  listAllBoosts: [Boost!]!
 }
 
 type Quest {

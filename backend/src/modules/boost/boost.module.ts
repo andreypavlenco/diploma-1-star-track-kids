@@ -5,5 +5,6 @@ import { BoostService } from './boost.service';
 
 @Module({
 	providers: [BoostResolver, BoostService],
+	exports: [BoostService],
 })
 export class BoostModule {}
