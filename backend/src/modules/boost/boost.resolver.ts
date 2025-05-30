@@ -12,7 +12,7 @@ import { BoostModel } from './models/boost.model';
 export class BoostResolver {
 	constructor(private readonly boostService: BoostService) {}
 
-	@Auth(UserRole.CHILD, UserRole.PARENT)
+	//@Auth(UserRole.CHILD, UserRole.PARENT)
 	@Query(() => [BoostModel], { name: 'listAllBoosts' })
 	async listAll() {
 		return this.boostService.listAll();

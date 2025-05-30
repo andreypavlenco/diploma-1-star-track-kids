@@ -1,0 +1,7 @@
+node_modules
+dist
+graphql.config.ts
+graphql.d.ts
+next.config.ts
+*.d.ts
+public
