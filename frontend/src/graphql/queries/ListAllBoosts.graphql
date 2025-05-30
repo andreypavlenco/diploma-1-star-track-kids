@@ -1,0 +1,9 @@
+query ListAllBoosts {
+  listAllBoosts {
+    id
+    name
+    description
+    cooldownDays
+    durationHours
+  }
+}

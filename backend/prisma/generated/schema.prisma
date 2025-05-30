@@ -1,0 +1,192 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  PARENT
+  CHILD
+}
+
+model User {
+  id              String            @id @default(uuid())
+  email           String            @unique
+  password        String
+  role            UserRole
+  stars           Int?              @default(0)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  quests          Quest[]           @relation("UserQuests")
+  completions     QuestCompletion[]
+  rewardsPurchase RewardPurchase[]
+  rewards         Reward[]          @relation("UserRewards")
+  boosts          BoostActivation[]
+  goals           Goal[]            @relation("UserGoals")
+  rooms           RoomMember[]      @relation("RoomMembers")
+  createdRooms    Room[]            @relation("CreatedRooms")
+  roomInvitations Invitation[]      @relation("RoomInvitations")
+  parents         User[]            @relation("UserParents")
+  children        User[]            @relation("UserParents")
+
+  @@index([id])
+}
+
+model Goal {
+  id          String    @id @default(uuid())
+  title       String
+  description String?
+  starReward  Int
+  creator     User      @relation("UserGoals", fields: [creatorId], references: [id], onDelete: Cascade)
+  creatorId   String
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  quests Quest[] @relation("GoalQuests")
+
+  @@index([creatorId])
+}
+
+model Quest {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  deadline    DateTime
+  difficulty  Int      @default(1)
+  creator     User     @relation("UserQuests", fields: [creatorId], references: [id], onDelete: Cascade)
+  creatorId   String
+  goal        Goal?    @relation("GoalQuests", fields: [goalId], references: [id], onDelete: SetNull)
+  goalId      String?
+  room        Room?    @relation("RoomQuests", fields: [roomId], references: [id], onDelete: SetNull)
+  roomId      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  completions QuestCompletion[]
+
+  @@index([creatorId])
+  @@index([goalId])
+  @@index([roomId])
+}
+
+model QuestCompletion {
+  id           String   @id @default(uuid())
+  completedAt  DateTime @default(now())
+  isLate       Boolean  @default(false)
+  starsAwarded Int
+  quest        Quest    @relation(fields: [questId], references: [id], onDelete: Cascade)
+  questId      String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([questId])
+  @@index([userId])
+}
+
+model Reward {
+  id          String           @id @default(uuid())
+  title       String
+  description String?
+  starCost    Int
+  creator     User             @relation("UserRewards", fields: [creatorId], references: [id], onDelete: Cascade)
+  creatorId   String
+  purchases   RewardPurchase[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@index([creatorId])
+}
+
+model RewardPurchase {
+  id          String   @id @default(uuid())
+  purchasedAt DateTime @default(now())
+  reward      Reward   @relation(fields: [rewardId], references: [id], onDelete: Cascade)
+  rewardId    String
+  child       User     @relation(fields: [childId], references: [id], onDelete: Cascade)
+  childId     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([rewardId])
+  @@index([childId])
+}
+
+model Boost {
+  id            String            @id @default(uuid())
+  name          String            @unique
+  description   String?
+  cooldownDays  Int
+  durationHours Int
+  activations   BoostActivation[]
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+}
+
+model BoostActivation {
+  id          String   @id @default(uuid())
+  activatedAt DateTime @default(now())
+  expiresAt   DateTime
+  boost       Boost    @relation(fields: [boostId], references: [id], onDelete: Cascade)
+  boostId     String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([boostId])
+  @@index([userId])
+}
+
+model Room {
+  id           String       @id @default(uuid())
+  name         String
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  createUser   User         @relation("CreatedRooms", fields: [createUserId], references: [id], onDelete: Cascade)
+  createUserId String
+  members      RoomMember[]
+  invitations  Invitation[]
+  quests       Quest[]      @relation("RoomQuests")
+
+  @@index([createUserId])
+}
+
+model RoomMember {
+  id        String   @id @default(uuid())
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId    String
+  user      User     @relation("RoomMembers", fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  role      UserRole @default(CHILD)
+  joinedAt  DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([roomId])
+  @@index([userId])
+}
+
+model Invitation {
+  id          String    @id @default(uuid())
+  room        Room      @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId      String
+  email       String
+  role        UserRole
+  token       String    @unique
+  expiresAt   DateTime
+  invitedBy   User?     @relation("RoomInvitations", fields: [invitedById], references: [id], onDelete: SetNull)
+  invitedById String?
+  acceptedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([roomId])
+  @@index([invitedById])
+}
