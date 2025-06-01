@@ -233,11 +233,11 @@ type UserModel {
   parents: [UserModel]!
   password: String!
   quests: [Quest!]!
-  reward: [RewardPurchaseModel!]!
-  rewardsPurchase: [RewardModel!]!
+  reward: [RewardModel!]
+  rewardsPurchase: [RewardPurchaseModel!]
   role: UserRole!
   roomInvitations: [Invitation!]!
-  rooms: [RoomMember!]!
+  rooms: [RoomMember!]
   stars: Int!
   updateAt: DateTime!
   updatedAt: DateTime!

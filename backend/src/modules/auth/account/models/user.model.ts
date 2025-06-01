@@ -40,11 +40,11 @@ export class UserModel {
 	@Field(() => [QuestCompletionModel])
 	completions: QuestCompletionModel[];
 
-	@Field(() => [RewardPurchaseModel])
-	reward: RewardPurchaseModel[];
+	@Field(() => [RewardModel], { nullable: true })
+	reward?: RewardModel[];
 
-	@Field(() => [RewardModel])
-	rewardsPurchase: RewardModel[];
+	@Field(() => [RewardPurchaseModel], { nullable: true })
+	rewardsPurchase?: RewardPurchaseModel[];
 
 	@Field(() => [BoostActivationModel])
 	boosts: BoostActivationModel[];
@@ -55,8 +55,8 @@ export class UserModel {
 	@Field(() => [QuestModel])
 	quests: QuestModel[];
 
-	@Field(() => [RoomMemberModel])
-	rooms: RoomMemberModel[];
+	@Field(() => [RoomMemberModel], { nullable: true })
+	rooms?: RoomMemberModel[];
 
 	@Field(() => [RoomModel])
 	createdRooms: RoomModel[];
