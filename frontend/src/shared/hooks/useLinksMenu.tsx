@@ -22,11 +22,6 @@ export const useLinksMenu = (): LinksMenu[] => {
 			current: false
 		},
 		{
-			title: 'Boost',
-			href: '/boost',
-			current: false
-		},
-		{
 			title: 'Goal',
 			href: '/goal',
 			current: false
@@ -39,11 +34,6 @@ export const useLinksMenu = (): LinksMenu[] => {
 		{
 			title: 'Quests',
 			href: '/quest',
-			current: false
-		},
-		{
-			title: 'Login',
-			href: '/login',
 			current: false
 		}
 	]

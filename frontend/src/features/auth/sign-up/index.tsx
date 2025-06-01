@@ -1,30 +1,24 @@
 'use client'
 
 import {
-	AlertDialogAction,
 	AlertDialogCancel,
 	AlertDialogTrigger
 } from '@radix-ui/react-alert-dialog'
-import { useState } from 'react'
 import { GoX } from 'react-icons/go'
 
-import { LoginForm } from '@/shared/ui-kit/login-form'
+import { SignUpForm } from '@/features/auth/sing-up/form'
 import {
 	AlertDialog,
 	AlertDialogContent,
 	AlertDialogDescription,
 	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle
+	AlertDialogHeader
 } from '@/shared/ui-kit/ui/alert-dialog'
-import { Button } from '@/shared/ui-kit/ui/button'
 
-export default function AuthDialog() {
+export default function SingUp() {
 	return (
-		<AlertDialog>
-			<AlertDialogTrigger asChild>
-				<Button variant='outline'>Show Dialog</Button>
-			</AlertDialogTrigger>
+		<AlertDialog defaultOpen>
+			<AlertDialogTrigger asChild></AlertDialogTrigger>
 			<AlertDialogContent>
 				<AlertDialogHeader>
 					<div className='flex justify-end'>
@@ -33,7 +27,7 @@ export default function AuthDialog() {
 						</AlertDialogCancel>
 					</div>
 					<AlertDialogDescription>
-						<LoginForm />
+						<SignUpForm />
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter></AlertDialogFooter>

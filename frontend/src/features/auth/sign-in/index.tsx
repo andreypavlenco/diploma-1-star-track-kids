@@ -6,17 +6,16 @@ import {
 } from '@radix-ui/react-alert-dialog'
 import { GoX } from 'react-icons/go'
 
-import { LoginForm } from '@/shared/ui-kit/login-form'
+import { SignInForm } from '@/features/auth/sign-in/form'
 import {
 	AlertDialog,
 	AlertDialogContent,
 	AlertDialogDescription,
 	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle
+	AlertDialogHeader
 } from '@/shared/ui-kit/ui/alert-dialog'
 
-export default function LoginPage() {
+export default function SingIn() {
 	return (
 		<AlertDialog defaultOpen>
 			<AlertDialogTrigger asChild></AlertDialogTrigger>
@@ -28,7 +27,7 @@ export default function LoginPage() {
 						</AlertDialogCancel>
 					</div>
 					<AlertDialogDescription>
-						<LoginForm />
+						<SignInForm />
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter></AlertDialogFooter>

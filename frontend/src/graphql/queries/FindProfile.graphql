@@ -1,0 +1,33 @@
+query findProfile {
+  findProfile {
+    email
+    stars
+
+    quests {
+      id
+      title
+      deadline
+      difficulty
+    }
+
+    createdRooms {
+      id
+      name
+    }
+
+    reward {
+      id
+      title
+      description
+      starCost
+    }
+
+    rooms {
+      id
+      room {
+        id
+        name
+      }
+    }
+  }
+}

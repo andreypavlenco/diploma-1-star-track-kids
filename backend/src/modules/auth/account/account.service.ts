@@ -13,7 +13,16 @@ export class AccountService {
 	async findById(id: string) {
 		const user = await this.prisma.user.findUnique({
 			where: { id },
-			include: { quests: true, createdRooms: true },
+			include: {
+				quests: true,
+				createdRooms: true,
+				rewards: true,
+				rooms: {
+					include: {
+						room: true,
+					},
+				},
+			},
 		});
 		return user;
 	}
