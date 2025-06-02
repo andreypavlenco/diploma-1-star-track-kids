@@ -58,6 +58,20 @@ export class RoomService {
 		return rooms;
 	}
 
+	async findAllQuestByRoomMemberId(userId: string) {
+		const rooms = await this.prisma.room.findMany({
+			where: {
+				members: {
+					some: {
+						userId: userId,
+					},
+				},
+			},
+			include: { quests: true },
+		});
+		return rooms;
+	}
+
 	async delete(roomId: string): Promise<boolean | null> {
 		await this.prisma.room.delete({
 			where: { id: roomId },

@@ -1,18 +1,22 @@
 // components/RewardColumn.tsx
 import React from 'react'
 
-interface Reward {
+import { useFindProfileQuery } from '@/graphql/generated/output'
+
+type RewardType = {
 	id: string | number
 	title: string
 	description: string
 	starCost: number
 }
 
-interface RewardColumnProps {
-	rewards: Reward[] | []
-}
+export function RewardColumn() {
+	const { data, loading, error } = useFindProfileQuery()
 
-export function RewardColumn({ rewards }: RewardColumnProps) {
+	const rewards: RewardType[] = data?.findProfile?.reward || []
+	if (loading) return <div>Loading...</div>
+	if (error) return <div>Error: {error.message}</div>
+
 	return (
 		<div className='flex flex-1 flex-col overflow-hidden rounded-lg border bg-white shadow-sm'>
 			<div className='border-b bg-gray-100 px-4 py-2'>

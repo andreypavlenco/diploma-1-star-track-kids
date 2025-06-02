@@ -55,7 +55,6 @@ export type CreateQuestInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   difficulty: Scalars['Int']['input'];
   goalId?: InputMaybe<Scalars['ID']['input']>;
-  roomId: Scalars['ID']['input'];
   title: Scalars['String']['input'];
 };
 
@@ -243,6 +242,7 @@ export type Query = {
   __typename?: 'Query';
   createRewardPurchase: RewardPurchaseModel;
   findActiveGoals: Array<Goal>;
+  findAllQuestByRoomMemberId: Array<Room>;
   findAllQuestRoom: Array<Quest>;
   findAllRoomsUser: Array<Room>;
   findByCreatorId: RewardModel;
@@ -414,6 +414,14 @@ export enum UserRole {
   Parent = 'PARENT'
 }
 
+export type CreateQuestMutationVariables = Exact<{
+  roomId: Scalars['String']['input'];
+  data: CreateQuestInput;
+}>;
+
+
+export type CreateQuestMutation = { __typename?: 'Mutation', createQuest: { __typename?: 'Quest', id: string, title: string, deadline: any, difficulty: number } };
+
 export type CreateRoomMutationVariables = Exact<{
   data: CreateRoomInput;
 }>;
@@ -435,6 +443,11 @@ export type LoginUserMutationVariables = Exact<{
 
 export type LoginUserMutation = { __typename?: 'Mutation', loginUser: { __typename?: 'UserModel', email: string, password: string } };
 
+export type FindAllQuestByRoomMemberIdQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindAllQuestByRoomMemberIdQuery = { __typename?: 'Query', findAllQuestByRoomMemberId: Array<{ __typename?: 'Room', id: string, name: string, quests?: Array<{ __typename?: 'Quest', title: string, deadline: any, difficulty: number }> | null }> };
+
 export type FindProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -446,6 +459,43 @@ export type ListAllBoostsQueryVariables = Exact<{ [key: string]: never; }>;
 export type ListAllBoostsQuery = { __typename?: 'Query', listAllBoosts: Array<{ __typename?: 'Boost', id: string, name: string, description?: string | null, cooldownDays: number, durationHours: number }> };
 
 
+export const CreateQuestDocument = gql`
+    mutation CreateQuest($roomId: String!, $data: CreateQuestInput!) {
+  createQuest(roomId: $roomId, data: $data) {
+    id
+    title
+    deadline
+    difficulty
+  }
+}
+    `;
+export type CreateQuestMutationFn = Apollo.MutationFunction<CreateQuestMutation, CreateQuestMutationVariables>;
+
+/**
+ * __useCreateQuestMutation__
+ *
+ * To run a mutation, you first call `useCreateQuestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateQuestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createQuestMutation, { data, loading, error }] = useCreateQuestMutation({
+ *   variables: {
+ *      roomId: // value for 'roomId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateQuestMutation(baseOptions?: Apollo.MutationHookOptions<CreateQuestMutation, CreateQuestMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateQuestMutation, CreateQuestMutationVariables>(CreateQuestDocument, options);
+      }
+export type CreateQuestMutationHookResult = ReturnType<typeof useCreateQuestMutation>;
+export type CreateQuestMutationResult = Apollo.MutationResult<CreateQuestMutation>;
+export type CreateQuestMutationOptions = Apollo.BaseMutationOptions<CreateQuestMutation, CreateQuestMutationVariables>;
 export const CreateRoomDocument = gql`
     mutation CreateRoom($data: CreateRoomInput!) {
   createRoom(data: $data) {
@@ -548,6 +598,51 @@ export function useLoginUserMutation(baseOptions?: Apollo.MutationHookOptions<Lo
 export type LoginUserMutationHookResult = ReturnType<typeof useLoginUserMutation>;
 export type LoginUserMutationResult = Apollo.MutationResult<LoginUserMutation>;
 export type LoginUserMutationOptions = Apollo.BaseMutationOptions<LoginUserMutation, LoginUserMutationVariables>;
+export const FindAllQuestByRoomMemberIdDocument = gql`
+    query findAllQuestByRoomMemberId {
+  findAllQuestByRoomMemberId {
+    id
+    name
+    quests {
+      title
+      deadline
+      difficulty
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindAllQuestByRoomMemberIdQuery__
+ *
+ * To run a query within a React component, call `useFindAllQuestByRoomMemberIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindAllQuestByRoomMemberIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindAllQuestByRoomMemberIdQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindAllQuestByRoomMemberIdQuery(baseOptions?: Apollo.QueryHookOptions<FindAllQuestByRoomMemberIdQuery, FindAllQuestByRoomMemberIdQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindAllQuestByRoomMemberIdQuery, FindAllQuestByRoomMemberIdQueryVariables>(FindAllQuestByRoomMemberIdDocument, options);
+      }
+export function useFindAllQuestByRoomMemberIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllQuestByRoomMemberIdQuery, FindAllQuestByRoomMemberIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindAllQuestByRoomMemberIdQuery, FindAllQuestByRoomMemberIdQueryVariables>(FindAllQuestByRoomMemberIdDocument, options);
+        }
+export function useFindAllQuestByRoomMemberIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindAllQuestByRoomMemberIdQuery, FindAllQuestByRoomMemberIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindAllQuestByRoomMemberIdQuery, FindAllQuestByRoomMemberIdQueryVariables>(FindAllQuestByRoomMemberIdDocument, options);
+        }
+export type FindAllQuestByRoomMemberIdQueryHookResult = ReturnType<typeof useFindAllQuestByRoomMemberIdQuery>;
+export type FindAllQuestByRoomMemberIdLazyQueryHookResult = ReturnType<typeof useFindAllQuestByRoomMemberIdLazyQuery>;
+export type FindAllQuestByRoomMemberIdSuspenseQueryHookResult = ReturnType<typeof useFindAllQuestByRoomMemberIdSuspenseQuery>;
+export type FindAllQuestByRoomMemberIdQueryResult = Apollo.QueryResult<FindAllQuestByRoomMemberIdQuery, FindAllQuestByRoomMemberIdQueryVariables>;
 export const FindProfileDocument = gql`
     query findProfile {
   findProfile {
