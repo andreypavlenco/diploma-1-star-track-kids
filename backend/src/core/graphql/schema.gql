@@ -37,7 +37,6 @@ input CreateQuestInput {
   description: String
   difficulty: Int!
   goalId: ID
-  roomId: ID!
   title: String!
 }
 
@@ -120,6 +119,7 @@ type Mutation {
 type Query {
   createRewardPurchase(rewardId: String!): RewardPurchaseModel!
   findActiveGoals: [Goal!]!
+  findAllQuestByRoomMemberId: [Room!]!
   findAllQuestRoom(roomId: String!): [Quest!]!
   findAllRoomsUser: [Room!]!
   findByCreatorId: RewardModel!

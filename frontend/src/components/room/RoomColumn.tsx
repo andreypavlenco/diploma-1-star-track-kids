@@ -1,25 +1,8 @@
-// components/RewardColumn.tsx
 'use client'
 
-import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTrigger } from '@/shared/ui-kit/ui/alert-dialog'
-import { Button } from '@/shared/ui-kit/ui/button'
-import { AlertDialogCancel } from '@radix-ui/react-alert-dialog'
 import React from 'react'
-import { GoX } from 'react-icons/go'
+
 import { CreateRoomForm } from './create-room.form'
-
-// components/RewardColumn.tsx
-
-// interface Reward {
-// 	id: string | number
-// 	title: string
-// 	description: string
-// 	starCost: number
-// }
-
-// interface RewardColumnProps {
-// 	rewards: Reward[] | []
-// }
 
 type RoomType = {
 	id: string
@@ -31,33 +14,17 @@ type RoomMemberType = {
 	room: RoomType
 }
 
-interface RoomColumnProps {
+type RoomColumnProps = {
 	rooms: RoomMemberType[]
+	onRefreshProfile: () => void
 }
 
-export function RoomColumn({ rooms }: RoomColumnProps[]) {
+export function RoomColumn({ rooms, onRefreshProfile }: RoomColumnProps[]) {
 	return (
 		<div className='flex flex-1 flex-col overflow-hidden rounded-lg border bg-white shadow-sm'>
-			<div className='border-b bg-gray-100 px-4 py-2 flex gap-10'>
+			<div className='flex gap-10 border-b bg-gray-100 px-4 py-2'>
 				<h2 className='text-lg font-semibold'>Rooms</h2>
-                <AlertDialog>
-			<AlertDialogTrigger asChild>
-             <Button variant='outline'>Create Room</Button>
-            </AlertDialogTrigger>
-			<AlertDialogContent>
-				<AlertDialogHeader>
-					<div className='flex justify-end'>
-						<AlertDialogCancel>
-							<GoX size='30px' />
-						</AlertDialogCancel>
-					</div>
-					<AlertDialogDescription>
-					<CreateRoomForm/>
-					</AlertDialogDescription>
-				</AlertDialogHeader>
-				<AlertDialogFooter></AlertDialogFooter>
-			</AlertDialogContent>
-		</AlertDialog>
+				<CreateRoomForm onRefreshProfile={() => onRefreshProfile()} />
 			</div>
 			<div className='flex-1 space-y-3 overflow-y-auto p-4'>
 				{rooms.length === 0 ? (
