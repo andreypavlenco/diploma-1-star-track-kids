@@ -249,8 +249,8 @@ export type Query = {
   findByIdBoost: Boost;
   findByIdQuest: Quest;
   findCompletedGoals: Array<Goal>;
+  findGoal: Array<Goal>;
   findGoalById: Goal;
-  findGoalForChild: Goal;
   findProfile: UserModel;
   findRewardById: RewardModel;
   findRewardsForChild: Array<RewardModel>;
@@ -443,10 +443,20 @@ export type LoginUserMutationVariables = Exact<{
 
 export type LoginUserMutation = { __typename?: 'Mutation', loginUser: { __typename?: 'UserModel', email: string, password: string } };
 
+export type LogoutUserMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutUserMutation = { __typename?: 'Mutation', logoutUser: boolean };
+
 export type FindAllQuestByRoomMemberIdQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FindAllQuestByRoomMemberIdQuery = { __typename?: 'Query', findAllQuestByRoomMemberId: Array<{ __typename?: 'Room', id: string, name: string, quests?: Array<{ __typename?: 'Quest', title: string, deadline: any, difficulty: number }> | null }> };
+
+export type FindGoalQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindGoalQuery = { __typename?: 'Query', findGoal: Array<{ __typename?: 'Goal', id: string, title: string, description?: string | null, starReward: number, completedAt?: any | null, creator: { __typename?: 'UserModel', id: string, email: string } }> };
 
 export type FindProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -598,6 +608,36 @@ export function useLoginUserMutation(baseOptions?: Apollo.MutationHookOptions<Lo
 export type LoginUserMutationHookResult = ReturnType<typeof useLoginUserMutation>;
 export type LoginUserMutationResult = Apollo.MutationResult<LoginUserMutation>;
 export type LoginUserMutationOptions = Apollo.BaseMutationOptions<LoginUserMutation, LoginUserMutationVariables>;
+export const LogoutUserDocument = gql`
+    mutation LogoutUser {
+  logoutUser
+}
+    `;
+export type LogoutUserMutationFn = Apollo.MutationFunction<LogoutUserMutation, LogoutUserMutationVariables>;
+
+/**
+ * __useLogoutUserMutation__
+ *
+ * To run a mutation, you first call `useLogoutUserMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutUserMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutUserMutation, { data, loading, error }] = useLogoutUserMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutUserMutation(baseOptions?: Apollo.MutationHookOptions<LogoutUserMutation, LogoutUserMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogoutUserMutation, LogoutUserMutationVariables>(LogoutUserDocument, options);
+      }
+export type LogoutUserMutationHookResult = ReturnType<typeof useLogoutUserMutation>;
+export type LogoutUserMutationResult = Apollo.MutationResult<LogoutUserMutation>;
+export type LogoutUserMutationOptions = Apollo.BaseMutationOptions<LogoutUserMutation, LogoutUserMutationVariables>;
 export const FindAllQuestByRoomMemberIdDocument = gql`
     query findAllQuestByRoomMemberId {
   findAllQuestByRoomMemberId {
@@ -643,6 +683,53 @@ export type FindAllQuestByRoomMemberIdQueryHookResult = ReturnType<typeof useFin
 export type FindAllQuestByRoomMemberIdLazyQueryHookResult = ReturnType<typeof useFindAllQuestByRoomMemberIdLazyQuery>;
 export type FindAllQuestByRoomMemberIdSuspenseQueryHookResult = ReturnType<typeof useFindAllQuestByRoomMemberIdSuspenseQuery>;
 export type FindAllQuestByRoomMemberIdQueryResult = Apollo.QueryResult<FindAllQuestByRoomMemberIdQuery, FindAllQuestByRoomMemberIdQueryVariables>;
+export const FindGoalDocument = gql`
+    query FindGoal {
+  findGoal {
+    id
+    title
+    description
+    starReward
+    completedAt
+    creator {
+      id
+      email
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindGoalQuery__
+ *
+ * To run a query within a React component, call `useFindGoalQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindGoalQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindGoalQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindGoalQuery(baseOptions?: Apollo.QueryHookOptions<FindGoalQuery, FindGoalQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindGoalQuery, FindGoalQueryVariables>(FindGoalDocument, options);
+      }
+export function useFindGoalLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindGoalQuery, FindGoalQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindGoalQuery, FindGoalQueryVariables>(FindGoalDocument, options);
+        }
+export function useFindGoalSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindGoalQuery, FindGoalQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindGoalQuery, FindGoalQueryVariables>(FindGoalDocument, options);
+        }
+export type FindGoalQueryHookResult = ReturnType<typeof useFindGoalQuery>;
+export type FindGoalLazyQueryHookResult = ReturnType<typeof useFindGoalLazyQuery>;
+export type FindGoalSuspenseQueryHookResult = ReturnType<typeof useFindGoalSuspenseQuery>;
+export type FindGoalQueryResult = Apollo.QueryResult<FindGoalQuery, FindGoalQueryVariables>;
 export const FindProfileDocument = gql`
     query findProfile {
   findProfile {

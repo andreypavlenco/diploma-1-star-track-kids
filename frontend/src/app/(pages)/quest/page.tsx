@@ -1,9 +1,9 @@
-import { Dashboard } from '@/components/quest/Dashboard'
+import { QuestDashboard } from '@/features/quest/components/QuestDashboard'
 
 export default function QuestPage() {
 	return (
 		<div>
-			<Dashboard />
+			<QuestDashboard />
 		</div>
 	)
 }

@@ -1,11 +1,11 @@
 'use client'
 
-import { Dashboard } from '@/components/room/Dashboard'
+import { RoomDashboard } from '@/features/room/components/RoomDashboard'
 
 export default function RoomPage() {
 	return (
 		<div>
-			<Dashboard />
+			<RoomDashboard />
 		</div>
 	)
 }

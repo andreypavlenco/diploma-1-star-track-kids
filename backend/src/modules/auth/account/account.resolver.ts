@@ -12,7 +12,7 @@ import { UserModel } from './models/user.model';
 export class AccountResolver {
 	constructor(private readonly accountService: AccountService) {}
 
-	@Auth(UserRole.PARENT)
+	@Auth(UserRole.PARENT, UserRole.CHILD)
 	@Query(() => UserModel, { name: 'findProfile' })
 	async findById(@Authorized('id') id: string) {
 		return this.accountService.findById(id);
