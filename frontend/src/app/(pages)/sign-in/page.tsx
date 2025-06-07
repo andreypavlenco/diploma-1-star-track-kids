@@ -1,11 +1,11 @@
 'use client'
 
-import SingIn from '@/features/auth/sign-in'
+import SignInDialog from '@/features/auth/components/sign-in/SignInDialog'
 
-export default function SingInPage() {
+export default function SignInPage() {
 	return (
 		<>
-			<SingIn />
+			<SignInDialog />
 		</>
 	)
 }

@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation'
 
-import { Dashboard } from '@/components/room/Dashboard'
+import { Dashboard } from '@/features/room/components/RoomDashboard'
 
 export default function RoomIndexPage() {
 	const params = useParams()

@@ -1,0 +1,13 @@
+query FindGoal  {
+  findGoal {
+    id
+    title
+    description
+    starReward
+    completedAt
+    creator {
+      id
+      email
+    }
+  }
+}

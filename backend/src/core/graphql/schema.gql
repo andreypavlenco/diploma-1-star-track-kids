@@ -126,8 +126,8 @@ type Query {
   findByIdBoost(boostId: String!): Boost!
   findByIdQuest(questId: String!, roomId: String!): Quest!
   findCompletedGoals: [Goal!]!
+  findGoal: [Goal!]!
   findGoalById(goalId: String!): Goal!
-  findGoalForChild: Goal!
   findProfile: UserModel!
   findRewardById(rewardId: String!): RewardModel!
   findRewardsForChild: [RewardModel!]!

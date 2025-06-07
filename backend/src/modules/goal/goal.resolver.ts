@@ -67,9 +67,9 @@ export class GoalResolver {
 		return this.goalService.findActiveGoals(userId);
 	}
 
-	@Auth(UserRole.CHILD)
-	@Query(() => GoalModel, { name: 'findGoalForChild' })
-	async findGoalForChild(@Authorized('id') childId: string) {
-		return this.goalService.findGoalForChild(childId);
+	@Auth(UserRole.CHILD, UserRole.PARENT)
+	@Query(() => [GoalModel], { name: 'findGoal' })
+	async findGoal(@Authorized('id') userId: string) {
+		return this.goalService.findGoal(userId);
 	}
 }

@@ -1,11 +1,11 @@
 'use client'
 
-import SingUp from '@/features/auth/sing-up'
+import SignUpDialog from '@/features/auth/components/sign-up/SignUpDialog'
 
-export default function SingUpPage() {
+export default function SignUpPage() {
 	return (
 		<>
-			<SingUp />
+			<SignUpDialog />
 		</>
 	)
 }

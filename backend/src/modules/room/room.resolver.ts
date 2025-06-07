@@ -52,5 +52,4 @@ export class RoomResolver {
 	async findAllQuestByRoomMemberId(@Authorized('id') userId: string) {
 		return this.roomService.findAllQuestByRoomMemberId(userId);
 	}
-
 }

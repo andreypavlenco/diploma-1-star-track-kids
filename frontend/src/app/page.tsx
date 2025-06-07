@@ -1,17 +1,36 @@
-'use client'
+'use client';
 
-import { Dashboard } from '@/components/home/Dashboard'
-import MainLayout from '@/components/home/MainLayout'
+import { Header } from '@/features/header';
+import { HomeDashboard } from '@/features/home/components/HomeDashboard';
+import MainLayout from '@/features/home/components/MainLayout';
+import Error from '@/shared/components/error/Error';
+import { Loading } from '@/shared/components/loading/Loading';
+import { useProfile } from '@/shared/hooks/useProfile';
 
 export default function HomePage() {
-	// const { data, loading, error } = useListAllBoostsQuery({
-	// 	fetchPolicy: 'cache-and-network',
-	// 	nextFetchPolicy: 'cache-first'
-	// })
-	return (
-		<div>
-			<MainLayout />
-			<Dashboard />
-		</div>
-	)
+  const {
+    profile,
+    loading,
+    error,
+    todayQuests,
+    tomorrowQuests,
+    rewards,
+    refetch,
+  } = useProfile();
+
+  if (loading) return <Loading />;
+  if (error)   return <Error error={error} />;
+
+  return (
+    <div>
+      <MainLayout profile={profile} />
+
+      <HomeDashboard
+        todayQuests={todayQuests}
+        tomorrowQuests={tomorrowQuests}
+        rewards={rewards}
+        onRefreshReward={refetch}
+      />
+    </div>
+  );
 }
