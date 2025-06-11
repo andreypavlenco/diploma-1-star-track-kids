@@ -1,0 +1,9 @@
+mutation UpdateQuest($questId: String!, $data: CreateQuestInput!) {
+  updateQuest(questId: $questId, data: $data) {
+    id
+    title
+    description
+    deadline
+    difficulty
+  }
+}

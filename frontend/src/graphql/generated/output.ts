@@ -116,6 +116,7 @@ export type Mutation = {
   createInvitation: Scalars['Boolean']['output'];
   createQuest: Quest;
   createReward: RewardModel;
+  createRewardPurchase: Scalars['Boolean']['output'];
   createRoom: Room;
   createUser: UserModel;
   deleteGoal: Scalars['Boolean']['output'];
@@ -167,6 +168,11 @@ export type MutationCreateQuestArgs = {
 
 export type MutationCreateRewardArgs = {
   data: CreateRewardInput;
+};
+
+
+export type MutationCreateRewardPurchaseArgs = {
+  rewardId: Scalars['String']['input'];
 };
 
 
@@ -240,7 +246,6 @@ export type MutationUpdateRoomArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  createRewardPurchase: RewardPurchaseModel;
   findActiveGoals: Array<Goal>;
   findAllQuestByRoomMemberId: Array<Room>;
   findAllQuestRoom: Array<Quest>;
@@ -253,16 +258,11 @@ export type Query = {
   findGoalById: Goal;
   findProfile: UserModel;
   findRewardById: RewardModel;
-  findRewardsForChild: Array<RewardModel>;
+  findRewardsForUser: Array<RewardModel>;
   findRoomById: Room;
   getActiveBoosts: BoostActivation;
   getUserActivations: Array<Boost>;
   listAllBoosts: Array<Boost>;
-};
-
-
-export type QueryCreateRewardPurchaseArgs = {
-  rewardId: Scalars['String']['input'];
 };
 
 
@@ -414,6 +414,13 @@ export enum UserRole {
   Parent = 'PARENT'
 }
 
+export type CreateGoalMutationVariables = Exact<{
+  data: CreateGoalInput;
+}>;
+
+
+export type CreateGoalMutation = { __typename?: 'Mutation', createGoal: { __typename?: 'Goal', id: string, title: string, description?: string | null } };
+
 export type CreateQuestMutationVariables = Exact<{
   roomId: Scalars['String']['input'];
   data: CreateQuestInput;
@@ -421,6 +428,20 @@ export type CreateQuestMutationVariables = Exact<{
 
 
 export type CreateQuestMutation = { __typename?: 'Mutation', createQuest: { __typename?: 'Quest', id: string, title: string, deadline: any, difficulty: number } };
+
+export type CreateRewardMutationVariables = Exact<{
+  data: CreateRewardInput;
+}>;
+
+
+export type CreateRewardMutation = { __typename?: 'Mutation', createReward: { __typename?: 'RewardModel', id: string, title: string, description?: string | null, starCost: number, creator: { __typename?: 'UserModel', id: string, email: string } } };
+
+export type CreateRewardPurchaseMutationVariables = Exact<{
+  rewardId: Scalars['String']['input'];
+}>;
+
+
+export type CreateRewardPurchaseMutation = { __typename?: 'Mutation', createRewardPurchase: boolean };
 
 export type CreateRoomMutationVariables = Exact<{
   data: CreateRoomInput;
@@ -436,6 +457,34 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'UserModel', id: string, email: string, role: UserRole } };
 
+export type DeleteGoalMutationVariables = Exact<{
+  goalId: Scalars['String']['input'];
+}>;
+
+
+export type DeleteGoalMutation = { __typename?: 'Mutation', deleteGoal: boolean };
+
+export type DeleteQuestMutationVariables = Exact<{
+  questId: Scalars['String']['input'];
+}>;
+
+
+export type DeleteQuestMutation = { __typename?: 'Mutation', deleteQuest: { __typename?: 'Quest', id: string, title: string, description?: string | null } };
+
+export type DeleteRewardMutationVariables = Exact<{
+  rewardId: Scalars['String']['input'];
+}>;
+
+
+export type DeleteRewardMutation = { __typename?: 'Mutation', deleteReward: boolean };
+
+export type DeleteRoomMutationVariables = Exact<{
+  roomId: Scalars['String']['input'];
+}>;
+
+
+export type DeleteRoomMutation = { __typename?: 'Mutation', deleteRoom: boolean };
+
 export type LoginUserMutationVariables = Exact<{
   data: LoginInput;
 }>;
@@ -448,10 +497,49 @@ export type LogoutUserMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutUserMutation = { __typename?: 'Mutation', logoutUser: boolean };
 
+export type UncompleteGoalMutationVariables = Exact<{
+  goalId: Scalars['String']['input'];
+}>;
+
+
+export type UncompleteGoalMutation = { __typename?: 'Mutation', uncompleteGoal: { __typename?: 'Goal', id: string, title: string, completedAt?: any | null } };
+
+export type UpdateGoalMutationVariables = Exact<{
+  goalId: Scalars['String']['input'];
+  data: UpdateGoalInput;
+}>;
+
+
+export type UpdateGoalMutation = { __typename?: 'Mutation', updateGoal: { __typename?: 'Goal', id: string, title: string, description?: string | null, completedAt?: any | null } };
+
+export type UpdateQuestMutationVariables = Exact<{
+  questId: Scalars['String']['input'];
+  data: CreateQuestInput;
+}>;
+
+
+export type UpdateQuestMutation = { __typename?: 'Mutation', updateQuest: { __typename?: 'Quest', id: string, title: string, description?: string | null, deadline: any, difficulty: number } };
+
+export type UpdateRewardMutationVariables = Exact<{
+  rewardId: Scalars['String']['input'];
+  data: UpdateRewardInput;
+}>;
+
+
+export type UpdateRewardMutation = { __typename?: 'Mutation', updateReward: { __typename?: 'RewardModel', id: string, title: string, description?: string | null, starCost: number, creator: { __typename?: 'UserModel', id: string, email: string } } };
+
+export type UpdateRoomMutationVariables = Exact<{
+  roomId: Scalars['String']['input'];
+  data: CreateRoomInput;
+}>;
+
+
+export type UpdateRoomMutation = { __typename?: 'Mutation', updateRoom: { __typename?: 'Room', id: string, name: string } };
+
 export type FindAllQuestByRoomMemberIdQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllQuestByRoomMemberIdQuery = { __typename?: 'Query', findAllQuestByRoomMemberId: Array<{ __typename?: 'Room', id: string, name: string, quests?: Array<{ __typename?: 'Quest', title: string, deadline: any, difficulty: number }> | null }> };
+export type FindAllQuestByRoomMemberIdQuery = { __typename?: 'Query', findAllQuestByRoomMemberId: Array<{ __typename?: 'Room', id: string, name: string, createUser: { __typename?: 'UserModel', id: string, email: string }, quests?: Array<{ __typename?: 'Quest', id: string, title: string, description?: string | null, deadline: any, difficulty: number }> | null }> };
 
 export type FindGoalQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -461,7 +549,19 @@ export type FindGoalQuery = { __typename?: 'Query', findGoal: Array<{ __typename
 export type FindProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', email: string, stars: number, quests: Array<{ __typename?: 'Quest', id: string, title: string, deadline: any, difficulty: number }>, createdRooms: Array<{ __typename?: 'Room', id: string, name: string }>, reward?: Array<{ __typename?: 'RewardModel', id: string, title: string, description?: string | null, starCost: number }> | null, rooms?: Array<{ __typename?: 'RoomMember', id: string, room: { __typename?: 'Room', id: string, name: string } }> | null } };
+export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, email: string, stars: number, quests: Array<{ __typename?: 'Quest', id: string, title: string, description?: string | null, deadline: any, difficulty: number }>, createdRooms: Array<{ __typename?: 'Room', id: string, name: string }>, reward?: Array<{ __typename?: 'RewardModel', id: string, title: string, starCost: number }> | null, rooms?: Array<{ __typename?: 'RoomMember', id: string, room: { __typename?: 'Room', id: string, name: string, members: Array<{ __typename?: 'RoomMember', id: string, userId: string, role: UserRole, joinedAt: any }> } }> | null } };
+
+export type FindRewardsForUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindRewardsForUserQuery = { __typename?: 'Query', findRewardsForUser: Array<{ __typename?: 'RewardModel', id: string, title: string, description?: string | null, starCost: number, creator: { __typename?: 'UserModel', id: string, email: string } }> };
+
+export type FindRoomByIdQueryVariables = Exact<{
+  roomId: Scalars['String']['input'];
+}>;
+
+
+export type FindRoomByIdQuery = { __typename?: 'Query', findRoomById: { __typename?: 'Room', id: string, name: string, quests?: Array<{ __typename?: 'Quest', id: string, title: string, description?: string | null, deadline: any, difficulty: number }> | null } };
 
 export type ListAllBoostsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -469,6 +569,41 @@ export type ListAllBoostsQueryVariables = Exact<{ [key: string]: never; }>;
 export type ListAllBoostsQuery = { __typename?: 'Query', listAllBoosts: Array<{ __typename?: 'Boost', id: string, name: string, description?: string | null, cooldownDays: number, durationHours: number }> };
 
 
+export const CreateGoalDocument = gql`
+    mutation CreateGoal($data: CreateGoalInput!) {
+  createGoal(data: $data) {
+    id
+    title
+    description
+  }
+}
+    `;
+export type CreateGoalMutationFn = Apollo.MutationFunction<CreateGoalMutation, CreateGoalMutationVariables>;
+
+/**
+ * __useCreateGoalMutation__
+ *
+ * To run a mutation, you first call `useCreateGoalMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateGoalMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createGoalMutation, { data, loading, error }] = useCreateGoalMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateGoalMutation(baseOptions?: Apollo.MutationHookOptions<CreateGoalMutation, CreateGoalMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateGoalMutation, CreateGoalMutationVariables>(CreateGoalDocument, options);
+      }
+export type CreateGoalMutationHookResult = ReturnType<typeof useCreateGoalMutation>;
+export type CreateGoalMutationResult = Apollo.MutationResult<CreateGoalMutation>;
+export type CreateGoalMutationOptions = Apollo.BaseMutationOptions<CreateGoalMutation, CreateGoalMutationVariables>;
 export const CreateQuestDocument = gql`
     mutation CreateQuest($roomId: String!, $data: CreateQuestInput!) {
   createQuest(roomId: $roomId, data: $data) {
@@ -506,6 +641,77 @@ export function useCreateQuestMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateQuestMutationHookResult = ReturnType<typeof useCreateQuestMutation>;
 export type CreateQuestMutationResult = Apollo.MutationResult<CreateQuestMutation>;
 export type CreateQuestMutationOptions = Apollo.BaseMutationOptions<CreateQuestMutation, CreateQuestMutationVariables>;
+export const CreateRewardDocument = gql`
+    mutation CreateReward($data: CreateRewardInput!) {
+  createReward(data: $data) {
+    id
+    title
+    description
+    starCost
+    creator {
+      id
+      email
+    }
+  }
+}
+    `;
+export type CreateRewardMutationFn = Apollo.MutationFunction<CreateRewardMutation, CreateRewardMutationVariables>;
+
+/**
+ * __useCreateRewardMutation__
+ *
+ * To run a mutation, you first call `useCreateRewardMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRewardMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRewardMutation, { data, loading, error }] = useCreateRewardMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateRewardMutation(baseOptions?: Apollo.MutationHookOptions<CreateRewardMutation, CreateRewardMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateRewardMutation, CreateRewardMutationVariables>(CreateRewardDocument, options);
+      }
+export type CreateRewardMutationHookResult = ReturnType<typeof useCreateRewardMutation>;
+export type CreateRewardMutationResult = Apollo.MutationResult<CreateRewardMutation>;
+export type CreateRewardMutationOptions = Apollo.BaseMutationOptions<CreateRewardMutation, CreateRewardMutationVariables>;
+export const CreateRewardPurchaseDocument = gql`
+    mutation CreateRewardPurchase($rewardId: String!) {
+  createRewardPurchase(rewardId: $rewardId)
+}
+    `;
+export type CreateRewardPurchaseMutationFn = Apollo.MutationFunction<CreateRewardPurchaseMutation, CreateRewardPurchaseMutationVariables>;
+
+/**
+ * __useCreateRewardPurchaseMutation__
+ *
+ * To run a mutation, you first call `useCreateRewardPurchaseMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRewardPurchaseMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRewardPurchaseMutation, { data, loading, error }] = useCreateRewardPurchaseMutation({
+ *   variables: {
+ *      rewardId: // value for 'rewardId'
+ *   },
+ * });
+ */
+export function useCreateRewardPurchaseMutation(baseOptions?: Apollo.MutationHookOptions<CreateRewardPurchaseMutation, CreateRewardPurchaseMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateRewardPurchaseMutation, CreateRewardPurchaseMutationVariables>(CreateRewardPurchaseDocument, options);
+      }
+export type CreateRewardPurchaseMutationHookResult = ReturnType<typeof useCreateRewardPurchaseMutation>;
+export type CreateRewardPurchaseMutationResult = Apollo.MutationResult<CreateRewardPurchaseMutation>;
+export type CreateRewardPurchaseMutationOptions = Apollo.BaseMutationOptions<CreateRewardPurchaseMutation, CreateRewardPurchaseMutationVariables>;
 export const CreateRoomDocument = gql`
     mutation CreateRoom($data: CreateRoomInput!) {
   createRoom(data: $data) {
@@ -574,6 +780,134 @@ export function useCreateUserMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateUserMutationHookResult = ReturnType<typeof useCreateUserMutation>;
 export type CreateUserMutationResult = Apollo.MutationResult<CreateUserMutation>;
 export type CreateUserMutationOptions = Apollo.BaseMutationOptions<CreateUserMutation, CreateUserMutationVariables>;
+export const DeleteGoalDocument = gql`
+    mutation DeleteGoal($goalId: String!) {
+  deleteGoal(goalId: $goalId)
+}
+    `;
+export type DeleteGoalMutationFn = Apollo.MutationFunction<DeleteGoalMutation, DeleteGoalMutationVariables>;
+
+/**
+ * __useDeleteGoalMutation__
+ *
+ * To run a mutation, you first call `useDeleteGoalMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteGoalMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteGoalMutation, { data, loading, error }] = useDeleteGoalMutation({
+ *   variables: {
+ *      goalId: // value for 'goalId'
+ *   },
+ * });
+ */
+export function useDeleteGoalMutation(baseOptions?: Apollo.MutationHookOptions<DeleteGoalMutation, DeleteGoalMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteGoalMutation, DeleteGoalMutationVariables>(DeleteGoalDocument, options);
+      }
+export type DeleteGoalMutationHookResult = ReturnType<typeof useDeleteGoalMutation>;
+export type DeleteGoalMutationResult = Apollo.MutationResult<DeleteGoalMutation>;
+export type DeleteGoalMutationOptions = Apollo.BaseMutationOptions<DeleteGoalMutation, DeleteGoalMutationVariables>;
+export const DeleteQuestDocument = gql`
+    mutation DeleteQuest($questId: String!) {
+  deleteQuest(questId: $questId) {
+    id
+    title
+    description
+  }
+}
+    `;
+export type DeleteQuestMutationFn = Apollo.MutationFunction<DeleteQuestMutation, DeleteQuestMutationVariables>;
+
+/**
+ * __useDeleteQuestMutation__
+ *
+ * To run a mutation, you first call `useDeleteQuestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteQuestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteQuestMutation, { data, loading, error }] = useDeleteQuestMutation({
+ *   variables: {
+ *      questId: // value for 'questId'
+ *   },
+ * });
+ */
+export function useDeleteQuestMutation(baseOptions?: Apollo.MutationHookOptions<DeleteQuestMutation, DeleteQuestMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteQuestMutation, DeleteQuestMutationVariables>(DeleteQuestDocument, options);
+      }
+export type DeleteQuestMutationHookResult = ReturnType<typeof useDeleteQuestMutation>;
+export type DeleteQuestMutationResult = Apollo.MutationResult<DeleteQuestMutation>;
+export type DeleteQuestMutationOptions = Apollo.BaseMutationOptions<DeleteQuestMutation, DeleteQuestMutationVariables>;
+export const DeleteRewardDocument = gql`
+    mutation DeleteReward($rewardId: String!) {
+  deleteReward(rewardId: $rewardId)
+}
+    `;
+export type DeleteRewardMutationFn = Apollo.MutationFunction<DeleteRewardMutation, DeleteRewardMutationVariables>;
+
+/**
+ * __useDeleteRewardMutation__
+ *
+ * To run a mutation, you first call `useDeleteRewardMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRewardMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRewardMutation, { data, loading, error }] = useDeleteRewardMutation({
+ *   variables: {
+ *      rewardId: // value for 'rewardId'
+ *   },
+ * });
+ */
+export function useDeleteRewardMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRewardMutation, DeleteRewardMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteRewardMutation, DeleteRewardMutationVariables>(DeleteRewardDocument, options);
+      }
+export type DeleteRewardMutationHookResult = ReturnType<typeof useDeleteRewardMutation>;
+export type DeleteRewardMutationResult = Apollo.MutationResult<DeleteRewardMutation>;
+export type DeleteRewardMutationOptions = Apollo.BaseMutationOptions<DeleteRewardMutation, DeleteRewardMutationVariables>;
+export const DeleteRoomDocument = gql`
+    mutation DeleteRoom($roomId: String!) {
+  deleteRoom(roomId: $roomId)
+}
+    `;
+export type DeleteRoomMutationFn = Apollo.MutationFunction<DeleteRoomMutation, DeleteRoomMutationVariables>;
+
+/**
+ * __useDeleteRoomMutation__
+ *
+ * To run a mutation, you first call `useDeleteRoomMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRoomMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRoomMutation, { data, loading, error }] = useDeleteRoomMutation({
+ *   variables: {
+ *      roomId: // value for 'roomId'
+ *   },
+ * });
+ */
+export function useDeleteRoomMutation(baseOptions?: Apollo.MutationHookOptions<DeleteRoomMutation, DeleteRoomMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteRoomMutation, DeleteRoomMutationVariables>(DeleteRoomDocument, options);
+      }
+export type DeleteRoomMutationHookResult = ReturnType<typeof useDeleteRoomMutation>;
+export type DeleteRoomMutationResult = Apollo.MutationResult<DeleteRoomMutation>;
+export type DeleteRoomMutationOptions = Apollo.BaseMutationOptions<DeleteRoomMutation, DeleteRoomMutationVariables>;
 export const LoginUserDocument = gql`
     mutation LoginUser($data: LoginInput!) {
   loginUser(data: $data) {
@@ -638,13 +972,205 @@ export function useLogoutUserMutation(baseOptions?: Apollo.MutationHookOptions<L
 export type LogoutUserMutationHookResult = ReturnType<typeof useLogoutUserMutation>;
 export type LogoutUserMutationResult = Apollo.MutationResult<LogoutUserMutation>;
 export type LogoutUserMutationOptions = Apollo.BaseMutationOptions<LogoutUserMutation, LogoutUserMutationVariables>;
+export const UncompleteGoalDocument = gql`
+    mutation UncompleteGoal($goalId: String!) {
+  uncompleteGoal(goalId: $goalId) {
+    id
+    title
+    completedAt
+  }
+}
+    `;
+export type UncompleteGoalMutationFn = Apollo.MutationFunction<UncompleteGoalMutation, UncompleteGoalMutationVariables>;
+
+/**
+ * __useUncompleteGoalMutation__
+ *
+ * To run a mutation, you first call `useUncompleteGoalMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUncompleteGoalMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [uncompleteGoalMutation, { data, loading, error }] = useUncompleteGoalMutation({
+ *   variables: {
+ *      goalId: // value for 'goalId'
+ *   },
+ * });
+ */
+export function useUncompleteGoalMutation(baseOptions?: Apollo.MutationHookOptions<UncompleteGoalMutation, UncompleteGoalMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UncompleteGoalMutation, UncompleteGoalMutationVariables>(UncompleteGoalDocument, options);
+      }
+export type UncompleteGoalMutationHookResult = ReturnType<typeof useUncompleteGoalMutation>;
+export type UncompleteGoalMutationResult = Apollo.MutationResult<UncompleteGoalMutation>;
+export type UncompleteGoalMutationOptions = Apollo.BaseMutationOptions<UncompleteGoalMutation, UncompleteGoalMutationVariables>;
+export const UpdateGoalDocument = gql`
+    mutation UpdateGoal($goalId: String!, $data: UpdateGoalInput!) {
+  updateGoal(goalId: $goalId, data: $data) {
+    id
+    title
+    description
+    completedAt
+  }
+}
+    `;
+export type UpdateGoalMutationFn = Apollo.MutationFunction<UpdateGoalMutation, UpdateGoalMutationVariables>;
+
+/**
+ * __useUpdateGoalMutation__
+ *
+ * To run a mutation, you first call `useUpdateGoalMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateGoalMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateGoalMutation, { data, loading, error }] = useUpdateGoalMutation({
+ *   variables: {
+ *      goalId: // value for 'goalId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateGoalMutation(baseOptions?: Apollo.MutationHookOptions<UpdateGoalMutation, UpdateGoalMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateGoalMutation, UpdateGoalMutationVariables>(UpdateGoalDocument, options);
+      }
+export type UpdateGoalMutationHookResult = ReturnType<typeof useUpdateGoalMutation>;
+export type UpdateGoalMutationResult = Apollo.MutationResult<UpdateGoalMutation>;
+export type UpdateGoalMutationOptions = Apollo.BaseMutationOptions<UpdateGoalMutation, UpdateGoalMutationVariables>;
+export const UpdateQuestDocument = gql`
+    mutation UpdateQuest($questId: String!, $data: CreateQuestInput!) {
+  updateQuest(questId: $questId, data: $data) {
+    id
+    title
+    description
+    deadline
+    difficulty
+  }
+}
+    `;
+export type UpdateQuestMutationFn = Apollo.MutationFunction<UpdateQuestMutation, UpdateQuestMutationVariables>;
+
+/**
+ * __useUpdateQuestMutation__
+ *
+ * To run a mutation, you first call `useUpdateQuestMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateQuestMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateQuestMutation, { data, loading, error }] = useUpdateQuestMutation({
+ *   variables: {
+ *      questId: // value for 'questId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateQuestMutation(baseOptions?: Apollo.MutationHookOptions<UpdateQuestMutation, UpdateQuestMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateQuestMutation, UpdateQuestMutationVariables>(UpdateQuestDocument, options);
+      }
+export type UpdateQuestMutationHookResult = ReturnType<typeof useUpdateQuestMutation>;
+export type UpdateQuestMutationResult = Apollo.MutationResult<UpdateQuestMutation>;
+export type UpdateQuestMutationOptions = Apollo.BaseMutationOptions<UpdateQuestMutation, UpdateQuestMutationVariables>;
+export const UpdateRewardDocument = gql`
+    mutation UpdateReward($rewardId: String!, $data: UpdateRewardInput!) {
+  updateReward(rewardId: $rewardId, data: $data) {
+    id
+    title
+    description
+    starCost
+    creator {
+      id
+      email
+    }
+  }
+}
+    `;
+export type UpdateRewardMutationFn = Apollo.MutationFunction<UpdateRewardMutation, UpdateRewardMutationVariables>;
+
+/**
+ * __useUpdateRewardMutation__
+ *
+ * To run a mutation, you first call `useUpdateRewardMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRewardMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRewardMutation, { data, loading, error }] = useUpdateRewardMutation({
+ *   variables: {
+ *      rewardId: // value for 'rewardId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateRewardMutation(baseOptions?: Apollo.MutationHookOptions<UpdateRewardMutation, UpdateRewardMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateRewardMutation, UpdateRewardMutationVariables>(UpdateRewardDocument, options);
+      }
+export type UpdateRewardMutationHookResult = ReturnType<typeof useUpdateRewardMutation>;
+export type UpdateRewardMutationResult = Apollo.MutationResult<UpdateRewardMutation>;
+export type UpdateRewardMutationOptions = Apollo.BaseMutationOptions<UpdateRewardMutation, UpdateRewardMutationVariables>;
+export const UpdateRoomDocument = gql`
+    mutation UpdateRoom($roomId: String!, $data: CreateRoomInput!) {
+  updateRoom(roomId: $roomId, data: $data) {
+    id
+    name
+  }
+}
+    `;
+export type UpdateRoomMutationFn = Apollo.MutationFunction<UpdateRoomMutation, UpdateRoomMutationVariables>;
+
+/**
+ * __useUpdateRoomMutation__
+ *
+ * To run a mutation, you first call `useUpdateRoomMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRoomMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRoomMutation, { data, loading, error }] = useUpdateRoomMutation({
+ *   variables: {
+ *      roomId: // value for 'roomId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateRoomMutation(baseOptions?: Apollo.MutationHookOptions<UpdateRoomMutation, UpdateRoomMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateRoomMutation, UpdateRoomMutationVariables>(UpdateRoomDocument, options);
+      }
+export type UpdateRoomMutationHookResult = ReturnType<typeof useUpdateRoomMutation>;
+export type UpdateRoomMutationResult = Apollo.MutationResult<UpdateRoomMutation>;
+export type UpdateRoomMutationOptions = Apollo.BaseMutationOptions<UpdateRoomMutation, UpdateRoomMutationVariables>;
 export const FindAllQuestByRoomMemberIdDocument = gql`
     query findAllQuestByRoomMemberId {
   findAllQuestByRoomMemberId {
     id
     name
+    createUser {
+      id
+      email
+    }
     quests {
+      id
       title
+      description
       deadline
       difficulty
     }
@@ -731,13 +1257,15 @@ export type FindGoalLazyQueryHookResult = ReturnType<typeof useFindGoalLazyQuery
 export type FindGoalSuspenseQueryHookResult = ReturnType<typeof useFindGoalSuspenseQuery>;
 export type FindGoalQueryResult = Apollo.QueryResult<FindGoalQuery, FindGoalQueryVariables>;
 export const FindProfileDocument = gql`
-    query findProfile {
+    query FindProfile {
   findProfile {
+    id
     email
     stars
     quests {
       id
       title
+      description
       deadline
       difficulty
     }
@@ -748,7 +1276,6 @@ export const FindProfileDocument = gql`
     reward {
       id
       title
-      description
       starCost
     }
     rooms {
@@ -756,6 +1283,12 @@ export const FindProfileDocument = gql`
       room {
         id
         name
+        members {
+          id
+          userId
+          role
+          joinedAt
+        }
       }
     }
   }
@@ -793,6 +1326,100 @@ export type FindProfileQueryHookResult = ReturnType<typeof useFindProfileQuery>;
 export type FindProfileLazyQueryHookResult = ReturnType<typeof useFindProfileLazyQuery>;
 export type FindProfileSuspenseQueryHookResult = ReturnType<typeof useFindProfileSuspenseQuery>;
 export type FindProfileQueryResult = Apollo.QueryResult<FindProfileQuery, FindProfileQueryVariables>;
+export const FindRewardsForUserDocument = gql`
+    query FindRewardsForUser {
+  findRewardsForUser {
+    id
+    title
+    description
+    starCost
+    creator {
+      id
+      email
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindRewardsForUserQuery__
+ *
+ * To run a query within a React component, call `useFindRewardsForUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindRewardsForUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindRewardsForUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindRewardsForUserQuery(baseOptions?: Apollo.QueryHookOptions<FindRewardsForUserQuery, FindRewardsForUserQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindRewardsForUserQuery, FindRewardsForUserQueryVariables>(FindRewardsForUserDocument, options);
+      }
+export function useFindRewardsForUserLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindRewardsForUserQuery, FindRewardsForUserQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindRewardsForUserQuery, FindRewardsForUserQueryVariables>(FindRewardsForUserDocument, options);
+        }
+export function useFindRewardsForUserSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindRewardsForUserQuery, FindRewardsForUserQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindRewardsForUserQuery, FindRewardsForUserQueryVariables>(FindRewardsForUserDocument, options);
+        }
+export type FindRewardsForUserQueryHookResult = ReturnType<typeof useFindRewardsForUserQuery>;
+export type FindRewardsForUserLazyQueryHookResult = ReturnType<typeof useFindRewardsForUserLazyQuery>;
+export type FindRewardsForUserSuspenseQueryHookResult = ReturnType<typeof useFindRewardsForUserSuspenseQuery>;
+export type FindRewardsForUserQueryResult = Apollo.QueryResult<FindRewardsForUserQuery, FindRewardsForUserQueryVariables>;
+export const FindRoomByIdDocument = gql`
+    query FindRoomById($roomId: String!) {
+  findRoomById(roomId: $roomId) {
+    id
+    name
+    quests {
+      id
+      title
+      description
+      deadline
+      difficulty
+    }
+  }
+}
+    `;
+
+/**
+ * __useFindRoomByIdQuery__
+ *
+ * To run a query within a React component, call `useFindRoomByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindRoomByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindRoomByIdQuery({
+ *   variables: {
+ *      roomId: // value for 'roomId'
+ *   },
+ * });
+ */
+export function useFindRoomByIdQuery(baseOptions: Apollo.QueryHookOptions<FindRoomByIdQuery, FindRoomByIdQueryVariables> & ({ variables: FindRoomByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindRoomByIdQuery, FindRoomByIdQueryVariables>(FindRoomByIdDocument, options);
+      }
+export function useFindRoomByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindRoomByIdQuery, FindRoomByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindRoomByIdQuery, FindRoomByIdQueryVariables>(FindRoomByIdDocument, options);
+        }
+export function useFindRoomByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<FindRoomByIdQuery, FindRoomByIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<FindRoomByIdQuery, FindRoomByIdQueryVariables>(FindRoomByIdDocument, options);
+        }
+export type FindRoomByIdQueryHookResult = ReturnType<typeof useFindRoomByIdQuery>;
+export type FindRoomByIdLazyQueryHookResult = ReturnType<typeof useFindRoomByIdLazyQuery>;
+export type FindRoomByIdSuspenseQueryHookResult = ReturnType<typeof useFindRoomByIdSuspenseQuery>;
+export type FindRoomByIdQueryResult = Apollo.QueryResult<FindRoomByIdQuery, FindRoomByIdQueryVariables>;
 export const ListAllBoostsDocument = gql`
     query ListAllBoosts {
   listAllBoosts {

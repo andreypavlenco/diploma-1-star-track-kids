@@ -2,15 +2,14 @@
 
 import { useParams } from 'next/navigation'
 
-import { Dashboard } from '@/features/room/components/RoomDashboard'
+import RoomDetailsPage from '@/features/room/components/RoomDetailsPage'
 
 export default function RoomIndexPage() {
 	const params = useParams()
 	const roomId = params?.id as string
-	console.log(roomId)
 	return (
-		<div>
-			<Dashboard />
+		<div className='p-4'>
+			<RoomDetailsPage roomId={roomId} />
 		</div>
 	)
 }

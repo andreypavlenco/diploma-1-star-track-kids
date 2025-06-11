@@ -1,0 +1,3 @@
+mutation DeleteReward($rewardId: String!) {
+  deleteReward(rewardId: $rewardId)
+}

@@ -14,10 +14,7 @@ export function QuestColumn({ rooms, onRefreshQuests }: QuestColumnProps) {
 				<h2 className='text-foreground text-lg font-semibold'>
 					Today Quests
 				</h2>
-				<CreateQuestForm
-					rooms={rooms}
-					onRefreshQuests={onRefreshQuests}
-				/>
+				<CreateQuestForm onRefreshQuests={onRefreshQuests} />
 			</header>
 
 			{/* контент */}

@@ -8,7 +8,7 @@ const httpLink = createHttpLink({
 export const client = new ApolloClient({
 	link: httpLink,
 	// headers: {
-	// 	cookie
+	// 	cookies
 	// },
 	cache: new InMemoryCache()
 })

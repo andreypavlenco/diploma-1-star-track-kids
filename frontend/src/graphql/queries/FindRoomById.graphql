@@ -1,11 +1,7 @@
-query findAllQuestByRoomMemberId {
-  findAllQuestByRoomMemberId {
+query FindRoomById($roomId: String!) {
+  findRoomById(roomId: $roomId) {
     id
     name
-    createUser {
-      id
-      email
-    }
     quests {
       id
       title

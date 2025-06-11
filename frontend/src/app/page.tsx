@@ -1,36 +1,38 @@
-'use client';
+'use client'
 
-import { Header } from '@/features/header';
-import { HomeDashboard } from '@/features/home/components/HomeDashboard';
-import MainLayout from '@/features/home/components/MainLayout';
-import Error from '@/shared/components/error/Error';
-import { Loading } from '@/shared/components/loading/Loading';
-import { useProfile } from '@/shared/hooks/useProfile';
+import { HomeDashboard } from '@/features/home/components/HomeDashboard'
+import MainLayout from '@/features/home/components/MainLayout'
+import { useFindRewardsForUserQuery } from '@/graphql/generated/output'
+import Error from '@/shared/components/error/Error'
+import { Loading } from '@/shared/components/loading/Loading'
+import { useProfile } from '@/shared/hooks/useProfile'
 
 export default function HomePage() {
-  const {
-    profile,
-    loading,
-    error,
-    todayQuests,
-    tomorrowQuests,
-    rewards,
-    refetch,
-  } = useProfile();
+	const {
+		profile,
+		loading,
+		error,
+		todayQuests,
+		tomorrowQuests,
+	} = useProfile()
 
-  if (loading) return <Loading />;
-  if (error)   return <Error error={error} />;
+	const { data, refetch } = useFindRewardsForUserQuery({
+		fetchPolicy: 'network-only',
+	  });
 
-  return (
-    <div>
-      <MainLayout profile={profile} />
+	if (loading) return <Loading />
+	if (error) return <Error error={error} />
 
-      <HomeDashboard
-        todayQuests={todayQuests}
-        tomorrowQuests={tomorrowQuests}
-        rewards={rewards}
-        onRefreshReward={refetch}
-      />
-    </div>
-  );
+	return (
+		<div>
+			<MainLayout profile={profile} />
+
+			<HomeDashboard
+				todayQuests={todayQuests}
+				tomorrowQuests={tomorrowQuests}
+				rewards={data?.findRewardsForUser}
+				onRefreshReward={refetch}
+			/>
+		</div>
+	)
 }

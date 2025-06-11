@@ -1,32 +1,35 @@
-query findProfile {
+query FindProfile {
   findProfile {
+    id
     email
     stars
-
     quests {
       id
       title
+      description
       deadline
       difficulty
     }
-
     createdRooms {
       id
       name
     }
-
     reward {
       id
       title
-      description
       starCost
     }
-
     rooms {
       id
       room {
         id
         name
+        members {
+          id
+          userId
+          role
+          joinedAt
+        }
       }
     }
   }

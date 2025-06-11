@@ -1,0 +1,12 @@
+mutation CreateReward($data: CreateRewardInput!) {
+  createReward(data: $data) {
+    id
+    title
+    description
+    starCost
+    creator {
+      id
+      email
+    }
+  }
+}

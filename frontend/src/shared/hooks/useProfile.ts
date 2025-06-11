@@ -9,7 +9,9 @@ import { RewardType } from '@/features/reward/type'
 import { RoomMemberType } from '@/features/room/type'
 
 export const useProfile = () => {
-	const { data, loading, error, refetch } = useFindProfileQuery()
+	const { data, loading, error, refetch } = useFindProfileQuery({
+		fetchPolicy: 'network-only'
+	})
 
 	const profile = data?.findProfile ?? null
 

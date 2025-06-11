@@ -32,8 +32,10 @@ export class RoomService {
 				id: roomId,
 			},
 			include: {
+				members: true,
 				quests: {
 					select: {
+						id: true,
 						title: true,
 						description: true,
 						deadline: true,
@@ -57,7 +59,6 @@ export class RoomService {
 		});
 		return rooms;
 	}
-
 	async findAllQuestByRoomMemberId(userId: string) {
 		const rooms = await this.prisma.room.findMany({
 			where: {
@@ -67,7 +68,11 @@ export class RoomService {
 					},
 				},
 			},
-			include: { quests: true },
+			include: {
+				quests: true,
+				createUser: true,
+				members: true,
+			},
 		});
 		return rooms;
 	}

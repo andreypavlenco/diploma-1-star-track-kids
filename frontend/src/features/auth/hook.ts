@@ -14,5 +14,3 @@ export function useSingUp() {
 
 	return { createUser, data, loading, error }
 }
-
-
