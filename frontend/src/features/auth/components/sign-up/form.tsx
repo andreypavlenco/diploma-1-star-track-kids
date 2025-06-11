@@ -1,9 +1,11 @@
 'use client'
 
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { HiEye, HiEyeOff } from 'react-icons/hi'
+
+import { useAuthContext } from '@/app/providers/AuthProvider'
 
 import { UserRole } from '@/graphql/generated/output'
 
@@ -36,6 +38,7 @@ export function SignUpForm() {
 	} = useForm<IFormInput>()
 	const { createUser, loading, error } = useSingUp()
 	const [showPassword, setShowPassword] = useState(false)
+	const { setProfile } = useAuthContext()
 	const router = useRouter()
 	const onSubmit: SubmitHandler<IFormInput> = async values => {
 		const result = await createUser({
@@ -48,7 +51,9 @@ export function SignUpForm() {
 			}
 		})
 		if (result.data?.createUser) {
+			setProfile(result.data?.createUser)
 			router.push('/')
+			router.refresh()
 		}
 	}
 

@@ -65,18 +65,31 @@ export class RewardService {
 		});
 	}
 
-	async findRewardsForChild(childId: string): Promise<Reward[]> {
+	// async findRewardsForChild(childId: string): Promise<Reward[]> {
+	// 	return this.prisma.reward.findMany({
+	// 		where: {
+	// 			creator: {
+	// 				parents: {
+	// 					some: { id: childId },
+	// 				},
+	// 			},
+	// 		},
+	// 		include: { creator: true },
+	// 	});
+	// }
+
+	async findRewardsForUser(userId: string): Promise<Reward[]> {
 		return this.prisma.reward.findMany({
-			where: {
-				creator: {
-					parents: {
-						some: { id: childId },
-					},
-				},
-			},
-			include: { creator: true },
+		  where: {
+			OR: [
+			  { creatorId: userId },
+			  { creator: { parents: { some: { id: userId } } } } 
+			]
+		  },
+		  include: { creator: true },
 		});
-	}
+	  }
+	  
 
 	async createRewardPurchase(
 		childId: string,
@@ -115,6 +128,6 @@ export class RewardService {
 			}),
 		]);
 
-		return { success: true };
+		return { success: true, message: 'Ok' };
 	}
 }

@@ -1,0 +1,8 @@
+mutation UpdateGoal($goalId: String!, $data: UpdateGoalInput!) {
+  updateGoal(goalId: $goalId, data: $data) {
+    id
+    title
+    description
+    completedAt
+  }
+}

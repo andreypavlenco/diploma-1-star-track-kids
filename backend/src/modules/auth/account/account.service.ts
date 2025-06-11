@@ -19,14 +19,28 @@ export class AccountService {
 				rewards: true,
 				rooms: {
 					include: {
-						room: true,
+						room: {
+							include: {
+								members: true,
+							},
+						},
 					},
 				},
 			},
 		});
+
+		if (!user) return null;
+
+		user.rooms = user.rooms.map(rm => ({
+			...rm,
+			room: {
+				...rm.room,
+				members: rm.room.members ?? [],
+			},
+		}));
+
 		return user;
 	}
-
 	async create(input: CreateUserInput): Promise<User> {
 		const { email, password, role } = input;
 

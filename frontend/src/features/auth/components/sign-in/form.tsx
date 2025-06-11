@@ -1,3 +1,4 @@
+import { useApolloClient } from '@apollo/client'
 import { useRouter } from 'next/navigation'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
@@ -18,15 +19,15 @@ export const SignInForm = () => {
 	} = useForm<LoginInput>()
 
 	const { loginUser, data, loading, error } = useSingIn()
-	const router = useRouter()
+	const client = useApolloClient()
 	const onSubmit: SubmitHandler<LoginInput> = async values => {
-		try {
-			const { data } = await loginUser({
-				variables: { data: values }
-			})
-			if (data?.loginUser) router.push('/')
-		} catch (error) {
-			console.log(error.message)
+		const { data } = await loginUser({
+			variables: { data: values }
+		})
+
+		if (data?.loginUser) {
+			await client.refetchQueries({ include: ['FindProfile'] })
+			window.location.href = '/'
 		}
 	}
 

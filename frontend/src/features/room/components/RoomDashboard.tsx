@@ -2,22 +2,27 @@
 
 import React from 'react'
 
-import { RoomMemberType } from '../type'
-
 import { RoomColumn } from './RoomColumn'
-import { RewardColumn } from '@/features/reward/components/RewardColumn'
-import { useProfile } from '@/shared/hooks/useProfile'
+import { useFindAllQuestByRoomMemberId } from '@/features/quest/hook'
+import Error from '@/shared/components/error/Error'
+import { Loading } from '@/shared/components/loading/Loading'
+
+
 
 export function RoomDashboard() {
-	const { rooms, loading, error, refetch } = useProfile()
+	const { rooms, loading, error, refetch } = useFindAllQuestByRoomMemberId({
+		fetchPolicy: 'network-only'
+	})
 
-	if (loading) return <div>Loading...</div>
-	if (error) return <div>Error: {error.message}</div>
+	if (loading) return <Loading />
+	if (error) return <Error error={error} />
 
 	return (
-		<div className='flex h-full w-full gap-4 px-4 py-6'>
-			<RoomColumn rooms={rooms} onRefreshProfile={() => refetch()} />
-			<RewardColumn />
+		<div className='flex h-full w-full flex-col gap-4 px-4 py-6'>
+			{/* Список комнат */}
+			<div className='flex-1 overflow-y-auto'>
+				<RoomColumn rooms={rooms} onRefreshRoom={() => refetch()} />
+			</div>
 		</div>
 	)
 }

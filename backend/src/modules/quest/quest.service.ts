@@ -87,10 +87,9 @@ export class QuestService {
 		});
 
 		let stars = quest.difficulty;
-		const completedAt = new Date(); // предполагаем, что квест завершён сейчас
+		const completedAt = new Date();
 		const boosts = await this.boostService.getActiveBoosts(userId);
 
-		// пример проверки «двойных звёзд»
 		if (
 			boosts.some(
 				b => b.boost.name === 'Quick Finish' && completedAt <= addHours(b.activatedAt, 10)
@@ -98,8 +97,6 @@ export class QuestService {
 		) {
 			stars *= 2;
 		}
-
-		// пример отмены штрафа за просрочку
 		if (completedAt > quest.deadline) {
 			if (!boosts.some(b => b.boost.name === 'No Late Penalty')) {
 				stars = Math.floor(stars / 2);
@@ -141,7 +138,6 @@ export class QuestService {
 			},
 		});
 
-		// Увеличиваем звёзды пользователя
 		await this.prisma.user.update({
 			where: { id: userId },
 			data: {

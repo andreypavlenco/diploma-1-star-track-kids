@@ -2,11 +2,10 @@
 
 import Image from 'next/image'
 import { PiStarFill } from 'react-icons/pi'
+
 import { Progress } from '@/shared/ui-kit/ui/progress'
 
-
-export default function MainLayout({profile}) {
-	
+export default function MainLayout({ profile }) {
 	return (
 		<section className='animate-fadeIn delay-75'>
 			<div className='mt-6 flex w-full items-center gap-6 rounded-xl bg-white/70 px-8 py-6 shadow-lg backdrop-blur'>

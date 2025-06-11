@@ -1,4 +1,5 @@
 // components/CreateRoomForm.tsx
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { GoX } from 'react-icons/go'
@@ -31,6 +32,7 @@ type Props = {
 }
 
 export const CreateRoomForm = ({ onRefreshRoom }: Props) => {
+	const router = useRouter()
 	const [isOpen, setIsOpen] = useState(false)
 
 	const {
@@ -48,11 +50,8 @@ export const CreateRoomForm = ({ onRefreshRoom }: Props) => {
 				variables: { data: { name: values.name } }
 			})
 
-			if (data?.createRoom) {
+			if (data?.createRoom.name) {
 				onRefreshRoom()
-				reset()
-				resetMutation()
-				setIsOpen(false)
 			}
 		} catch (e) {
 			console.error((e as Error).message)
@@ -76,10 +75,6 @@ export const CreateRoomForm = ({ onRefreshRoom }: Props) => {
 
 				<AlertDialogDescription asChild>
 					<Card>
-						<CardHeader>
-							<CardTitle>Create room</CardTitle>
-						</CardHeader>
-
 						<CardContent>
 							<form
 								className='space-y-6'

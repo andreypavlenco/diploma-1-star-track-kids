@@ -46,14 +46,14 @@ export class RewardResolver {
 		return this.rewardService.update(rewardId, input);
 	}
 
-	@Auth(UserRole.CHILD)
-	@Query(() => [RewardModel], { name: 'findRewardsForChild' })
-	async findRewardsForChild(@Authorized('id') childId: string) {
-		return this.rewardService.findRewardsForChild(childId);
+	@Auth(UserRole.CHILD, UserRole.PARENT)
+	@Query(() => [RewardModel], { name: 'findRewardsForUser' })
+	async findRewardsForUser(@Authorized('id') userId: string) {
+		return this.rewardService.findRewardsForUser(userId);
 	}
 
-	@Auth(UserRole.CHILD)
-	@Query(() => RewardPurchaseModel, { name: 'createRewardPurchase' })
+	@Auth(UserRole.CHILD, UserRole.PARENT)
+	@Mutation(() => Boolean, { name: 'createRewardPurchase' })
 	async createRewardPurchase(
 		@Args('rewardId') rewardId: string,
 		@Authorized('id') childId: string

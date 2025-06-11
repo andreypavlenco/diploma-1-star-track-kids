@@ -1,11 +1,10 @@
-'use client'
-
-import React from 'react'
-import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { GoX } from 'react-icons/go'
 
+import { CreateQuestInput } from '@/graphql/generated/output'
+
 import { useCreateQuest } from '../hook'
-import { CreateQuestFormProps, IFormInput } from '../type'
 
 import {
 	AlertDialog,
@@ -17,223 +16,173 @@ import {
 	AlertDialogTrigger
 } from '@/shared/ui-kit/ui/alert-dialog'
 import { Button } from '@/shared/ui-kit/ui/button'
-import { Card, CardContent } from '@/shared/ui-kit/ui/card'
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle
+} from '@/shared/ui-kit/ui/card'
 import { Input } from '@/shared/ui-kit/ui/input'
 import { Label } from '@/shared/ui-kit/ui/label'
-import {
-	Select,
-	SelectContent,
-	SelectGroup,
-	SelectItem,
-	SelectLabel,
-	SelectTrigger,
-	SelectValue
-} from '@/shared/ui-kit/ui/select'
 
-export function CreateQuestForm({
-	rooms,
-	onRefreshQuests
-}: CreateQuestFormProps) {
+type Props = {
+	roomId: string
+	onRefreshQuest: () => void
+}
+
+export const CreateQuestForm = ({ roomId, onRefreshQuest }: Props) => {
+	const [isOpen, setIsOpen] = useState(false)
+
 	const {
 		register,
 		handleSubmit,
-		control,
+		reset,
 		formState: { errors }
-	} = useForm<IFormInput>({
-		defaultValues: {
-			title: '',
-			deadline: '',
-			difficulty: 1,
-			roomId: ''
-		}
-	})
+	} = useForm<CreateQuestInput>()
 
-	const { createQuest, loading, error } = useCreateQuest()
-	const onSubmit: SubmitHandler<IFormInput> = async values => {
+	const {
+		createQuest,
+		loading,
+		error,
+		reset: resetMutation
+	} = useCreateQuest()
+
+	const onSubmit: SubmitHandler<CreateQuestInput> = async values => {
 		try {
-			const result = await createQuest({
+			const { data } = await createQuest({
 				variables: {
-					roomId: values.roomId,
+					roomId,
 					data: {
-						title: values.title,
-						deadline: values.deadline,
-						difficulty: values.difficulty
+						...values,
+						difficulty: Number(values.difficulty)
 					}
 				}
 			})
 
-			if (result.data?.createQuest?.id) {
-				onRefreshQuests()
+			if (data?.createQuest) {
+				onRefreshQuest()
+				reset()
+				resetMutation()
+				setIsOpen(false)
 			}
-		} catch (e: any) {
-			console.error(e.message)
+		} catch (e) {
+			console.error((e as Error).message)
 		}
 	}
 
 	return (
-		<div>
-			<AlertDialog>
-				<AlertDialogTrigger asChild>
-					<Button variant='outline'>Create Quest</Button>
-				</AlertDialogTrigger>
-				<AlertDialogContent>
-					<AlertDialogHeader>
-						<div className='flex justify-end'>
-							<AlertDialogCancel>
-								<GoX size='30px' />
-							</AlertDialogCancel>
-						</div>
-						<AlertDialogDescription asChild>
-							<Card variant={'destructive'}>
-								<CardContent>
-									<form onSubmit={handleSubmit(onSubmit)}>
-										<div className='flex flex-col gap-6'>
-											<div className='grid gap-3'>
-												<Label htmlFor='title'>
-													Title
-												</Label>
-												<Input
-													{...register('title', {
-														required:
-															'Введите заголовок'
-													})}
-													id='title'
-													type='text'
-													placeholder='Название квеста'
-													required
-												/>
-												{errors.title && (
-													<span className='text-sm text-red-500'>
-														{errors.title.message}
-													</span>
-												)}
+		<AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+			<AlertDialogTrigger asChild>
+				<Button variant='outline'>Create Quest</Button>
+			</AlertDialogTrigger>
 
-												<Label htmlFor='deadline'>
-													Deadline
-												</Label>
-												<Input
-													{...register('deadline', {
-														required:
-															'Укажите дедлайн'
-													})}
-													id='deadline'
-													type='date'
-													required
-												/>
-												{errors.deadline && (
-													<span className='text-sm text-red-500'>
-														{
-															errors.deadline
-																.message
-														}
-													</span>
-												)}
+			<AlertDialogContent>
+				<AlertDialogHeader className='flex justify-end'>
+					<AlertDialogCancel asChild>
+						<Button variant='ghost' size='icon'>
+							<GoX size={20} />
+						</Button>
+					</AlertDialogCancel>
+				</AlertDialogHeader>
 
-												<Label htmlFor='difficulty'>
-													Difficulty
-												</Label>
-												<Input
-													{...register('difficulty', {
-														required:
-															'Укажите сложность',
-														valueAsNumber: true
-													})}
-													id='difficulty'
-													type='number'
-													min={1}
-													max={5}
-													placeholder='1–5'
-													required
-												/>
-												{errors.difficulty && (
-													<span className='text-sm text-red-500'>
-														{
-															errors.difficulty
-																.message
-														}
-													</span>
-												)}
-											</div>
+				<AlertDialogDescription asChild>
+					<Card>
+						<CardContent>
+							<form
+								className='space-y-6'
+								onSubmit={handleSubmit(onSubmit)}
+								noValidate
+							>
+								<div className='grid gap-2'>
+									<Label htmlFor='title'>Quest Title</Label>
+									<Input
+										id='title'
+										placeholder='New quest...'
+										{...register('title', {
+											required: 'Title is required',
+											minLength: {
+												value: 2,
+												message:
+													'Must be at least 2 characters'
+											}
+										})}
+									/>
+									{errors.title && (
+										<p className='text-red-500'>
+											{errors.title.message}
+										</p>
+									)}
+								</div>
 
-											<Controller
-												name='roomId'
-												control={control}
-												rules={{
-													required: 'Выберите комнату'
-												}}
-												render={({ field }) => (
-													<Select
-														onValueChange={
-															field.onChange
-														}
-														value={field.value}
-														defaultValue={
-															field.value
-														}
-													>
-														<SelectTrigger className='w-[200px]'>
-															<SelectValue placeholder='Выберите комнату' />
-														</SelectTrigger>
-														<SelectContent>
-															<SelectGroup>
-																<SelectLabel>
-																	Комнаты
-																</SelectLabel>
-																{rooms?.map(
-																	rm => (
-																		<SelectItem
-																			key={
-																				rm.id
-																			}
-																			value={
-																				rm.id
-																			}
-																		>
-																			{
-																				rm.name
-																			}
-																		</SelectItem>
-																	)
-																)}
-															</SelectGroup>
-														</SelectContent>
-													</Select>
-												)}
-											/>
-											{errors.rooms && (
-												<span className='text-sm text-red-500'>
-													{
-														errors.rooms
-															.message as string
-													}
-												</span>
-											)}
+								<div className='grid gap-2'>
+									<Label htmlFor='description'>
+										Description
+									</Label>
+									<Input
+										id='description'
+										placeholder='Describe the quest...'
+										{...register('description')}
+									/>
+								</div>
 
-											<div className='flex flex-col gap-3'>
-												<Button
-													type='submit'
-													disabled={loading}
-													className='w-full'
-												>
-													{loading
-														? 'Creating…'
-														: 'Create'}
-												</Button>
-											</div>
-										</div>
-										{error && (
-											<p className='text-red-500'>
-												{error.message}
-											</p>
-										)}
-									</form>
-								</CardContent>
-							</Card>
-						</AlertDialogDescription>
-					</AlertDialogHeader>
-					<AlertDialogFooter></AlertDialogFooter>
-				</AlertDialogContent>
-			</AlertDialog>
-		</div>
+								<div className='grid gap-2'>
+									<Label htmlFor='deadline'>Deadline</Label>
+									<Input
+										id='deadline'
+										type='date'
+										{...register('deadline', {
+											required: 'Deadline is required'
+										})}
+									/>
+									{errors.deadline && (
+										<p className='text-red-500'>
+											{errors.deadline.message}
+										</p>
+									)}
+								</div>
+
+								<div className='grid gap-2'>
+									<Label htmlFor='difficulty'>
+										Difficulty
+									</Label>
+									<Input
+										id='difficulty'
+										type='number'
+										min={1}
+										max={5}
+										{...register('difficulty', {
+											required: 'Difficulty is required',
+											min: 1,
+											max: 5
+										})}
+									/>
+									{errors.difficulty && (
+										<p className='text-red-500'>
+											{errors.difficulty.message}
+										</p>
+									)}
+								</div>
+
+								<Button
+									type='submit'
+									disabled={loading}
+									className='w-full'
+								>
+									{loading ? 'Creating…' : 'Create'}
+								</Button>
+
+								{error && (
+									<p className='text-sm text-red-500'>
+										{error.message}
+									</p>
+								)}
+							</form>
+						</CardContent>
+					</Card>
+				</AlertDialogDescription>
+
+				<AlertDialogFooter />
+			</AlertDialogContent>
+		</AlertDialog>
 	)
 }

@@ -4,8 +4,11 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import { ApolloClientProvider } from '@/app/providers/ApolloClientProvider'
 
 import './globals.css'
-import { Header } from '@/features/header'
 import { AuthProvider } from './providers/AuthProvider'
+import Header from '@/features/header'
+
+export const dynamic = 'auto'
+export const revalidate = 0
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -34,8 +37,8 @@ export default function RootLayout({
 			>
 				<ApolloClientProvider>
 					<AuthProvider>
-					<Header />
-					{children}
+						<Header />
+						{children}
 					</AuthProvider>
 				</ApolloClientProvider>
 			</body>

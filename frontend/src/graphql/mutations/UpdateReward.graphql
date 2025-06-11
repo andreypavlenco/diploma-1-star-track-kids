@@ -1,0 +1,12 @@
+mutation UpdateReward($rewardId: String!, $data: UpdateRewardInput!) {
+  updateReward(rewardId: $rewardId, data: $data) {
+    id
+    title
+    description
+    starCost
+    creator {
+      id
+      email
+    }
+  }
+}
