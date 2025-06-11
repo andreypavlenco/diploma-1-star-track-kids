@@ -100,14 +100,19 @@ export class GoalService {
 		});
 	}
 
-	async findGoalForChild(childId: string): Promise<Goal[]> {
-		return await this.prisma.goal.findMany({
+	async findGoal(userId: string): Promise<Goal[]> {
+		return this.prisma.goal.findMany({
 			where: {
-				creator: {
-					parents: {
-						some: { id: childId },
+				OR: [
+					{ creatorId: userId },
+					{
+						creator: {
+							parents: {
+								some: { id: userId },
+							},
+						},
 					},
-				},
+				],
 			},
 			include: { creator: true },
 		});

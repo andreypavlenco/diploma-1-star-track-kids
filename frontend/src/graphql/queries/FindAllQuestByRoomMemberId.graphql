@@ -1,0 +1,17 @@
+query findAllQuestByRoomMemberId {
+  findAllQuestByRoomMemberId {
+    id
+    name
+    createUser {
+      id
+      email
+    }
+    quests {
+      id
+      title
+      description
+      deadline
+      difficulty
+    }
+  }
+}

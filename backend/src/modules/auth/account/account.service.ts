@@ -13,11 +13,34 @@ export class AccountService {
 	async findById(id: string) {
 		const user = await this.prisma.user.findUnique({
 			where: { id },
-			include: { quests: true, createdRooms: true },
+			include: {
+				quests: true,
+				createdRooms: true,
+				rewards: true,
+				rooms: {
+					include: {
+						room: {
+							include: {
+								members: true,
+							},
+						},
+					},
+				},
+			},
 		});
+
+		if (!user) return null;
+
+		user.rooms = user.rooms.map(rm => ({
+			...rm,
+			room: {
+				...rm.room,
+				members: rm.room.members ?? [],
+			},
+		}));
+
 		return user;
 	}
-
 	async create(input: CreateUserInput): Promise<User> {
 		const { email, password, role } = input;
 

@@ -1,0 +1,12 @@
+query FindRewardsForUser {
+  findRewardsForUser {
+    id
+    title
+    description
+    starCost
+    creator {
+      id
+      email
+    }
+  }
+}

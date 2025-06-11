@@ -46,4 +46,10 @@ export class RoomResolver {
 	async update(@Args('roomId') roomId: string, @Args('data') input: CreateRoomInput) {
 		return this.roomService.update(roomId, input);
 	}
+
+	@Auth(UserRole.PARENT, UserRole.CHILD)
+	@Query(() => [RoomModel], { name: 'findAllQuestByRoomMemberId' })
+	async findAllQuestByRoomMemberId(@Authorized('id') userId: string) {
+		return this.roomService.findAllQuestByRoomMemberId(userId);
+	}
 }

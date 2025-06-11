@@ -1,0 +1,6 @@
+mutation UpdateRoom($roomId: String!, $data: CreateRoomInput!) {
+  updateRoom(roomId: $roomId, data: $data) {
+    id
+    name
+  }
+}

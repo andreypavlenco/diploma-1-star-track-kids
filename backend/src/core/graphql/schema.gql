@@ -37,7 +37,6 @@ input CreateQuestInput {
   description: String
   difficulty: Int!
   goalId: ID
-  roomId: ID!
   title: String!
 }
 
@@ -101,6 +100,7 @@ type Mutation {
   createInvitation(data: CreateInvitationInput!, roomId: String!): Boolean!
   createQuest(data: CreateQuestInput!, roomId: String!): Quest!
   createReward(data: CreateRewardInput!): RewardModel!
+  createRewardPurchase(rewardId: String!): Boolean!
   createRoom(data: CreateRoomInput!): Room!
   createUser(data: CreateUserInput!): UserModel!
   deleteGoal(goalId: String!): Boolean!
@@ -118,19 +118,19 @@ type Mutation {
 }
 
 type Query {
-  createRewardPurchase(rewardId: String!): RewardPurchaseModel!
   findActiveGoals: [Goal!]!
+  findAllQuestByRoomMemberId: [Room!]!
   findAllQuestRoom(roomId: String!): [Quest!]!
   findAllRoomsUser: [Room!]!
   findByCreatorId: RewardModel!
   findByIdBoost(boostId: String!): Boost!
   findByIdQuest(questId: String!, roomId: String!): Quest!
   findCompletedGoals: [Goal!]!
+  findGoal: [Goal!]!
   findGoalById(goalId: String!): Goal!
-  findGoalForChild: Goal!
   findProfile: UserModel!
   findRewardById(rewardId: String!): RewardModel!
-  findRewardsForChild: [RewardModel!]!
+  findRewardsForUser: [RewardModel!]!
   findRoomById(roomId: String!): Room!
   getActiveBoosts: BoostActivation!
   getUserActivations: [Boost!]!
@@ -233,11 +233,11 @@ type UserModel {
   parents: [UserModel]!
   password: String!
   quests: [Quest!]!
-  reward: [RewardPurchaseModel!]!
-  rewardsPurchase: [RewardModel!]!
+  reward: [RewardModel!]
+  rewardsPurchase: [RewardPurchaseModel!]
   role: UserRole!
   roomInvitations: [Invitation!]!
-  rooms: [RoomMember!]!
+  rooms: [RoomMember!]
   stars: Int!
   updateAt: DateTime!
   updatedAt: DateTime!

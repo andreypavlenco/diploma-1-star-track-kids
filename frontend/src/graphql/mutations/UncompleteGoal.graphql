@@ -1,0 +1,7 @@
+mutation UncompleteGoal($goalId: String!) {
+  uncompleteGoal(goalId: $goalId) {
+    id
+    title
+    completedAt
+  }
+}

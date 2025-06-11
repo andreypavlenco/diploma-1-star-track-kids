@@ -1,0 +1,8 @@
+mutation CreateQuest($roomId: String!, $data: CreateQuestInput!) {
+  createQuest(roomId: $roomId, data: $data) {
+    id
+    title
+    deadline
+    difficulty
+  }
+}

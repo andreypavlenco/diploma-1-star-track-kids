@@ -16,7 +16,4 @@ export class CreateQuestInput {
 
 	@Field(() => ID, { nullable: true })
 	goalId?: string;
-
-	@Field(() => ID)
-	roomId: string;
 }

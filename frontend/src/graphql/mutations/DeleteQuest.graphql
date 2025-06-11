@@ -1,0 +1,7 @@
+mutation DeleteQuest($questId: String!) {
+  deleteQuest(questId: $questId) {
+    id
+    title
+    description
+  }
+}

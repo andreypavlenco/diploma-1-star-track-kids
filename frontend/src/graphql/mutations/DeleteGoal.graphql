@@ -1,0 +1,3 @@
+mutation DeleteGoal($goalId: String!) {
+  deleteGoal(goalId: $goalId)
+}

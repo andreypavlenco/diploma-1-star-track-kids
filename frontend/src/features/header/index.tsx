@@ -1,49 +1,68 @@
-import Image from 'next/image'
+'use client'
+
 import Link from 'next/link'
+
+// import { useProfile } from '@/shared/hooks/useProfile'
+import { useAuthContext } from '@/app/providers/AuthProvider'
 
 import { useLinksMenu } from '@/shared/hooks/useLinksMenu'
 
-export function Header() {
+export default function Header() {
 	const links = useLinksMenu()
+	const { profile } = useAuthContext()
 	return (
-		<div className='bg-gray-800'>
-			<div className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8'>
-				<div className='relative flex h-16 items-center justify-between'>
-					<div className='absolute inset-y-0 left-0 flex items-center sm:hidden'>
-						<button
-							type='button'
-							className='relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:outline-hidden focus:ring-inset'
-							aria-controls='mobile-menu'
-							aria-expanded='false'
+		<header className='from-primary to-secondary sticky top-0 z-30 h-20 bg-gradient-to-r shadow-lg'>
+			<div className='mx-auto flex h-full max-w-7xl items-center justify-between px-6'>
+				<Link
+					href='/'
+					className='text-primary-foreground text-2xl font-extrabold'
+				>
+					StarTaskKids
+				</Link>
+
+				<nav className='hidden gap-6 md:flex'>
+					{links.map(link => (
+						<Link
+							key={link.href}
+							href={link.href}
+							className='text-foreground text-sm font-medium hover:opacity-80'
 						>
-							<span className='absolute -inset-0.5'></span>
-							<span className='sr-only'>Open main menu</span>
-						</button>
-					</div>
-					<div className='flex flex-1 items-center justify-center sm:items-stretch sm:justify-start'>
-						<div className='flex shrink-0 items-center'>
-							<div className='hidden sm:ml-6 sm:block'>
-								<div className='flex space-x-4'>
-									{links.map(link => (
-										<Link
-											key={link.href}
-											href={link.href}
-											className='rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white'
-											aria-current={
-												link.current
-													? 'page'
-													: undefined
-											}
-										>
-											{link.title}
-										</Link>
-									))}
-								</div>
-							</div>
-						</div>
-					</div>
+							{link.title}
+						</Link>
+					))}
+				</nav>
+
+				<div className='flex items-center gap-4'>
+					{profile ? (
+						<>
+							<span className='text-sm'>
+								Hello, {profile.email}
+							</span>
+							<Link
+								href='/sign-out'
+								className='text-foreground rounded bg-white/20 px-4 py-1'
+							>
+								Logout
+							</Link>
+						</>
+					) : (
+						<>
+							<Link
+								href='/sign-in'
+								className='text-foreground rounded bg-white/20 px-4 py-1'
+							>
+								Login
+							</Link>
+							<Link
+								href='/sign-up'
+								className='bg-primary-foreground text-primary rounded px-4 py-1'
+							>
+								Register
+							</Link>
+						</>
+					)}
 				</div>
 			</div>
-		</div>
+		</header>
 	)
 }

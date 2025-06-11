@@ -1,29 +1,38 @@
 'use client'
 
-import { useListAllBoostsQuery } from '@/graphql/generated/output'
+import { HomeDashboard } from '@/features/home/components/HomeDashboard'
+import MainLayout from '@/features/home/components/MainLayout'
+import { useFindRewardsForUserQuery } from '@/graphql/generated/output'
+import Error from '@/shared/components/error/Error'
+import { Loading } from '@/shared/components/loading/Loading'
+import { useProfile } from '@/shared/hooks/useProfile'
 
-export default function Home() {
-	const { data, loading, error } = useListAllBoostsQuery({
-		fetchPolicy: 'cache-and-network',
-		nextFetchPolicy: 'cache-first'
-	})
+export default function HomePage() {
+	const {
+		profile,
+		loading,
+		error,
+		todayQuests,
+		tomorrowQuests,
+	} = useProfile()
+
+	const { data, refetch } = useFindRewardsForUserQuery({
+		fetchPolicy: 'network-only',
+	  });
+
+	if (loading) return <Loading />
+	if (error) return <Error error={error} />
+
 	return (
 		<div>
-			<h1>Boosts</h1>
-			{loading && <p>Loading...</p>}
-			{error && <p>Error: {error.message}</p>}
-			{data && data.listAllBoosts && data.listAllBoosts.length > 0 ? (
-				<ul>
-					{data.listAllBoosts.map(boost => (
-						<li key={boost.id}>
-							<h2>{boost.name}</h2>
-							<p>{boost.description}</p>
-						</li>
-					))}
-				</ul>
-			) : (
-				<p>No boosts available.</p>
-			)}
+			<MainLayout profile={profile} />
+
+			<HomeDashboard
+				todayQuests={todayQuests}
+				tomorrowQuests={tomorrowQuests}
+				rewards={data?.findRewardsForUser}
+				onRefreshReward={refetch}
+			/>
 		</div>
 	)
 }

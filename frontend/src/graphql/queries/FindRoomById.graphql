@@ -1,0 +1,13 @@
+query FindRoomById($roomId: String!) {
+  findRoomById(roomId: $roomId) {
+    id
+    name
+    quests {
+      id
+      title
+      description
+      deadline
+      difficulty
+    }
+  }
+}
