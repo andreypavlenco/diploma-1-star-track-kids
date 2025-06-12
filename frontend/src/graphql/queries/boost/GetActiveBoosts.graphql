@@ -1,0 +1,11 @@
+query GetActiveBoosts {
+  getActiveBoosts {
+    id
+    activatedAt
+    expiresAt
+    boost {
+      id
+      name
+    }
+  }
+}

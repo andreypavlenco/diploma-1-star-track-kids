@@ -132,7 +132,7 @@ type Query {
   findRewardById(rewardId: String!): RewardModel!
   findRewardsForUser: [RewardModel!]!
   findRoomById(roomId: String!): Room!
-  getActiveBoosts: BoostActivation!
+  getActiveBoosts: [BoostActivation!]!
   getUserActivations: [Boost!]!
   listAllBoosts: [Boost!]!
 }

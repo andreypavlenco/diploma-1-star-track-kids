@@ -30,15 +30,19 @@ export class BoostResolver {
 		return this.boostService.getUserActivations(userId);
 	}
 
-	@Auth(UserRole.CHILD)
+	@Auth(UserRole.CHILD, UserRole.PARENT)
 	@Mutation(() => BoostActivationModel, { name: 'activateBoost' })
 	async activate(@Args('boostId') boostId: string, @Authorized('id') userId: string) {
-		return this.boostService.activate(boostId, userId);
+		const activate = await this.boostService.activate(boostId, userId);
+		console.log(activate)
+		return activate
 	}
 
-	@Auth(UserRole.CHILD)
-	@Query(() => BoostActivationModel, { name: 'getActiveBoosts' })
+	@Auth(UserRole.CHILD, UserRole.PARENT)
+	@Query(() => [BoostActivationModel], { name: 'getActiveBoosts' })
 	async getActiveBoosts(@Authorized('id') userId: string) {
-		return this.boostService.getActiveBoosts(userId);
+		const data = await this.boostService.getActiveBoosts(userId);
+		console.log(data)
+		return data
 	}
 }

@@ -83,72 +83,49 @@ export class QuestService {
 	async questCompletion(userId: string, questId: string): Promise<boolean> {
 		const quest = await this.prisma.quest.findUnique({
 			where: { id: questId },
-			select: { difficulty: true, deadline: true, goal: true },
+			select: { difficulty: true, deadline: true, goal: { select: { id: true } } },
 		});
 
+		if (!quest) throw new Error('Quest not found');
+
 		let stars = quest.difficulty;
+		if (quest.goal?.id) {
+			await this.prisma.goal.update({
+				where: { id: quest.goal.id },
+				data: {
+					starReward: { decrement: stars },
+				},
+			});
+		}
+
 		const completedAt = new Date();
 		const boosts = await this.boostService.getActiveBoosts(userId);
 
-		if (
-			boosts.some(
-				b => b.boost.name === 'Quick Finish' && completedAt <= addHours(b.activatedAt, 10)
-			)
-		) {
+		const hasQuickFinish = boosts.some(
+			b => b.boost.name === 'Quick Finish' && completedAt <= addHours(b.activatedAt, 10)
+		);
+		const hasNoLatePenalty = boosts.some(b => b.boost.name === 'No Late Penalty');
+		if (hasQuickFinish) {
 			stars *= 2;
 		}
-		if (completedAt > quest.deadline) {
-			if (!boosts.some(b => b.boost.name === 'No Late Penalty')) {
-				stars = Math.floor(stars / 2);
-			}
+		const isLate = completedAt > quest.deadline;
+		if (isLate && !hasNoLatePenalty) {
+			stars = Math.floor(stars / 2);
 		}
-
-		await this.prisma.questCompletion.create({
+		const completion = await this.prisma.questCompletion.create({
 			data: {
 				quest: { connect: { id: questId } },
 				user: { connect: { id: userId } },
 				starsAwarded: stars,
-				isLate: completedAt > quest.deadline,
+				isLate,
 				completedAt,
 			},
-			include: {
-				quest: true,
-				user: true,
-			},
 		});
-		await this.prisma.quest.update({
-			where: { id: questId },
-			data: {
-				completions: {
-					connect: {
-						id: questId,
-					},
-				},
-			},
-		});
-		await this.prisma.goal.update({
-			where: { id: quest.goal.id },
-			data: {
-				starReward: { decrement: stars },
-				quests: {
-					connect: {
-						id: questId,
-					},
-				},
-			},
-		});
-
 		await this.prisma.user.update({
 			where: { id: userId },
 			data: {
-				stars: {
-					increment: stars,
-				},
-				quests: {
-					connect: {
-						id: questId,
-					},
-				},
+				stars: { increment: stars },
+				quests: { connect: { id: questId } },
 			},
 		});
 

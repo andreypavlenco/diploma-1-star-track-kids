@@ -52,7 +52,7 @@ export class QuestResolver {
 		return this.questService.delete(questId);
 	}
 
-	@Auth(UserRole.CHILD)
+	@Auth(UserRole.CHILD, UserRole.PARENT)
 	@Mutation(() => Boolean, { name: 'questCompletion' })
 	async questCompletion(@Args('questId') questId: string, @Authorized('id') userId: string) {
 		return this.questService.questCompletion(userId, questId);
