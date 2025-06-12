@@ -1,0 +1,3 @@
+mutation CreateInvitation($data: CreateInvitationInput!, $roomId: String!) {
+  createInvitation(data: $data, roomId: $roomId)
+}

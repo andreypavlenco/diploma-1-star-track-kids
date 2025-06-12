@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
 import { addDays, addHours } from 'date-fns';
 
@@ -41,12 +41,46 @@ export class BoostService {
 		if (!(await this.canActivate(boostId, userId))) {
 			throw new BadRequestException('Boost on cooldown');
 		}
+
 		const boost = await this.prisma.boost.findUnique({ where: { id: boostId } });
+		if (!boost) {
+			throw new NotFoundException('Boost not found');
+		}
+     	const now = new Date();
 		const expiresAt = addHours(new Date(), boost.durationHours);
-		return this.prisma.boostActivation.create({
-			data: { boostId, userId, expiresAt },
-			include: { boost: true },
+		const data = await this.prisma.boostActivation.create({
+			data: {
+				boostId,
+				userId,
+				expiresAt,
+			    activatedAt: now
+			},
+			select: {
+				id: true,
+				createdAt: true,
+		        updatedAt: true,
+				activatedAt: true,
+				expiresAt: true,
+				boostId: true,
+				userId: true,
+				boost: {
+					select: {
+						id: true,
+						name: true,
+						description: true,
+						cooldownDays: true,
+						durationHours: true,
+					},
+				},
+				user: {
+					select: {
+						id: true,
+						email: true,
+					},
+				},
+			},
 		});
+		return data
 	}
 
 	async getActiveBoosts(userId: string): Promise<(BoostActivation & { boost: Boost })[]> {

@@ -12,6 +12,9 @@ query findAllQuestByRoomMemberId {
       description
       deadline
       difficulty
+      completions {
+        userId
+      }
     }
   }
 }

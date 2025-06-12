@@ -1,31 +1,40 @@
 'use client'
 
 import { Quest } from '@/graphql/generated/output'
-
-import { RewardColumn } from '../../reward/components/RewardColumn'
-
-import { QuestColumn } from './QuestColumn'
 import { RewardType } from '@/features/reward/type'
+import { QuestColumn } from '@/features/quest/components/QuestColumn'
+import { RewardColumn } from '@/features/reward/components/RewardColumn'
+import { RoomWithQuests } from '@/features/quest/type'
 
 type HomeDashboardProps = {
 	todayQuests: Quest[]
 	tomorrowQuests: Quest[]
 	rewards: RewardType[]
 	onRefreshReward: () => void
+	rooms: RoomWithQuests[]
+	onRefreshQuests: () => void
 }
 
 export function HomeDashboard({
-	todayQuests,
-	tomorrowQuests,
 	rewards,
-	onRefreshReward
+	onRefreshReward,
+	rooms,
+	onRefreshQuests
 }: HomeDashboardProps) {
-	 
 	return (
-		<div className='grid w-full auto-rows-[1fr] gap-6 px-4 py-6 sm:grid-cols-2 lg:grid-cols-3'>
-			<QuestColumn title='Today Quests' quests={todayQuests} />
-			<QuestColumn title='Tomorrow Quests' quests={tomorrowQuests} />
-			<RewardColumn rewards={rewards} onRefreshReward={onRefreshReward} />
+<div className="w-full px-4 py-6">
+			<div className="flex flex-col lg:flex-row gap-6 w-full">
+				{/* Квести */}
+				<div className="flex-1 min-h-[600px]">
+					<QuestColumn rooms={rooms} onRefreshQuests={onRefreshQuests} />
+				</div>
+
+				{/* Винагороди */}
+				<div className="flex-1 min-h-[600px]">
+					<RewardColumn rewards={rewards} onRefreshReward={onRefreshReward} />
+				</div>
+			</div>
 		</div>
+
 	)
 }

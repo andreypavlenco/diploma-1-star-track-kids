@@ -10,15 +10,13 @@ import { Loading } from '@/shared/components/loading/Loading'
 
 
 export function RoomDashboard() {
-	const { rooms, loading, error, refetch } = useFindAllQuestByRoomMemberId({
-		fetchPolicy: 'network-only'
-	})
+	const { rooms, loading, error, refetch } = useFindAllQuestByRoomMemberId()
 
 	if (loading) return <Loading />
 	if (error) return <Error error={error} />
 
 	return (
-		<div className='flex h-full w-full flex-col gap-4 px-4 py-6'>
+		<div className='mx-auto max-w-7xl p-6 flex h-full flex-col gap-4 px-4 py-6'>
 			{/* Список комнат */}
 			<div className='flex-1 overflow-y-auto'>
 				<RoomColumn rooms={rooms} onRefreshRoom={() => refetch()} />

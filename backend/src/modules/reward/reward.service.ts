@@ -80,16 +80,12 @@ export class RewardService {
 
 	async findRewardsForUser(userId: string): Promise<Reward[]> {
 		return this.prisma.reward.findMany({
-		  where: {
-			OR: [
-			  { creatorId: userId },
-			  { creator: { parents: { some: { id: userId } } } } 
-			]
-		  },
-		  include: { creator: true },
+			where: {
+				OR: [{ creatorId: userId }, { creator: { parents: { some: { id: userId } } } }],
+			},
+			include: { creator: true },
 		});
-	  }
-	  
+	}
 
 	async createRewardPurchase(
 		childId: string,
