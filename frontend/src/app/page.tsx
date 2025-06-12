@@ -2,7 +2,8 @@
 
 import { HomeDashboard } from '@/features/home/components/HomeDashboard'
 import MainLayout from '@/features/home/components/MainLayout'
-import { useFindRewardsForUserQuery } from '@/graphql/generated/output'
+import { useFindAllQuestByRoomMemberId } from '@/features/quest/hook'
+import {  useFindRewardsForUserQuery } from '@/graphql/generated/output'
 import Error from '@/shared/components/error/Error'
 import { Loading } from '@/shared/components/loading/Loading'
 import { useProfile } from '@/shared/hooks/useProfile'
@@ -12,13 +13,14 @@ export default function HomePage() {
 		profile,
 		loading,
 		error,
-		todayQuests,
-		tomorrowQuests,
+		rewards,
 	} = useProfile()
 
-	const { data, refetch } = useFindRewardsForUserQuery({
+	const { data  } = useFindRewardsForUserQuery({
 		fetchPolicy: 'network-only',
 	  });
+
+	  const { rooms, refetch } = useFindAllQuestByRoomMemberId()
 
 	if (loading) return <Loading />
 	if (error) return <Error error={error} />
@@ -28,10 +30,11 @@ export default function HomePage() {
 			<MainLayout profile={profile} />
 
 			<HomeDashboard
-				todayQuests={todayQuests}
-				tomorrowQuests={tomorrowQuests}
+				
 				rewards={data?.findRewardsForUser}
 				onRefreshReward={refetch}
+				rooms={rooms} 
+				onRefreshQuests={() => refetch()}
 			/>
 		</div>
 	)

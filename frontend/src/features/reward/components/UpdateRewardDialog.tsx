@@ -1,168 +1,141 @@
-'use client';
+'use client'
 
-import React, { useState } from 'react';
+import { useState } from 'react'
 import {
   AlertDialog,
-  AlertDialogTrigger,
   AlertDialogContent,
   AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
   AlertDialogFooter,
+  AlertDialogTitle,
   AlertDialogCancel,
-} from '@/shared/ui-kit/ui/alert-dialog';
-import { Button } from '@/shared/ui-kit/ui/button';
-import { useRouter } from 'next/navigation';
+  AlertDialogDescription
+} from '@/shared/ui-kit/ui/alert-dialog'
+import { Input } from '@/shared/ui-kit/ui/input'
+import { Label } from '@/shared/ui-kit/ui/label'
+import { Button } from '@/shared/ui-kit/ui/button'
 import {
-  useDeleteRewardMutation,
-  useUpdateRewardMutation,
-} from '@/graphql/generated/output';
+  useDeleteGoalMutation,
+  useUpdateGoalMutation,
+  useUncompleteGoalMutation,
+  useCompleteGoalMutation
+} from '@/graphql/generated/output'
 
-type RewardSettingsDialogProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  rewardId: string;
-  currentTitle: string;
-  currentDescription?: string;
-  currentStarCost: number;
-  onUpdated: () => void;
-};
+type Props = {
+  isOpen: boolean
+  onClose: () => void
+  goalId: string
+  currentTitle: string
+  currentDescription?: string | null
+  currentStarReward: number
+  onUpdated: () => void
+}
 
-export default function UpdateRewardDialog({
+export default function UpdateGoalDialog({
   isOpen,
   onClose,
-  rewardId,
+  goalId,
   currentTitle,
   currentDescription,
-  currentStarCost,
-  onUpdated,
-}: RewardSettingsDialogProps) {
+  currentStarReward,
+  onUpdated
+}: Props) {
+  const [title, setTitle] = useState(currentTitle)
+  const [description, setDescription] = useState(currentDescription ?? '')
+  const [starReward, setStarReward] = useState(currentStarReward)
 
-  const [newTitle, setNewTitle] = useState(currentTitle);
-  const [newDescription, setNewDescription] = useState(currentDescription ?? '');
-  const [newStarCost, setNewStarCost] = useState(currentStarCost);
-
-  const [updateReward, { loading: updating }] = useUpdateRewardMutation();
-  const [deleteReward, { loading: deleting }] = useDeleteRewardMutation();
+  const [updateGoal, { loading: updating }] = useUpdateGoalMutation()
+  const [deleteGoal, { loading: deleting }] = useDeleteGoalMutation()
+  const [uncompleteGoal, { loading: uncompleting }] = useUncompleteGoalMutation()
+  const [completeGoal, { loading: completing }] = useCompleteGoalMutation()
 
   const handleUpdate = async () => {
-    try {
-      await updateReward({
-        variables: {
-          rewardId,
-          data: {
-            title: newTitle,
-            description: newDescription,
-            starCost: newStarCost,
-          },
-        },
-      });
-      onClose();
-      onUpdated();
-    } catch (err) {
-      console.error('Update error:', err);
-    }
-  };
+    await updateGoal({
+      variables: {
+        goalId,
+        data: { title, description, starReward }
+      }
+    })
+    onUpdated()
+    onClose()
+  }
 
   const handleDelete = async () => {
-    if (confirm('Are you sure you want to delete this reward?')) {
-      try {
-        await deleteReward({ variables: { rewardId } });
-        onClose();
-        onUpdated()
-      } catch (err) {
-        console.error('Delete error:', err);
-      }
+    if (confirm('Are you sure you want to delete this goal?')) {
+      await deleteGoal({ variables: { goalId } })
+      onUpdated()
+      onClose()
     }
-  };
+  }
+
+  const handleUncomplete = async () => {
+    await uncompleteGoal({ variables: { goalId } })
+    onUpdated()
+    onClose()
+  }
+
+  const handleComplete = async () => {
+    await completeGoal({ variables: { goalId } })
+    onUpdated()
+    onClose()
+  }
 
   return (
     <AlertDialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <AlertDialogTrigger asChild>
-        <div />
-      </AlertDialogTrigger>
-      <AlertDialogContent className="max-w-md rounded-lg bg-white p-6 shadow-lg">
-        <AlertDialogHeader className="mb-4">
-          <AlertDialogTitle className="text-2xl font-bold text-gray-800">
-            Reward Settings
-          </AlertDialogTitle>
-          <AlertDialogDescription className="text-gray-500">
-            Manage this reward: update its details or delete it.
-          </AlertDialogDescription>
+      <AlertDialogContent className="max-w-md bg-white p-6 rounded-lg shadow-lg">
+        <AlertDialogHeader>
+          <AlertDialogTitle>Edit Goal</AlertDialogTitle>
+          <AlertDialogDescription>Modify the goal’s details below:</AlertDialogDescription>
         </AlertDialogHeader>
 
-        <div className="space-y-5">
+        <div className="space-y-4 mt-4">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">
-              Title
-            </label>
-            <input
-              type="text"
-              value={newTitle}
-              onChange={(e) => setNewTitle(e.target.value)}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 transition"
-              placeholder="Enter new reward title"
-            />
+            <Label htmlFor="title">Title</Label>
+            <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">
-              Description
-            </label>
-            <textarea
-              value={newDescription}
-              onChange={(e) => setNewDescription(e.target.value)}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 transition"
-              placeholder="Enter reward description"
-            />
+            <Label htmlFor="description">Description</Label>
+            <Input id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
           </div>
+
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-1">
-              Star Cost
-            </label>
-            <input
+            <Label htmlFor="starReward">Star Reward</Label>
+            <Input
+              id="starReward"
               type="number"
               min={1}
-              max={1000}
-              value={newStarCost}
-              onChange={(e) => setNewStarCost(Number(e.target.value))}
-              className="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary-400 transition"
+              value={starReward}
+              onChange={(e) => setStarReward(Number(e.target.value))}
             />
-          </div>
-
-          <Button
-            onClick={handleUpdate}
-            disabled={updating}
-            className="mt-3 w-full bg-green-500 hover:bg-green-600 text-white font-semibold rounded-md py-2 transition"
-          >
-            {updating ? 'Saving...' : 'Save Changes'}
-          </Button>
-
-          {/* Delete button */}
-          <div>
-            <Button
-              variant="destructive"
-              onClick={handleDelete}
-              disabled={deleting}
-              className="w-full bg-red-500 hover:bg-red-600 text-white font-semibold rounded-md py-2 transition"
-            >
-              Delete Reward
-            </Button>
           </div>
         </div>
 
-        <AlertDialogFooter className="mt-6">
-          <AlertDialogCancel asChild>
-            <Button
-              variant="secondary"
-              onClick={onClose}
-              className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-md py-2 transition"
-            >
-              Close
-            </Button>
-          </AlertDialogCancel>
-        </AlertDialogFooter>
+        <div className="flex flex-col gap-2 mt-6">
+          <Button onClick={handleUpdate} disabled={updating}>
+            {updating ? 'Saving...' : 'Save Changes'}
+          </Button>
+
+          <Button variant="secondary" onClick={handleComplete} disabled={completing}>
+            {completing ? 'Completing...' : 'Mark as Complete'}
+          </Button>
+
+          <Button variant="secondary" onClick={handleUncomplete} disabled={uncompleting}>
+            {uncompleting ? 'Uncompleting...' : 'Mark as Incomplete'}
+          </Button>
+
+          <Button variant="destructive" onClick={handleDelete} disabled={deleting}>
+            {deleting ? 'Deleting...' : 'Delete Goal'}
+          </Button>
+
+          <AlertDialogFooter>
+            <AlertDialogCancel>
+              <Button variant="outline" onClick={onClose}>
+                Cancel
+              </Button>
+            </AlertDialogCancel>
+          </AlertDialogFooter>
+        </div>
       </AlertDialogContent>
     </AlertDialog>
-  );
+  )
 }

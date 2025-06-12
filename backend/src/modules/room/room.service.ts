@@ -69,7 +69,15 @@ export class RoomService {
 				},
 			},
 			include: {
-				quests: true,
+				quests: {
+					include: {
+						completions: {
+							select: {
+								userId: true,
+							},
+						},
+					},
+				},
 				createUser: true,
 				members: true,
 			},

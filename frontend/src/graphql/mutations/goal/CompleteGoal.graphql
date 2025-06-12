@@ -1,0 +1,17 @@
+mutation CompleteGoal($goalId: String!) {
+  completeGoal(goalId: $goalId) {
+    id
+    title
+    description
+    starReward
+    completedAt
+    creator {
+      id
+      email
+    }
+    quests {
+      id
+      title
+    }
+  }
+}

@@ -1,0 +1,20 @@
+mutation ActivateBoost($boostId: String!) {
+  activateBoost(boostId: $boostId) {
+    id
+    activatedAt
+    expiresAt
+    boost {
+      id
+      name
+      description
+      cooldownDays
+      durationHours
+    }
+    boostId
+    user {
+      id
+      email
+    }
+    userId
+  }
+}

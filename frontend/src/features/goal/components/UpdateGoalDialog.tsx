@@ -13,7 +13,12 @@ import {
 import { Input } from '@/shared/ui-kit/ui/input'
 import { Label } from '@/shared/ui-kit/ui/label'
 import { Button } from '@/shared/ui-kit/ui/button'
-import { useDeleteGoalMutation, useUpdateGoalMutation } from '@/graphql/generated/output'
+import {
+  useDeleteGoalMutation,
+  useUpdateGoalMutation,
+  useUncompleteGoalMutation,
+  useCompleteGoalMutation
+} from '@/graphql/generated/output'
 
 type Props = {
   isOpen: boolean
@@ -38,8 +43,10 @@ export default function UpdateGoalDialog({
   const [description, setDescription] = useState(currentDescription ?? '')
   const [starReward, setStarReward] = useState(currentStarReward)
 
-  const [updateGoal, { loading }] = useUpdateGoalMutation()
-  const [deleteReward, { loading: deleting }] = useDeleteGoalMutation();
+  const [updateGoal, { loading: updating }] = useUpdateGoalMutation()
+  const [deleteGoal, { loading: deleting }] = useDeleteGoalMutation()
+  const [uncompleteGoal, { loading: uncompleting }] = useUncompleteGoalMutation()
+  const [completeGoal, { loading: completing }] = useCompleteGoalMutation()
 
   const handleUpdate = async () => {
     await updateGoal({
@@ -52,63 +59,121 @@ export default function UpdateGoalDialog({
     onClose()
   }
 
-    const handleDelete = async () => {
-    if (confirm('Are you sure you want to delete this reward?')) {
-      try {
-        await deleteReward({ variables: { goalId } });
-        onClose();
-        onUpdated()
-      } catch (err) {
-        console.error('Delete error:', err);
-      }
+  const handleDelete = async () => {
+    if (confirm('Are you sure you want to delete this goal?')) {
+      await deleteGoal({ variables: { goalId } })
+      onUpdated()
+      onClose()
     }
-  };
+  }
 
+  const handleUncomplete = async () => {
+    await uncompleteGoal({ variables: { goalId } })
+    onUpdated()
+    onClose()
+  }
+
+  const handleComplete = async () => {
+    await completeGoal({ variables: { goalId } })
+    onUpdated()
+    onClose()
+  }
 
   return (
     <AlertDialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <AlertDialogContent className="max-w-md bg-white p-6 rounded-lg shadow-lg">
-        <AlertDialogHeader>
-          <AlertDialogTitle>Edit Goal</AlertDialogTitle>
-          <AlertDialogDescription>
-            Modify the goal’s details below:
-          </AlertDialogDescription>
-        </AlertDialogHeader>
+  <AlertDialogContent className="fixed top-1/2 left-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 animate-fadeInScale rounded-xl border bg-white shadow-2xl p-0 overflow-hidden">
 
-        <div className="space-y-4 mt-4">
-          <div>
-            <Label htmlFor="title">Title</Label>
-            <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} />
-          </div>
+    {/* Заголовок з градієнтом */}
+    <div className="bg-gradient-to-r from-green-200 via-lime-100 to-white px-6 py-4 border-b flex items-center justify-between">
+      <h3 className="text-lg font-semibold text-gray-800">✏️ Редагування цілі</h3>
+      <AlertDialogCancel asChild>
+        <button
+          className="text-gray-500 hover:text-red-500 transition p-1"
+          title="Закрити"
+        >
+          ✖️
+        </button>
+      </AlertDialogCancel>
+    </div>
 
-          <div>
-            <Label htmlFor="description">Description</Label>
-            <Input id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
-          </div>
+    {/* Контент */}
+    <div className="px-6 py-5 space-y-5">
+      <div>
+        <Label htmlFor="title" className="text-sm text-gray-700">Назва</Label>
+        <Input
+          id="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="mt-1 border-gray-300 rounded-md focus:ring-green-100 focus:border-green-500"
+        />
+      </div>
 
-          <div>
-            <Label htmlFor="starReward">Star Reward</Label>
-            <Input
-              id="starReward"
-              type="number"
-              min={1}
-              value={starReward}
-              onChange={(e) => setStarReward(Number(e.target.value))}
-            />
-          </div>
-        </div>
+      <div>
+        <Label htmlFor="description" className="text-sm text-gray-700">Опис</Label>
+        <Input
+          id="description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="mt-1 border-gray-300 rounded-md focus:ring-green-100 focus:border-green-500"
+        />
+      </div>
 
-        <AlertDialogFooter className="mt-6">
-          <AlertDialogCancel>
-            <Button variant="secondary" onClick={onClose}>
-              Cancel
-            </Button>
-          </AlertDialogCancel>
-          <Button onClick={handleUpdate} disabled={loading}>
-            {loading ? 'Saving...' : 'Save Changes'}
+      <div>
+        <Label htmlFor="starReward" className="text-sm text-gray-700">Вартість у зірках</Label>
+        <Input
+          id="starReward"
+          type="number"
+          min={1}
+          value={starReward}
+          onChange={(e) => setStarReward(Number(e.target.value))}
+          className="mt-1 border-gray-300 rounded-md focus:ring-green-100 focus:border-green-500"
+        />
+      </div>
+    </div>
+
+    {/* Дії */}
+    <div className="px-6 pb-6 flex flex-col gap-3">
+      <Button onClick={handleUpdate} disabled={updating} className="w-full">
+        {updating ? 'Збереження…' : '💾 Зберегти зміни'}
+      </Button>
+
+      <Button
+        variant="secondary"
+        onClick={handleComplete}
+        disabled={completing}
+        className="w-full"
+      >
+        {completing ? 'Завершення…' : '✅ Позначити як виконану'}
+      </Button>
+
+      <Button
+        variant="secondary"
+        onClick={handleUncomplete}
+        disabled={uncompleting}
+        className="w-full"
+      >
+        {uncompleting ? 'Повернення…' : '🔄 Позначити як незавершену'}
+      </Button>
+
+      <Button
+        variant="destructive"
+        onClick={handleDelete}
+        disabled={deleting}
+        className="w-full"
+      >
+        {deleting ? 'Видалення…' : '🗑️ Видалити ціль'}
+      </Button>
+
+      <AlertDialogFooter className="pt-4">
+        <AlertDialogCancel asChild>
+          <Button variant="outline" onClick={onClose} className="w-full">
+            Скасувати
           </Button>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+        </AlertDialogCancel>
+      </AlertDialogFooter>
+    </div>
+  </AlertDialogContent>
+</AlertDialog>
+
   )
 }
