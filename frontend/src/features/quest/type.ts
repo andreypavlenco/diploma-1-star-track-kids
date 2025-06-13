@@ -15,6 +15,7 @@ export type RoomWithQuests = {
 export type QuestColumnProps = {
 	rooms: RoomWithQuests[]
 	onRefreshQuests: () => void
+	onRefreshProfile: () => void
 }
 
 export type CreateQuestFormProps = {

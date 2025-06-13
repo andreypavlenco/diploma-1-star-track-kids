@@ -46,19 +46,19 @@ export class BoostService {
 		if (!boost) {
 			throw new NotFoundException('Boost not found');
 		}
-     	const now = new Date();
+		const now = new Date();
 		const expiresAt = addHours(new Date(), boost.durationHours);
 		const data = await this.prisma.boostActivation.create({
 			data: {
 				boostId,
 				userId,
 				expiresAt,
-			    activatedAt: now
+				activatedAt: now,
 			},
 			select: {
 				id: true,
 				createdAt: true,
-		        updatedAt: true,
+				updatedAt: true,
 				activatedAt: true,
 				expiresAt: true,
 				boostId: true,
@@ -80,7 +80,7 @@ export class BoostService {
 				},
 			},
 		});
-		return data
+		return data;
 	}
 
 	async getActiveBoosts(userId: string): Promise<(BoostActivation & { boost: Boost })[]> {

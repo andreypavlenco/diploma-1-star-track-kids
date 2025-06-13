@@ -21,6 +21,16 @@ type BoostActivation {
   userId: ID!
 }
 
+type BoostUsage {
+  activationCount: Int!
+  name: String!
+}
+
+type ChildrenActivityResult {
+  completions: [QuestCompletion!]!
+  purchases: [RewardPurchaseModel!]!
+}
+
 input CreateGoalInput {
   description: String
   starReward: Int!
@@ -100,7 +110,7 @@ type Mutation {
   createInvitation(data: CreateInvitationInput!, roomId: String!): Boolean!
   createQuest(data: CreateQuestInput!, roomId: String!): Quest!
   createReward(data: CreateRewardInput!): RewardModel!
-  createRewardPurchase(rewardId: String!): Boolean!
+  createRewardPurchase(rewardId: String!): RewardPurchaseResponse!
   createRoom(data: CreateRoomInput!): Room!
   createUser(data: CreateUserInput!): UserModel!
   deleteGoal(goalId: String!): Boolean!
@@ -118,6 +128,7 @@ type Mutation {
 }
 
 type Query {
+  checkUserExists(email: String!): Boolean!
   findActiveGoals: [Goal!]!
   findAllQuestByRoomMemberId: [Room!]!
   findAllQuestRoom(roomId: String!): [Quest!]!
@@ -133,8 +144,16 @@ type Query {
   findRewardsForUser: [RewardModel!]!
   findRoomById(roomId: String!): Room!
   getActiveBoosts: [BoostActivation!]!
+  getChildrenActivity: ChildrenActivityResult!
+  getInvitationInfo(token: String!): Invitation
   getUserActivations: [Boost!]!
   listAllBoosts: [Boost!]!
+  questCompletionsByDay: [QuestCompletionStat!]!
+  roomUserCounts: [RoomUserCount!]!
+  topBoosts: [BoostUsage!]!
+  topUsersByStars: [UserStars!]!
+  totalRewardsPurchased: Float!
+  userCountByRole: [UserRoleCount!]!
 }
 
 type Quest {
@@ -163,6 +182,11 @@ type QuestCompletion {
   userId: ID!
 }
 
+type QuestCompletionStat {
+  count: Int!
+  date: String!
+}
+
 type RewardModel {
   createdAt: DateTime!
   creator: UserModel!
@@ -175,7 +199,7 @@ type RewardModel {
 }
 
 type RewardPurchaseModel {
-  child: [UserModel!]!
+  child: UserModel
   childId: String!
   createdAt: DateTime!
   creator: UserModel!
@@ -186,6 +210,11 @@ type RewardPurchaseModel {
   rewarId: String!
   reward: [RewardModel!]!
   starCost: Int!
+}
+
+type RewardPurchaseResponse {
+  message: String
+  success: Boolean!
 }
 
 type Room {
@@ -207,6 +236,11 @@ type RoomMember {
   roomId: ID!
   user: UserModel!
   userId: ID!
+}
+
+type RoomUserCount {
+  roomName: String!
+  userCount: Int!
 }
 
 input UpdateGoalInput {
@@ -246,4 +280,15 @@ type UserModel {
 enum UserRole {
   CHILD
   PARENT
+}
+
+type UserRoleCount {
+  count: Int!
+  role: String!
+}
+
+type UserStars {
+  email: String!
+  id: String!
+  stars: Int!
 }

@@ -39,6 +39,18 @@ export type BoostActivation = {
   userId: Scalars['ID']['output'];
 };
 
+export type BoostUsage = {
+  __typename?: 'BoostUsage';
+  activationCount: Scalars['Int']['output'];
+  name: Scalars['String']['output'];
+};
+
+export type ChildrenActivityResult = {
+  __typename?: 'ChildrenActivityResult';
+  completions: Array<QuestCompletion>;
+  purchases: Array<RewardPurchaseModel>;
+};
+
 export type CreateGoalInput = {
   description?: InputMaybe<Scalars['String']['input']>;
   starReward: Scalars['Int']['input'];
@@ -116,7 +128,7 @@ export type Mutation = {
   createInvitation: Scalars['Boolean']['output'];
   createQuest: Quest;
   createReward: RewardModel;
-  createRewardPurchase: Scalars['Boolean']['output'];
+  createRewardPurchase: RewardPurchaseResponse;
   createRoom: Room;
   createUser: UserModel;
   deleteGoal: Scalars['Boolean']['output'];
@@ -246,6 +258,7 @@ export type MutationUpdateRoomArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  checkUserExists: Scalars['Boolean']['output'];
   findActiveGoals: Array<Goal>;
   findAllQuestByRoomMemberId: Array<Room>;
   findAllQuestRoom: Array<Quest>;
@@ -261,8 +274,21 @@ export type Query = {
   findRewardsForUser: Array<RewardModel>;
   findRoomById: Room;
   getActiveBoosts: Array<BoostActivation>;
+  getChildrenActivity: ChildrenActivityResult;
+  getInvitationInfo?: Maybe<Invitation>;
   getUserActivations: Array<Boost>;
   listAllBoosts: Array<Boost>;
+  questCompletionsByDay: Array<QuestCompletionStat>;
+  roomUserCounts: Array<RoomUserCount>;
+  topBoosts: Array<BoostUsage>;
+  topUsersByStars: Array<UserStars>;
+  totalRewardsPurchased: Scalars['Float']['output'];
+  userCountByRole: Array<UserRoleCount>;
+};
+
+
+export type QueryCheckUserExistsArgs = {
+  email: Scalars['String']['input'];
 };
 
 
@@ -296,6 +322,11 @@ export type QueryFindRoomByIdArgs = {
   roomId: Scalars['String']['input'];
 };
 
+
+export type QueryGetInvitationInfoArgs = {
+  token: Scalars['String']['input'];
+};
+
 export type Quest = {
   __typename?: 'Quest';
   completions?: Maybe<Array<QuestCompletion>>;
@@ -324,6 +355,12 @@ export type QuestCompletion = {
   userId: Scalars['ID']['output'];
 };
 
+export type QuestCompletionStat = {
+  __typename?: 'QuestCompletionStat';
+  count: Scalars['Int']['output'];
+  date: Scalars['String']['output'];
+};
+
 export type RewardModel = {
   __typename?: 'RewardModel';
   createdAt: Scalars['DateTime']['output'];
@@ -338,7 +375,7 @@ export type RewardModel = {
 
 export type RewardPurchaseModel = {
   __typename?: 'RewardPurchaseModel';
-  child: Array<UserModel>;
+  child?: Maybe<UserModel>;
   childId: Scalars['String']['output'];
   createdAt: Scalars['DateTime']['output'];
   creator: UserModel;
@@ -349,6 +386,12 @@ export type RewardPurchaseModel = {
   rewarId: Scalars['String']['output'];
   reward: Array<RewardModel>;
   starCost: Scalars['Int']['output'];
+};
+
+export type RewardPurchaseResponse = {
+  __typename?: 'RewardPurchaseResponse';
+  message?: Maybe<Scalars['String']['output']>;
+  success: Scalars['Boolean']['output'];
 };
 
 export type Room = {
@@ -372,6 +415,12 @@ export type RoomMember = {
   roomId: Scalars['ID']['output'];
   user: UserModel;
   userId: Scalars['ID']['output'];
+};
+
+export type RoomUserCount = {
+  __typename?: 'RoomUserCount';
+  roomName: Scalars['String']['output'];
+  userCount: Scalars['Int']['output'];
 };
 
 export type UpdateGoalInput = {
@@ -413,6 +462,19 @@ export enum UserRole {
   Child = 'CHILD',
   Parent = 'PARENT'
 }
+
+export type UserRoleCount = {
+  __typename?: 'UserRoleCount';
+  count: Scalars['Int']['output'];
+  role: Scalars['String']['output'];
+};
+
+export type UserStars = {
+  __typename?: 'UserStars';
+  email: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  stars: Scalars['Int']['output'];
+};
 
 export type ActivateBoostMutationVariables = Exact<{
   boostId: Scalars['String']['input'];
@@ -472,6 +534,13 @@ export type CreateInvitationMutationVariables = Exact<{
 
 export type CreateInvitationMutation = { __typename?: 'Mutation', createInvitation: boolean };
 
+export type GetInvitationInfoQueryVariables = Exact<{
+  token: Scalars['String']['input'];
+}>;
+
+
+export type GetInvitationInfoQuery = { __typename?: 'Query', getInvitationInfo?: { __typename?: 'Invitation', id: string, email: string, token: string, createdAt: any } | null };
+
 export type CompleteQuestMutationVariables = Exact<{
   questId: Scalars['String']['input'];
 }>;
@@ -514,7 +583,7 @@ export type CreateRewardPurchaseMutationVariables = Exact<{
 }>;
 
 
-export type CreateRewardPurchaseMutation = { __typename?: 'Mutation', createRewardPurchase: boolean };
+export type CreateRewardPurchaseMutation = { __typename?: 'Mutation', createRewardPurchase: { __typename?: 'RewardPurchaseResponse', success: boolean, message?: string | null } };
 
 export type DeleteRewardMutationVariables = Exact<{
   rewardId: Scalars['String']['input'];
@@ -572,6 +641,11 @@ export type LogoutUserMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutUserMutation = { __typename?: 'Mutation', logoutUser: boolean };
 
+export type GetAnalyticsDataQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAnalyticsDataQuery = { __typename?: 'Query', totalRewardsPurchased: number, userCountByRole: Array<{ __typename?: 'UserRoleCount', role: string, count: number }>, topUsersByStars: Array<{ __typename?: 'UserStars', id: string, email: string, stars: number }>, questCompletionsByDay: Array<{ __typename?: 'QuestCompletionStat', date: string, count: number }>, topBoosts: Array<{ __typename?: 'BoostUsage', name: string, activationCount: number }>, roomUserCounts: Array<{ __typename?: 'RoomUserCount', roomName: string, userCount: number }> };
+
 export type GetActiveBoostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -590,7 +664,12 @@ export type FindGoalQuery = { __typename?: 'Query', findGoal: Array<{ __typename
 export type FindRewardsForUserQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindRewardsForUserQuery = { __typename?: 'Query', findRewardsForUser: Array<{ __typename?: 'RewardModel', id: string, title: string, description?: string | null, starCost: number, creator: { __typename?: 'UserModel', id: string, email: string } }> };
+export type FindRewardsForUserQuery = { __typename?: 'Query', findRewardsForUser: Array<{ __typename?: 'RewardModel', id: string, title: string, description?: string | null, starCost: number, creator: { __typename?: 'UserModel', id: string, email: string }, purchases: Array<{ __typename?: 'RewardPurchaseModel', id: string, createdAt: any, child?: { __typename?: 'UserModel', id: string, email: string } | null }> }> };
+
+export type GetChildrenActivityQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetChildrenActivityQuery = { __typename?: 'Query', getChildrenActivity: { __typename?: 'ChildrenActivityResult', completions: Array<{ __typename?: 'QuestCompletion', id: string, completedAt: any, isLate: boolean, starsAwarded: number, quest: { __typename?: 'Quest', id: string, title: string }, user: { __typename?: 'UserModel', id: string, email: string } }>, purchases: Array<{ __typename?: 'RewardPurchaseModel', id: string, purchasedAt: any, reward: Array<{ __typename?: 'RewardModel', id: string, title: string, starCost: number }>, child?: { __typename?: 'UserModel', id: string, email: string } | null }> } };
 
 export type FindAllQuestByRoomMemberIdQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -604,10 +683,17 @@ export type FindRoomByIdQueryVariables = Exact<{
 
 export type FindRoomByIdQuery = { __typename?: 'Query', findRoomById: { __typename?: 'Room', id: string, name: string, quests?: Array<{ __typename?: 'Quest', id: string, title: string, description?: string | null, deadline: any, difficulty: number }> | null } };
 
+export type CheckUserExistsQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type CheckUserExistsQuery = { __typename?: 'Query', checkUserExists: boolean };
+
 export type FindProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, email: string, stars: number, quests: Array<{ __typename?: 'Quest', id: string, title: string, description?: string | null, deadline: any, difficulty: number }>, createdRooms: Array<{ __typename?: 'Room', id: string, name: string }>, reward?: Array<{ __typename?: 'RewardModel', id: string, title: string, starCost: number }> | null, rooms?: Array<{ __typename?: 'RoomMember', id: string, room: { __typename?: 'Room', id: string, name: string, members: Array<{ __typename?: 'RoomMember', id: string, userId: string, role: UserRole, joinedAt: any }> } }> | null } };
+export type FindProfileQuery = { __typename?: 'Query', findProfile: { __typename?: 'UserModel', id: string, email: string, stars: number, role: UserRole, quests: Array<{ __typename?: 'Quest', id: string, title: string, description?: string | null, deadline: any, difficulty: number }>, createdRooms: Array<{ __typename?: 'Room', id: string, name: string }>, reward?: Array<{ __typename?: 'RewardModel', id: string, title: string, starCost: number }> | null, rooms?: Array<{ __typename?: 'RoomMember', id: string, room: { __typename?: 'Room', id: string, name: string, members: Array<{ __typename?: 'RoomMember', id: string, userId: string, role: UserRole, joinedAt: any }> } }> | null } };
 
 
 export const ActivateBoostDocument = gql`
@@ -904,6 +990,49 @@ export function useCreateInvitationMutation(baseOptions?: Apollo.MutationHookOpt
 export type CreateInvitationMutationHookResult = ReturnType<typeof useCreateInvitationMutation>;
 export type CreateInvitationMutationResult = Apollo.MutationResult<CreateInvitationMutation>;
 export type CreateInvitationMutationOptions = Apollo.BaseMutationOptions<CreateInvitationMutation, CreateInvitationMutationVariables>;
+export const GetInvitationInfoDocument = gql`
+    query GetInvitationInfo($token: String!) {
+  getInvitationInfo(token: $token) {
+    id
+    email
+    token
+    createdAt
+  }
+}
+    `;
+
+/**
+ * __useGetInvitationInfoQuery__
+ *
+ * To run a query within a React component, call `useGetInvitationInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetInvitationInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetInvitationInfoQuery({
+ *   variables: {
+ *      token: // value for 'token'
+ *   },
+ * });
+ */
+export function useGetInvitationInfoQuery(baseOptions: Apollo.QueryHookOptions<GetInvitationInfoQuery, GetInvitationInfoQueryVariables> & ({ variables: GetInvitationInfoQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetInvitationInfoQuery, GetInvitationInfoQueryVariables>(GetInvitationInfoDocument, options);
+      }
+export function useGetInvitationInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetInvitationInfoQuery, GetInvitationInfoQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetInvitationInfoQuery, GetInvitationInfoQueryVariables>(GetInvitationInfoDocument, options);
+        }
+export function useGetInvitationInfoSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetInvitationInfoQuery, GetInvitationInfoQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetInvitationInfoQuery, GetInvitationInfoQueryVariables>(GetInvitationInfoDocument, options);
+        }
+export type GetInvitationInfoQueryHookResult = ReturnType<typeof useGetInvitationInfoQuery>;
+export type GetInvitationInfoLazyQueryHookResult = ReturnType<typeof useGetInvitationInfoLazyQuery>;
+export type GetInvitationInfoSuspenseQueryHookResult = ReturnType<typeof useGetInvitationInfoSuspenseQuery>;
+export type GetInvitationInfoQueryResult = Apollo.QueryResult<GetInvitationInfoQuery, GetInvitationInfoQueryVariables>;
 export const CompleteQuestDocument = gql`
     mutation CompleteQuest($questId: String!) {
   questCompletion(questId: $questId)
@@ -1087,7 +1216,10 @@ export type CreateRewardMutationResult = Apollo.MutationResult<CreateRewardMutat
 export type CreateRewardMutationOptions = Apollo.BaseMutationOptions<CreateRewardMutation, CreateRewardMutationVariables>;
 export const CreateRewardPurchaseDocument = gql`
     mutation CreateRewardPurchase($rewardId: String!) {
-  createRewardPurchase(rewardId: $rewardId)
+  createRewardPurchase(rewardId: $rewardId) {
+    success
+    message
+  }
 }
     `;
 export type CreateRewardPurchaseMutationFn = Apollo.MutationFunction<CreateRewardPurchaseMutation, CreateRewardPurchaseMutationVariables>;
@@ -1386,6 +1518,64 @@ export function useLogoutUserMutation(baseOptions?: Apollo.MutationHookOptions<L
 export type LogoutUserMutationHookResult = ReturnType<typeof useLogoutUserMutation>;
 export type LogoutUserMutationResult = Apollo.MutationResult<LogoutUserMutation>;
 export type LogoutUserMutationOptions = Apollo.BaseMutationOptions<LogoutUserMutation, LogoutUserMutationVariables>;
+export const GetAnalyticsDataDocument = gql`
+    query GetAnalyticsData {
+  userCountByRole {
+    role
+    count
+  }
+  topUsersByStars {
+    id
+    email
+    stars
+  }
+  questCompletionsByDay {
+    date
+    count
+  }
+  totalRewardsPurchased
+  topBoosts {
+    name
+    activationCount
+  }
+  roomUserCounts {
+    roomName
+    userCount
+  }
+}
+    `;
+
+/**
+ * __useGetAnalyticsDataQuery__
+ *
+ * To run a query within a React component, call `useGetAnalyticsDataQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAnalyticsDataQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAnalyticsDataQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAnalyticsDataQuery(baseOptions?: Apollo.QueryHookOptions<GetAnalyticsDataQuery, GetAnalyticsDataQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAnalyticsDataQuery, GetAnalyticsDataQueryVariables>(GetAnalyticsDataDocument, options);
+      }
+export function useGetAnalyticsDataLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAnalyticsDataQuery, GetAnalyticsDataQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAnalyticsDataQuery, GetAnalyticsDataQueryVariables>(GetAnalyticsDataDocument, options);
+        }
+export function useGetAnalyticsDataSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAnalyticsDataQuery, GetAnalyticsDataQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAnalyticsDataQuery, GetAnalyticsDataQueryVariables>(GetAnalyticsDataDocument, options);
+        }
+export type GetAnalyticsDataQueryHookResult = ReturnType<typeof useGetAnalyticsDataQuery>;
+export type GetAnalyticsDataLazyQueryHookResult = ReturnType<typeof useGetAnalyticsDataLazyQuery>;
+export type GetAnalyticsDataSuspenseQueryHookResult = ReturnType<typeof useGetAnalyticsDataSuspenseQuery>;
+export type GetAnalyticsDataQueryResult = Apollo.QueryResult<GetAnalyticsDataQuery, GetAnalyticsDataQueryVariables>;
 export const GetActiveBoostsDocument = gql`
     query GetActiveBoosts {
   getActiveBoosts {
@@ -1532,6 +1722,14 @@ export const FindRewardsForUserDocument = gql`
       id
       email
     }
+    purchases {
+      id
+      child {
+        id
+        email
+      }
+      createdAt
+    }
   }
 }
     `;
@@ -1567,6 +1765,71 @@ export type FindRewardsForUserQueryHookResult = ReturnType<typeof useFindRewards
 export type FindRewardsForUserLazyQueryHookResult = ReturnType<typeof useFindRewardsForUserLazyQuery>;
 export type FindRewardsForUserSuspenseQueryHookResult = ReturnType<typeof useFindRewardsForUserSuspenseQuery>;
 export type FindRewardsForUserQueryResult = Apollo.QueryResult<FindRewardsForUserQuery, FindRewardsForUserQueryVariables>;
+export const GetChildrenActivityDocument = gql`
+    query GetChildrenActivity {
+  getChildrenActivity {
+    completions {
+      id
+      completedAt
+      isLate
+      starsAwarded
+      quest {
+        id
+        title
+      }
+      user {
+        id
+        email
+      }
+    }
+    purchases {
+      id
+      purchasedAt
+      reward {
+        id
+        title
+        starCost
+      }
+      child {
+        id
+        email
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetChildrenActivityQuery__
+ *
+ * To run a query within a React component, call `useGetChildrenActivityQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetChildrenActivityQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetChildrenActivityQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetChildrenActivityQuery(baseOptions?: Apollo.QueryHookOptions<GetChildrenActivityQuery, GetChildrenActivityQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetChildrenActivityQuery, GetChildrenActivityQueryVariables>(GetChildrenActivityDocument, options);
+      }
+export function useGetChildrenActivityLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetChildrenActivityQuery, GetChildrenActivityQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetChildrenActivityQuery, GetChildrenActivityQueryVariables>(GetChildrenActivityDocument, options);
+        }
+export function useGetChildrenActivitySuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetChildrenActivityQuery, GetChildrenActivityQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetChildrenActivityQuery, GetChildrenActivityQueryVariables>(GetChildrenActivityDocument, options);
+        }
+export type GetChildrenActivityQueryHookResult = ReturnType<typeof useGetChildrenActivityQuery>;
+export type GetChildrenActivityLazyQueryHookResult = ReturnType<typeof useGetChildrenActivityLazyQuery>;
+export type GetChildrenActivitySuspenseQueryHookResult = ReturnType<typeof useGetChildrenActivitySuspenseQuery>;
+export type GetChildrenActivityQueryResult = Apollo.QueryResult<GetChildrenActivityQuery, GetChildrenActivityQueryVariables>;
 export const FindAllQuestByRoomMemberIdDocument = gql`
     query findAllQuestByRoomMemberId {
   findAllQuestByRoomMemberId {
@@ -1669,12 +1932,51 @@ export type FindRoomByIdQueryHookResult = ReturnType<typeof useFindRoomByIdQuery
 export type FindRoomByIdLazyQueryHookResult = ReturnType<typeof useFindRoomByIdLazyQuery>;
 export type FindRoomByIdSuspenseQueryHookResult = ReturnType<typeof useFindRoomByIdSuspenseQuery>;
 export type FindRoomByIdQueryResult = Apollo.QueryResult<FindRoomByIdQuery, FindRoomByIdQueryVariables>;
+export const CheckUserExistsDocument = gql`
+    query CheckUserExists($email: String!) {
+  checkUserExists(email: $email)
+}
+    `;
+
+/**
+ * __useCheckUserExistsQuery__
+ *
+ * To run a query within a React component, call `useCheckUserExistsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCheckUserExistsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCheckUserExistsQuery({
+ *   variables: {
+ *      email: // value for 'email'
+ *   },
+ * });
+ */
+export function useCheckUserExistsQuery(baseOptions: Apollo.QueryHookOptions<CheckUserExistsQuery, CheckUserExistsQueryVariables> & ({ variables: CheckUserExistsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<CheckUserExistsQuery, CheckUserExistsQueryVariables>(CheckUserExistsDocument, options);
+      }
+export function useCheckUserExistsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CheckUserExistsQuery, CheckUserExistsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<CheckUserExistsQuery, CheckUserExistsQueryVariables>(CheckUserExistsDocument, options);
+        }
+export function useCheckUserExistsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<CheckUserExistsQuery, CheckUserExistsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<CheckUserExistsQuery, CheckUserExistsQueryVariables>(CheckUserExistsDocument, options);
+        }
+export type CheckUserExistsQueryHookResult = ReturnType<typeof useCheckUserExistsQuery>;
+export type CheckUserExistsLazyQueryHookResult = ReturnType<typeof useCheckUserExistsLazyQuery>;
+export type CheckUserExistsSuspenseQueryHookResult = ReturnType<typeof useCheckUserExistsSuspenseQuery>;
+export type CheckUserExistsQueryResult = Apollo.QueryResult<CheckUserExistsQuery, CheckUserExistsQueryVariables>;
 export const FindProfileDocument = gql`
     query FindProfile {
   findProfile {
     id
     email
     stars
+    role
     quests {
       id
       title

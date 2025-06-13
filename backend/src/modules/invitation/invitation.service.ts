@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { addDays } from 'date-fns';
 import { nanoid } from 'nanoid';
 
+import { Invitation } from '@/prisma/generated';
 import { PrismaService } from '@/src/core/prisma/prisma.service';
 
 import { MailService } from '../libs/mail/mail.service';
@@ -63,6 +64,7 @@ export class InvitationService {
 		}
 
 		await this.prisma.$transaction(async tx => {
+			// 1. Створення roomMember для конкретної кімнати з інвайта
 			await tx.roomMember.create({
 				data: {
 					user: { connect: { id: userId } },
@@ -71,18 +73,52 @@ export class InvitationService {
 				},
 			});
 
+			// 2. Якщо це дитина — пов’язуємо з батьком
 			if (invitation.invitedById && invitation.role === 'CHILD') {
+				// 2.1 Прив'язуємо дитину до батька
 				await tx.user.update({
 					where: { id: invitation.invitedById },
 					data: { children: { connect: { id: userId } } },
 				});
+
+				// 2.2 Отримуємо ВСІ кімнати батька
+				const parentRoomMemberships = await tx.roomMember.findMany({
+					where: { userId: invitation.invitedById },
+					select: { roomId: true },
+				});
+
+				// 2.3 Додаємо дитину до кожної кімнати, якщо ще не додана
+				for (const { roomId } of parentRoomMemberships) {
+					const exists = await tx.roomMember.findFirst({
+						where: {
+							userId,
+							roomId,
+						},
+					});
+
+					if (!exists) {
+						await tx.roomMember.create({
+							data: {
+								userId,
+								roomId,
+								role: 'CHILD',
+							},
+						});
+					}
+				}
 			}
 
+			// 3. Видаляємо запрошення
 			await tx.invitation.delete({
 				where: { id: invitation.id },
 			});
 		});
 
 		return true;
+	}
+	async findByToken(token: string): Promise<Invitation | null> {
+		return this.prisma.invitation.findUnique({
+			where: { token },
+		});
 	}
 }

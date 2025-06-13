@@ -8,5 +8,13 @@ query FindRewardsForUser {
       id
       email
     }
+    purchases {
+      id
+      child {
+        id
+        email
+      }
+      createdAt
+    }
   }
 }

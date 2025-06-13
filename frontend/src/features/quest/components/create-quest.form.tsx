@@ -1,177 +1,230 @@
 'use client'
 
+import * as React from 'react'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { GoX } from 'react-icons/go'
-import { CalendarClock } from 'lucide-react'
+import { ChevronDownIcon } from 'lucide-react'
 
 import { CreateQuestInput } from '@/graphql/generated/output'
 import { useCreateQuest } from '../hook'
 
 import {
-	AlertDialog,
-	AlertDialogCancel,
-	AlertDialogContent,
-	AlertDialogDescription,
-	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTrigger
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/shared/ui-kit/ui/popover'
+
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTrigger,
 } from '@/shared/ui-kit/ui/alert-dialog'
 import { Button } from '@/shared/ui-kit/ui/button'
-import {
-	Card,
-	CardContent
-} from '@/shared/ui-kit/ui/card'
-import { Input } from '@/shared/ui-kit/ui/input'
 import { Label } from '@/shared/ui-kit/ui/label'
+import { Input } from '@/shared/ui-kit/ui/input'
+import { Calendar } from '@/shared/ui-kit/ui/calendar'
 
 type Props = {
-	roomId: string
-	onRefreshQuest: () => void
+  roomId: string
+  onRefreshQuest: () => void
 }
 
 export const CreateQuestForm = ({ roomId, onRefreshQuest }: Props) => {
-	const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const [date, setDate] = useState<Date | undefined>(undefined)
+  const [time, setTime] = useState('10:00')
+  const [dateOpen, setDateOpen] = useState(false)
+  const [deadlineError, setDeadlineError] = useState(false)
 
-	const {
-		register,
-		handleSubmit,
-		reset,
-		formState: { errors }
-	} = useForm<CreateQuestInput>()
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<CreateQuestInput>()
 
-	const {
-		createQuest,
-		loading,
-		error,
-		reset: resetMutation
-	} = useCreateQuest()
+  const { createQuest, loading, error, reset: resetMutation } = useCreateQuest()
 
-	const onSubmit: SubmitHandler<CreateQuestInput> = async values => {
-		try {
-			const { data } = await createQuest({
-				variables: {
-					roomId,
-					data: {
-						...values,
-						difficulty: Number(values.difficulty)
-					}
-				}
-			})
+  const onSubmit: SubmitHandler<CreateQuestInput> = async (values) => {
+    const toastId = toast.loading('Створення квесту...')
 
-			if (data?.createQuest) {
-				onRefreshQuest()
-				reset()
-				resetMutation()
-				setIsOpen(false)
-			}
-		} catch (e) {
-			console.error((e as Error).message)
-		}
-	}
+    if (!date || !time) {
+      setDeadlineError(true)
+      toast.dismiss(toastId)
+      return
+    }
+    setDeadlineError(false)
 
-	return (
-		<AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-			<AlertDialogTrigger asChild>
-				<Button className='rounded-full border border-green-500 bg-gradient-to-r from-green-100 to-lime-100 text-green-800 hover:from-green-200 hover:to-lime-200 px-4 py-2 font-semibold shadow-sm transition'>
-					+ Створити квест
-				</Button>
-			</AlertDialogTrigger>
+    const deadlineDateTime = new Date(date)
+    const [hours, minutes] = time.split(':').map(Number)
+    deadlineDateTime.setHours(hours)
+    deadlineDateTime.setMinutes(minutes)
 
-			<AlertDialogContent className='fixed top-1/2 left-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 animate-fadeInScale rounded-xl border bg-gradient-to-br from-white via-lime-50 to-green-50 p-6 shadow-xl'>
-			<AlertDialogHeader className='flex justify-end к top-1 right-2'>
-		<AlertDialogCancel asChild>
-		<button className='absolute top-4 right-4 z-10 rounded-full border-2 border-green-300 bg-white/80 text-green-700 hover:bg-green-100 hover:shadow-lg transition'>
-			<GoX size={18} />
-		</button>
-	</AlertDialogCancel>
+    try {
+      const { data } = await createQuest({
+        variables: {
+          roomId,
+          data: {
+            ...values,
+            deadline: deadlineDateTime.toISOString(),
+            difficulty: Number(values.difficulty),
+          },
+        },
+      })
+
+      if (data?.createQuest) {
+        toast.success(`Квест "${data.createQuest.title}" створено`, { id: toastId })
+        onRefreshQuest()
+        reset()
+        resetMutation()
+        setDate(undefined)
+        setTime('10:00')
+        setIsOpen(false)
+      } else {
+        toast.error('Квест не створено', { id: toastId })
+      }
+    } catch (e) {
+      toast.error('Помилка при створенні', { id: toastId })
+      console.error(e)
+    }
+  }
+
+  return (
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+      <AlertDialogTrigger asChild>
+        <Button className='rounded-full border border-green-500 bg-gradient-to-r from-green-100 to-lime-100 px-4 py-2 font-semibold text-green-800 shadow-sm transition hover:from-green-200 hover:to-lime-200'>
+          + Створити квест
+        </Button>
+      </AlertDialogTrigger>
+
+      <AlertDialogContent className='animate-fadeInScale fixed top-1/2 left-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-gray-200 bg-white p-8 shadow-2xl'>
+     <AlertDialogHeader className="relative -mx-8 -mt-8 rounded-t-2xl bg-gradient-to-r from-green-100 via-lime-50 to-white px-8 py-6 shadow-inner">
+  <h3 className="text-center text-xl font-bold text-green-800 flex items-center justify-center gap-2">
+    <span className="text-2xl">🧩</span> Новий квест
+  </h3>
+  <AlertDialogCancel
+    className="absolute right-6 top-6 rounded-full p-1.5 text-gray-600 transition hover:bg-gray-200 hover:text-black focus-visible:ring-2 focus-visible:ring-green-400"
+    aria-label="Закрити"
+  >
+    <GoX size={18} />
+  </AlertDialogCancel>
 </AlertDialogHeader>
-				<AlertDialogDescription asChild>
-					<Card className='bg-white/90 backdrop-blur-sm rounded-lg shadow-inner'>
-						<CardContent className='p-5 space-y-5'>
-							<form onSubmit={handleSubmit(onSubmit)} noValidate className='space-y-10'>
 
-								<div className='grid gap-2'>
-									<Label htmlFor='title'>Назва квесту</Label>
-									<Input
-										id='title'
-										placeholder='Наприклад: Прибрати кімнату'
-										className='rounded-md border-gray-300 focus:ring-green-400'
-										{...register('title', {
-											required: 'Обовʼязкове поле',
-											minLength: { value: 2, message: 'Мінімум 2 символи' }
-										})}
-									/>
-									{errors.title && (
-										<p className='text-red-500 text-sm'>{errors.title.message}</p>
-									)}
-								</div>
+        <AlertDialogDescription asChild>
+          <form onSubmit={handleSubmit(onSubmit)} className='space-y-6' noValidate>
+            {/* Назва */}
+            <div className='space-y-2'>
+              <Label htmlFor='title'>Назва квесту</Label>
+              <Input
+                id='title'
+                placeholder='Наприклад: Прибрати кімнату'
+                className='rounded-lg border-gray-300 px-4 py-2 shadow-sm'
+                {...register('title', {
+                  required: 'Обовʼязкове поле',
+                  minLength: { value: 2, message: 'Мінімум 2 символи' },
+                })}
+              />
+              {errors.title && <p className='text-sm text-red-500'>{errors.title.message}</p>}
+            </div>
 
-								<div className='grid gap-2'>
-									<Label htmlFor='description'>Опис</Label>
-									<Input
-										id='description'
-										placeholder='Опиши завдання...'
-										className='rounded-md'
-										{...register('description')}
-									/>
-								</div>
+            {/* Опис */}
+            <div className='space-y-2'>
+              <Label htmlFor='description'>Опис</Label>
+              <Input
+                id='description'
+                placeholder='Що потрібно зробити…'
+                className='rounded-lg border-gray-300 px-4 py-2 shadow-sm'
+                {...register('description')}
+              />
+            </div>
 
-								<div className='grid gap-2'>
-									<Label htmlFor='deadline'>Дедлайн (дата та час)</Label>
-									<div className='flex items-center gap-2'>
-										<CalendarClock className='text-green-500' size={18} />
-										<Input
-											id='deadline'
-											type='datetime-local'
-											className='rounded-md'
-											{...register('deadline', {
-												required: 'Оберіть дедлайн'
-											})}
-										/>
-									</div>
-									{errors.deadline && (
-										<p className='text-red-500 text-sm'>{errors.deadline.message}</p>
-									)}
-								</div>
+            {/* Дата + Час */}
+            <div className='space-y-2'>
+              <Label>Дедлайн</Label>
+              <div className='flex gap-4'>
+                {/* Date */}
+                <Popover open={dateOpen} onOpenChange={setDateOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant='outline'
+                      className='w-36 justify-between font-normal rounded-lg border-gray-300 shadow-sm'
+                    >
+                      {date ? date.toLocaleDateString('uk-UA') : 'Оберіть дату'}
+                      <ChevronDownIcon />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent
+  className='w-auto bg-white rounded-xl shadow-xl border z-[50] p-2'
+  sideOffset={8}
+  align='start'
+>
+  <Calendar
+    mode='single'
+    selected={date}
+    captionLayout='dropdown'
+    onSelect={(selected) => {
+      setDate(selected)
+      setDateOpen(false)
+    }}
+  />
+</PopoverContent>
+                </Popover>
 
-								<div className='grid gap-2'>
-									<Label htmlFor='difficulty'>Складність (1–5)</Label>
-									<Input
-										id='difficulty'
-										type='number'
-										min={1}
-										max={5}
-										className='rounded-md'
-										{...register('difficulty', {
-											required: 'Вкажіть складність',
-											min: 1,
-											max: 5
-										})}
-									/>
-									{errors.difficulty && (
-										<p className='text-red-500 text-sm'>{errors.difficulty.message}</p>
-									)}
-								</div>
+                {/* Time */}
+                <Input
+                  type='time'
+                  step='60'
+                  value={time}
+                  onChange={(e) => setTime(e.target.value)}
+                  className='w-28 rounded-lg border-gray-300 shadow-sm'
+                />
+              </div>
+              {deadlineError && (
+                <p className='text-sm text-red-500'>Оберіть дату та час дедлайну</p>
+              )}
+            </div>
 
-								<Button
-									type='submit'
-									disabled={loading}
-									className='w-full rounded-full bg-gradient-to-r from-green-400 to-lime-400 text-white font-semibold hover:from-green-500 hover:to-lime-500 shadow-md transition'
-								>
-									{loading ? 'Створення…' : 'Створити'}
-								</Button>
+            {/* Складність */}
+            <div className='space-y-2'>
+              <Label htmlFor='difficulty'>Складність (1–5)</Label>
+              <Input
+                id='difficulty'
+                type='number'
+                min={1}
+                max={5}
+                className='rounded-lg border-gray-300 px-4 py-2 shadow-sm'
+                {...register('difficulty', {
+                  required: 'Вкажіть складність',
+                  min: 1,
+                  max: 5,
+                })}
+              />
+              {errors.difficulty && (
+                <p className='text-sm text-red-500'>{errors.difficulty.message}</p>
+              )}
+            </div>
 
-								{error && (
-									<p className='text-sm text-red-500'>{error.message}</p>
-								)}
-							</form>
-						</CardContent>
-					</Card>
-				</AlertDialogDescription>
+            {/* Кнопка */}
+            <Button
+              type='submit'
+              disabled={loading}
+              className='w-full rounded-full bg-gradient-to-r from-green-400 to-lime-400 px-4 py-2 text-white font-semibold shadow-md transition hover:from-green-500 hover:to-lime-500 hover:shadow-lg'
+            >
+              {loading ? 'Створення…' : 'Створити'}
+            </Button>
 
-				<AlertDialogFooter />
-			</AlertDialogContent>
-		</AlertDialog>
-	)
+            {error && <p className='text-center text-sm text-red-500'>{error.message}</p>}
+          </form>
+        </AlertDialogDescription>
+
+        <AlertDialogFooter />
+      </AlertDialogContent>
+    </AlertDialog>
+  )
 }

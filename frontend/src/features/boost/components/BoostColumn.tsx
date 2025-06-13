@@ -1,24 +1,27 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
 import clsx from 'clsx'
+import React, { useEffect, useState } from 'react'
+import toast from 'react-hot-toast'
+
+import {
+	useActivateBoostMutation,
+	useGetActiveBoostsQuery
+} from '@/graphql/generated/output'
+
 import { useListBoost } from '../hook'
 import { BoostType } from '../type'
 
-import { Button } from '@/shared/ui-kit/ui/button'
-import {
-	useActivateBoostMutation,
-	useGetActiveBoostsQuery,
-} from '@/graphql/generated/output'
-import { Loading } from '@/shared/components/loading/Loading'
 import Error from '@/shared/components/error/Error'
+import { Loading } from '@/shared/components/loading/Loading'
+import { Button } from '@/shared/ui-kit/ui/button'
 
 const gradientOptions = [
 	'from-green-200 via-blue-100 to-purple-200',
 	'from-yellow-200 via-orange-100 to-red-200',
 	'from-pink-200 via-purple-100 to-indigo-200',
 	'from-teal-200 via-green-100 to-lime-200',
-	'from-blue-100 via-cyan-100 to-teal-100',
+	'from-blue-100 via-cyan-100 to-teal-100'
 ]
 
 export function BoostColumn() {
@@ -26,43 +29,43 @@ export function BoostColumn() {
 	const boosts: BoostType[] = data?.listAllBoosts || []
 
 	const [activateBoost, { loading: activating }] = useActivateBoostMutation()
-	const {
-		data: activeData,
-		refetch: refetchActive,
-	} = useGetActiveBoostsQuery({ fetchPolicy: 'no-cache' })
+	const { data: activeData, refetch: refetchActive } =
+		useGetActiveBoostsQuery({ fetchPolicy: 'no-cache' })
 
-	const [activeBoostIds, setActiveBoostIds] = useState<Set<string>>(new Set())
 	const [boostMap, setBoostMap] = useState<Record<string, string>>({})
 
 	useEffect(() => {
 		if (activeData?.getActiveBoosts) {
-			const ids = new Set<string>()
 			const map: Record<string, string> = {}
-			activeData.getActiveBoosts.forEach((boost) => {
-				ids.add(boost.boostId)
-				map[boost.boostId] = boost.expiresAt
+			activeData.getActiveBoosts.forEach(boost => {
+				map[boost.boost.id] = boost.expiresAt
 			})
-			setActiveBoostIds(ids)
 			setBoostMap(map)
 		}
 	}, [activeData])
 
 	const handleActivate = async (boostId: string) => {
+		const toastId = toast.loading('Активація бусту...')
+
 		try {
 			await activateBoost({ variables: { boostId } })
+
 			const { data: updated } = await refetchActive()
+
 			if (updated?.getActiveBoosts) {
-				const ids = new Set<string>()
 				const map: Record<string, string> = {}
-				updated.getActiveBoosts.forEach((b) => {
-					ids.add(b.boostId)
-					map[b.boostId] = b.expiresAt
+				updated.getActiveBoosts.forEach(b => {
+					map[b.boost.id] = b.expiresAt
 				})
-				setActiveBoostIds(ids)
 				setBoostMap(map)
+
+				toast.success('Буст активовано!', { id: toastId })
+			} else {
+				toast.error('Не вдалося активувати буст', { id: toastId })
 			}
 		} catch (err) {
 			console.error('Activation error:', err)
+			toast.error('Помилка при активації бусту', { id: toastId })
 		}
 	}
 
@@ -70,69 +73,101 @@ export function BoostColumn() {
 	if (error) return <Error error={error} />
 
 	return (
-		<div className="flex flex-1 flex-col overflow-hidden rounded-xl border bg-white shadow-md">
-			{/* Заголовок з градієнтом */}
-			<div className="bg-gradient-to-r from-green-100 via-lime-50 to-yellow-100 px-6 py-4 border-b shadow-sm">
-				<h2 className="text-xl font-bold bg-gradient-to-r from-green-700 to-lime-500 bg-clip-text text-transparent drop-shadow">
+		<div className='flex flex-1 flex-col overflow-hidden rounded-xl border bg-white shadow-md'>
+			<div className='border-b bg-gradient-to-r from-green-100 via-lime-50 to-yellow-100 px-6 py-4 shadow-sm'>
+				<h2 className='bg-gradient-to-r from-green-700 to-lime-500 bg-clip-text text-2xl font-bold text-transparent drop-shadow'>
 					⚡ Бустери
 				</h2>
 			</div>
 
-			<div className="flex-1 space-y-4 overflow-y-auto p-6">
+			<div className='flex-1 space-y-4 overflow-y-auto p-6'>
 				{boosts.length === 0 ? (
-					<p className="text-gray-500">Немає доступних бустів</p>
+					<p className='text-gray-500'>Немає доступних бустів</p>
 				) : (
 					boosts.map((boost, index) => {
-						const isActive = activeBoostIds.has(boost.id)
 						const expiresAt = boostMap[boost.id]
-						const gradient = gradientOptions[index % gradientOptions.length]
+						const isCurrentlyActive =
+							expiresAt &&
+							new Date(expiresAt).getTime() > Date.now()
+
+						const gradient =
+							gradientOptions[index % gradientOptions.length]
+						const nextAvailableTime = expiresAt
+							? new Date(
+									new Date(expiresAt).getTime() + 1000
+								).toLocaleTimeString([], {
+									hour: '2-digit',
+									minute: '2-digit'
+								})
+							: null
 
 						return (
 							<div
 								key={boost.id}
 								className={clsx(
-									'rounded-xl p-5 border shadow-md hover:shadow-xl transition-all duration-200 transform hover:scale-[1.01] animate-fadeIn',
-									'bg-gradient-to-br',
-									gradient,
-									isActive
-										? 'border-green-400'
-										: 'border-yellow-300'
+									'animate-fadeIn transform rounded-xl border p-5 shadow-md transition-all duration-200',
+									isCurrentlyActive
+										? 'cursor-not-allowed border-gray-300 bg-gray-100 text-gray-600'
+										: clsx(
+												'cursor-pointer hover:scale-[1.01] hover:shadow-xl',
+												'bg-gradient-to-br',
+												gradient,
+												'border-yellow-300'
+											)
 								)}
 							>
-								<div className="flex items-center justify-between">
-									<div className="space-y-1">
-										<p className="text-base font-semibold text-gray-800">{boost.name}</p>
-										<p className="text-sm text-gray-700">{boost.description}</p>
-										<p className="text-sm text-gray-600">
-											⏳ Тривалість: {boost.durationHours} год
+								<div className='flex items-center justify-between'>
+									<div className='space-y-1'>
+										<p className='text-base font-semibold'>
+											{boost.name}
 										</p>
-										{isActive && expiresAt && (
-											<p className="text-xs text-gray-500">
-												Діє до:{' '}
-												{new Date(expiresAt).toLocaleTimeString([], {
+										<p className='text-sm'>
+											{boost.description}
+										</p>
+										<p className='text-sm'>
+											⏳ Тривалість: {boost.durationHours}{' '}
+											год
+										</p>
+										{isCurrentlyActive && expiresAt && (
+											<p className='text-xs'>
+												✅ Активний до:{' '}
+												{new Date(
+													expiresAt
+												).toLocaleTimeString([], {
 													hour: '2-digit',
-													minute: '2-digit',
+													minute: '2-digit'
 												})}
 											</p>
 										)}
 									</div>
 									<Button
-										variant={isActive ? 'secondary' : 'default'}
-										size="sm"
-										disabled={isActive || activating}
+										variant='secondary'
+										size='sm'
+										disabled={
+											isCurrentlyActive || activating
+										}
 										onClick={() => handleActivate(boost.id)}
 										className={clsx(
 											'transition',
-											isActive && 'bg-green-500 text-white hover:bg-green-600'
+											isCurrentlyActive
+												? 'bg-gray-400 text-white hover:bg-gray-500'
+												: 'bg-green-500 text-white hover:bg-green-600'
 										)}
 									>
-										{activating && !isActive
+										{activating && !isCurrentlyActive
 											? 'Активація...'
-											: isActive
-											? 'Активний'
-											: 'Активувати'}
+											: isCurrentlyActive
+												? 'Активний'
+												: 'Активувати'}
 									</Button>
 								</div>
+
+								{isCurrentlyActive && expiresAt && (
+									<div className='mt-3 text-right text-xs text-gray-500'>
+										🔄 Повторна активація можлива з{' '}
+										{nextAvailableTime}
+									</div>
+								)}
 							</div>
 						)
 					})

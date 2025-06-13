@@ -2,6 +2,7 @@ import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 
 import { UserModel } from '../../auth/account/models/user.model';
 import { GoalModel } from '../../goal/models/goal.model';
+import { RewardPurchaseModel } from '../../reward/models/reward-purchase.model';
 import { RoomModel } from '../../room/models/room.model';
 
 import { QuestCompletionModel } from './quest-completion.model';
@@ -43,4 +44,13 @@ export class QuestModel {
 
 	@Field(() => ID, { nullable: true })
 	roomId?: string;
+}
+
+@ObjectType()
+export class ChildrenActivityResult {
+	@Field(() => [QuestCompletionModel])
+	completions: QuestCompletionModel[];
+
+	@Field(() => [RewardPurchaseModel])
+	purchases: RewardPurchaseModel[];
 }
