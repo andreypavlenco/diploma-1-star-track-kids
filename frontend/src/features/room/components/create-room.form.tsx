@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { GoX } from 'react-icons/go'
 
 import { CreateRoomInput } from '@/graphql/generated/output'
@@ -51,83 +52,77 @@ export const CreateRoomForm = ({ onRefreshRoom }: Props) => {
 			})
 
 			if (data?.createRoom.name) {
+				toast.success(`🎉 Кімната "${data.createRoom.name}" створена!`)
 				onRefreshRoom()
 				reset()
 				setIsOpen(false)
 			}
 		} catch (e) {
-			console.error((e as Error).message)
+			const errorMessage =
+				(e as Error).message || 'Сталася помилка при створенні кімнати'
+			toast.error(`🚫 ${errorMessage}`)
+			console.error(errorMessage)
 		}
 	}
 
 	return (
 		<AlertDialog open={isOpen} onOpenChange={setIsOpen}>
 			<AlertDialogTrigger asChild>
-				<Button
-					className='rounded-full border border-green-400 bg-white/80 px-4 py-2 text-sm font-semibold text-green-700 shadow-sm hover:bg-green-100 hover:shadow-md transition duration-200'
-				>
+				<Button className='rounded-full border border-green-400 bg-white/90 px-4 py-2 text-sm font-semibold text-green-700 shadow-sm transition duration-200 hover:bg-green-100 hover:shadow-md'>
 					+ Створити кімнату
 				</Button>
 			</AlertDialogTrigger>
 
-			<AlertDialogContent className='fixed top-1/2 left-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 animate-fadeInScale rounded-xl border bg-gradient-to-br from-white via-lime-50 to-green-50 p-6 shadow-xl'>
-				<AlertDialogHeader className='flex justify-end'>
-					<AlertDialogCancel asChild>
-						<button className='absolute top-4 right-4 z-10 rounded-full border-2 border-green-300 bg-white/80 text-green-700 hover:bg-green-100 hover:shadow-lg transition'>
-							<GoX size={18} />
-						</button>
-					</AlertDialogCancel>
-				</AlertDialogHeader>
+	<AlertDialogContent className="animate-fadeInScale fixed top-1/2 left-1/2 z-50 w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-gray-200 bg-white p-8 shadow-xl">
+  <AlertDialogHeader className="flex justify-between items-center mb-4">
+    <h2 className="text-xl font-bold text-gray-800 text-center w-full">Нова кімната</h2>
+    <AlertDialogCancel
+      className="absolute right-6 top-6 rounded-full p-1 text-gray-500 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-400"
+      aria-label="Закрити"
+    >
+      <GoX size={20} />
+    </AlertDialogCancel>
+  </AlertDialogHeader>
 
-				<AlertDialogDescription asChild>
-					<Card className='bg-white/90 backdrop-blur-md rounded-lg shadow-inner'>
-						<CardContent className='p-6'>
-							<form
-								className='space-y-6'
-								onSubmit={handleSubmit(onSubmit)}
-								noValidate
-							>
-								<div className='grid gap-2'>
-									<Label htmlFor='name'>Назва кімнати</Label>
-									<Input
-										id='name'
-										placeholder='Навчальна група…'
-										className='rounded-lg border border-gray-300 focus:ring-green-300'
-										{...register('name', {
-											required: 'Назва обовʼязкова',
-											minLength: {
-												value: 2,
-												message: 'Мінімум 2 символи'
-											}
-										})}
-									/>
-									{errors.name && (
-										<p className='text-red-500 text-sm'>
-											{errors.name.message}
-										</p>
-									)}
-								</div>
+  <AlertDialogDescription asChild>
+    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)} noValidate>
+      <div className="space-y-2">
+        <Label htmlFor="name" className="text-sm font-medium text-gray-700">
+          Назва кімнати
+        </Label>
+        <Input
+          id="name"
+          placeholder="Наприклад, Навчальна кімната"
+          className="w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-900 shadow-sm focus:border-green-400 focus:ring-2 focus:ring-green-300"
+          {...register('name', {
+            required: 'Назва обовʼязкова',
+            minLength: {
+              value: 2,
+              message: 'Мінімум 2 символи',
+            },
+          })}
+        />
+        {errors.name && (
+          <p className="text-sm text-red-500">{errors.name.message}</p>
+        )}
+      </div>
 
-								<Button
-									type='submit'
-									disabled={loading}
-									className='w-full rounded-full bg-gradient-to-r from-green-400 to-lime-400 text-white font-semibold hover:from-green-500 hover:to-lime-500 transition-all duration-200 shadow-sm'
-								>
-									{loading ? 'Створення…' : 'Створити'}
-								</Button>
+      <Button
+        type="submit"
+        disabled={loading}
+        className="w-full rounded-full bg-gradient-to-r from-green-400 to-lime-400 py-2 text-white font-semibold shadow-md transition-all duration-300 hover:from-green-500 hover:to-lime-500 hover:shadow-lg"
+      >
+        {loading ? 'Створення…' : 'Створити кімнату'}
+      </Button>
 
-								{error && (
-									<p className='text-sm text-red-500'>
-										{error.message}
-									</p>
-								)}
-							</form>
-						</CardContent>
-					</Card>
-				</AlertDialogDescription>
+      {error && (
+        <p className="text-sm text-red-500 text-center">{error.message}</p>
+      )}
+    </form>
+  </AlertDialogDescription>
 
-				<AlertDialogFooter />
-			</AlertDialogContent>
+  <AlertDialogFooter />
+</AlertDialogContent>
 		</AlertDialog>
 	)
 }

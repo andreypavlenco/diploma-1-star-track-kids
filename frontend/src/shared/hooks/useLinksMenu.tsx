@@ -7,33 +7,38 @@ type LinksMenu = {
 export const useLinksMenu = (): LinksMenu[] => {
 	return [
 		{
-			title: 'Home',
+			title: 'Головна',
 			href: '/',
 			current: true
 		},
 		{
-			title: 'Rooms',
+			title: 'Кімнати',
 			href: '/room',
 			current: false
 		},
 		{
-			title: 'Rewards',
+			title: 'Винагороди',
 			href: '/reward',
 			current: false
 		},
 		{
-			title: 'Goal',
+			title: 'Цілі',
 			href: '/goal',
 			current: false
 		},
 		{
-			title: 'Boost',
+			title: 'Буст',
 			href: '/boost',
 			current: false
 		},
 		{
-			title: 'Quests',
+			title: 'Квести',
 			href: '/quest',
+			current: false
+		},
+		{
+			title: 'Аналітика',
+			href: '/analytics',
 			current: false
 		}
 	]

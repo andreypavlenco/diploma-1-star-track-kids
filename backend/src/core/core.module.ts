@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ScheduleModule } from '@nestjs/schedule';
 
+import { AnalyticsModule } from '../modules/analytics/analytics.module';
 import { AccountModule } from '../modules/auth/account/account.module';
 import { SessionModule } from '../modules/auth/session/session.module';
 import { BoostModule } from '../modules/boost/boost.module';
@@ -45,6 +46,7 @@ import { RedisModule } from './redis/redis.module';
 		BoostModule,
 		RoomModule,
 		GuardModule,
+		AnalyticsModule,
 	],
 })
 export class CoreModule {}

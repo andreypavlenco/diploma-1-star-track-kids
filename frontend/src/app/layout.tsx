@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { Toaster } from 'react-hot-toast'
 
 import { ApolloClientProvider } from '@/app/providers/ApolloClientProvider'
 
@@ -39,6 +40,46 @@ export default function RootLayout({
 					<AuthProvider>
 						<Header />
 						{children}
+						<Toaster
+							position='bottom-right'
+							toastOptions={{
+								duration: 4000,
+								style: {
+									fontSize: '16px',
+									padding: '14px 18px',
+									borderRadius: '12px',
+									background:
+										'linear-gradient(135deg, #f0fdf4, #ecfdf5)',
+									color: '#065f46',
+									boxShadow: '0 8px 20px rgba(0, 0, 0, 0.08)',
+									border: '1px solid #d1fae5'
+								},
+								success: {
+									style: {
+										background:
+											'linear-gradient(135deg, #bbf7d0, #86efac)',
+										color: '#064e3b',
+										border: '1px solid #4ade80'
+									},
+									iconTheme: {
+										primary: '#22c55e',
+										secondary: '#ffffff'
+									}
+								},
+								error: {
+									style: {
+										background:
+											'linear-gradient(135deg, #fecaca, #fca5a5)',
+										color: '#7f1d1d',
+										border: '1px solid #f87171'
+									},
+									iconTheme: {
+										primary: '#ef4444',
+										secondary: '#ffffff'
+									}
+								}
+							}}
+						/>
 					</AuthProvider>
 				</ApolloClientProvider>
 			</body>

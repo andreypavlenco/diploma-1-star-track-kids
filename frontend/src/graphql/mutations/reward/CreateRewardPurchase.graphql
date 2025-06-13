@@ -1,3 +1,6 @@
 mutation CreateRewardPurchase($rewardId: String!) {
-  createRewardPurchase(rewardId: $rewardId) 
+  createRewardPurchase(rewardId: $rewardId) {
+    success
+    message
+  }
 }

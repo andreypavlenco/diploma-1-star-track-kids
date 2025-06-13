@@ -6,7 +6,7 @@ import { Authorized } from '@/src/shared/decorators/authorized.decorator';
 import { UserRole } from '@/src/shared/type/user-role';
 
 import { CreateQuestInput } from './input/create-quest.input';
-import { QuestModel } from './models/quest.model';
+import { ChildrenActivityResult, QuestModel } from './models/quest.model';
 import { QuestService } from './quest.service';
 
 @Resolver('Quest')
@@ -36,6 +36,12 @@ export class QuestResolver {
 	@Query(() => QuestModel, { name: 'findByIdQuest' })
 	async findById(@Args('roomId') roomId: string, @Args('questId') questId: string) {
 		return this.questService.findById(questId, roomId);
+	}
+
+	@Auth(UserRole.PARENT)
+	@Query(() => ChildrenActivityResult, { name: 'getChildrenActivity' })
+	async getChildrenActivity(@Authorized('id') parentId: string) {
+		return this.questService.getChildrenActivity(parentId);
 	}
 
 	@RoomMember()

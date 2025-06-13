@@ -9,8 +9,8 @@ import { RoomWithQuests } from './type'
 export function useFindAllQuestByRoomMemberId() {
 	const { data, loading, error, refetch } =
 		useFindAllQuestByRoomMemberIdQuery({
-		fetchPolicy: 'network-only'
-	})
+			fetchPolicy: 'network-only'
+		})
 
 	const rooms: RoomWithQuests[] = ({} = useMemo(
 		() => data?.findAllQuestByRoomMemberId ?? [],

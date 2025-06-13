@@ -3,6 +3,7 @@ query FindProfile {
     id
     email
     stars
+    role
     quests {
       id
       title

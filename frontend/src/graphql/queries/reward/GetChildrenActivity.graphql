@@ -1,0 +1,31 @@
+query GetChildrenActivity {
+  getChildrenActivity {
+    completions {
+      id
+      completedAt
+      isLate
+      starsAwarded
+      quest {
+        id
+        title
+      }
+      user {
+        id
+        email
+      }
+    }
+    purchases {
+      id
+      purchasedAt
+      reward {
+        id
+        title
+        starCost
+      }
+      child {
+        id
+        email
+      }
+    }
+  }
+}
