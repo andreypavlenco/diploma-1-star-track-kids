@@ -35,8 +35,8 @@ export class RewardPurchaseModel {
 	@Field(() => String)
 	rewarId: string;
 
-	@Field(() => [UserModel])
-	child: User;
+	@Field(() => UserModel, { nullable: true })
+	child?: User;
 
 	@Field(() => String)
 	childId: string;

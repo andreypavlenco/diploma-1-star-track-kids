@@ -1,0 +1,29 @@
+query GetAnalyticsData {
+  userCountByRole {
+    role
+    count
+  }
+
+  topUsersByStars {
+    id
+    email
+    stars
+  }
+
+  questCompletionsByDay {
+    date
+    count
+  }
+
+  totalRewardsPurchased
+
+  topBoosts {
+    name
+    activationCount
+  }
+
+  roomUserCounts {
+    roomName
+    userCount
+  }
+}

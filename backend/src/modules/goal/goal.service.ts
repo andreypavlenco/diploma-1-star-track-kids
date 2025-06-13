@@ -99,7 +99,6 @@ export class GoalService {
 			},
 		});
 	}
-
 	async findGoal(userId: string): Promise<Goal[]> {
 		return this.prisma.goal.findMany({
 			where: {
@@ -107,7 +106,7 @@ export class GoalService {
 					{ creatorId: userId },
 					{
 						creator: {
-							parents: {
+							children: {
 								some: { id: userId },
 							},
 						},

@@ -9,6 +9,7 @@ import { CreateRewardInput } from './input/create-reward.input';
 import { UpdateRewardInput } from './input/update-reward.input';
 import { RewardPurchaseModel } from './models/reward-purchase.model';
 import { RewardModel } from './models/reward.model';
+import { RewardPurchaseResponse } from './models/RewardPurchaseResponse';
 import { RewardService } from './reward.service';
 
 @Resolver('Reward')
@@ -53,11 +54,11 @@ export class RewardResolver {
 	}
 
 	@Auth(UserRole.CHILD, UserRole.PARENT)
-	@Mutation(() => Boolean, { name: 'createRewardPurchase' })
+	@Mutation(() => RewardPurchaseResponse, { name: 'createRewardPurchase' })
 	async createRewardPurchase(
 		@Args('rewardId') rewardId: string,
-		@Authorized('id') childId: string
+		@Authorized('id') userId: string
 	) {
-		return this.rewardService.createRewardPurchase(childId, rewardId);
+		return this.rewardService.createRewardPurchase(userId, rewardId);
 	}
 }

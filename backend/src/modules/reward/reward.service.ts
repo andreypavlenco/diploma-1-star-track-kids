@@ -5,6 +5,7 @@ import { PrismaService } from '@/src/core/prisma/prisma.service';
 
 import { CreateRewardInput } from './input/create-reward.input';
 import { UpdateRewardInput } from './input/update-reward.input';
+import { RewardPurchaseResponse } from './models/RewardPurchaseResponse';
 
 @Injectable()
 export class RewardService {
@@ -81,32 +82,47 @@ export class RewardService {
 	async findRewardsForUser(userId: string): Promise<Reward[]> {
 		return this.prisma.reward.findMany({
 			where: {
-				OR: [{ creatorId: userId }, { creator: { parents: { some: { id: userId } } } }],
+				OR: [
+					{ creatorId: userId },
+					{
+						creator: {
+							children: {
+								some: {
+									id: userId,
+								},
+							},
+						},
+					},
+				],
 			},
-			include: { creator: true },
+			include: {
+				creator: true,
+				purchases: {
+					include: {
+						child: true,
+					},
+				},
+			},
 		});
 	}
 
-	async createRewardPurchase(
-		childId: string,
-		rewardId: string
-	): Promise<{ success: boolean; message?: string }> {
-		const [reward, child] = await this.prisma.$transaction([
+	async createRewardPurchase(userId: string, rewardId: string): Promise<RewardPurchaseResponse> {
+		const [reward, user] = await this.prisma.$transaction([
 			this.prisma.reward.findUnique({ where: { id: rewardId } }),
-			this.prisma.user.findUnique({ where: { id: childId }, select: { stars: true } }),
+			this.prisma.user.findUnique({ where: { id: userId }, select: { stars: true } }),
 		]);
 
 		if (!reward) {
 			return { success: false, message: 'Reward not found' };
 		}
-		if (!child) {
-			return { success: false, message: 'Child not found' };
+		if (!user) {
+			return { success: false, message: 'User not found' };
 		}
-		if (reward.creatorId === childId) {
-			return { success: false, message: 'Cannot purchase your own reward' };
-		}
+		// if (reward.creatorId === userId) {
+		// 	return { success: false, message: 'Cannot purchase your own reward' };
+		// }
 
-		const stars = child.stars ?? 0;
+		const stars = user.stars ?? 0;
 		if (stars < reward.starCost) {
 			return { success: false, message: 'Insufficient stars' };
 		}
@@ -114,12 +130,12 @@ export class RewardService {
 		await this.prisma.$transaction([
 			this.prisma.rewardPurchase.create({
 				data: {
-					child: { connect: { id: childId } },
+					child: { connect: { id: userId } },
 					reward: { connect: { id: rewardId } },
 				},
 			}),
 			this.prisma.user.update({
-				where: { id: childId },
+				where: { id: userId },
 				data: { stars: { decrement: reward.starCost } },
 			}),
 		]);

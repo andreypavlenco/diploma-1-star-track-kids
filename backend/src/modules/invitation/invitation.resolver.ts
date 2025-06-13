@@ -1,11 +1,13 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
+import { Invitation } from '@/prisma/generated';
 import { Auth } from '@/src/shared/decorators/auth.decorator';
 import { Authorized } from '@/src/shared/decorators/authorized.decorator';
 import { UserRole } from '@/src/shared/type/user-role';
 
 import { CreateInvitationInput } from './input/create-invitation.input';
 import { InvitationService } from './invitation.service';
+import { InvitationModel } from './models/invitation.model';
 
 @Resolver('Invitation')
 export class InvitationResolver {
@@ -19,6 +21,11 @@ export class InvitationResolver {
 		@Authorized('id') userId: string
 	) {
 		return this.invitationService.create(input, roomId, userId);
+	}
+
+	@Query(() => InvitationModel, { nullable: true })
+	async getInvitationInfo(@Args('token') token: string): Promise<Invitation | null> {
+		return this.invitationService.findByToken(token);
 	}
 
 	@Auth(UserRole.PARENT, UserRole.CHILD)

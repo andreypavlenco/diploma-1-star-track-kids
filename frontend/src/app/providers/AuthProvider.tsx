@@ -1,53 +1,62 @@
-// src/shared/context/AuthContext.tsx
 'use client'
 
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import {
+	ReactNode,
+	createContext,
+	useContext,
+	useEffect,
+	useState
+} from 'react'
 
-import { useFindProfileQuery } from '@/shared/api'
-
-// src/shared/context/AuthContext.tsx
-
-// Типы профиля
-type Profile = { email: string } | null
+import { useFindProfileQuery } from '@/graphql/generated/output'
 
 type AuthContextType = {
-	profile: Profile
+	profile: any | null
 	loading: boolean
-	refetch: () => Promise<any>
-	setProfile: React.Dispatch<React.SetStateAction<Profile>>
+	setProfile: (p: any | null) => void
+	refetch: () => Promise<void>
+	isProfileReady: boolean
 }
 
-// Создаём контекст
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
+const AuthContext = createContext<AuthContextType>({
+	profile: null,
+	loading: true,
+	setProfile: () => {},
+	refetch: async () => {}
+})
 
-// Провайдер
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-	const [profile, setProfile] = useState<Profile>(null)
-
-	const { data, loading } = useFindProfileQuery({
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+	const {
+		data,
+		loading,
+		refetch: rawRefetch
+	} = useFindProfileQuery({
 		fetchPolicy: 'network-only'
 	})
 
+	const [profile, setProfile] = useState<any | null>(null)
+    const [isProfileReady, setIsProfileReady] = useState(false)
+	// Оновлюємо profile, коли приходять нові дані
 	useEffect(() => {
-		if (data?.findProfile) {
-			setProfile(data.findProfile)
-		} else {
-			setProfile(null)
+  setIsProfileReady(true)
+  if (data?.findProfile) {
+    setProfile(data.findProfile)
+  }
+}, [data])
+
+	// Правильна реалізація refetch
+	const refetch = async () => {
+		const result = await rawRefetch()
+		if (result?.data?.findProfile) {
+			setProfile(result.data.findProfile)
 		}
-	}, [data])
+	}
 
 	return (
-		<AuthContext.Provider
-			value={{ profile, loading, refetch: async () => {}, setProfile }}
-		>
+		<AuthContext.Provider value={{ profile, loading, setProfile, refetch , isProfileReady }}>
 			{children}
 		</AuthContext.Provider>
 	)
 }
 
-// Хук для использования контекста
-export function useAuthContext() {
-	const ctx = useContext(AuthContext)
-	if (!ctx) throw new Error('useAuthContext must be inside AuthProvider')
-	return ctx
-}
+export const useAuthContext = () => useContext(AuthContext)

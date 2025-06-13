@@ -14,6 +14,34 @@ export class QuestService {
 		private readonly boostService: BoostService
 	) {}
 
+	async getChildrenActivity(parentId: string) {
+		const completions = await this.prisma.questCompletion.findMany({
+			where: {
+				user: {
+					parents: { some: { id: parentId } },
+				},
+			},
+			include: {
+				quest: true,
+				user: true,
+			},
+		});
+
+		const purchases = await this.prisma.rewardPurchase.findMany({
+			where: {
+				child: {
+					parents: { some: { id: parentId } },
+				},
+			},
+			include: {
+				reward: true,
+				child: true,
+			},
+		});
+
+		return { completions, purchases };
+	}
+
 	async create(roomId: string, input: CreateQuestInput, userId: string, goalId?: string) {
 		return this.prisma.quest.create({
 			data: {
