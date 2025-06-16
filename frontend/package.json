@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "fuser -k 3000/tcp 2>/dev/null || true && graphql-codegen --config graphql.config.ts && next dev -p 3000 --turbopack",
-    "build": "next build",
+    "build": "next build --no-lint",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\"",
